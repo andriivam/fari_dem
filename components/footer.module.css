@@ -1,0 +1,37 @@
+.container {
+    /* width: 50%; */
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 65px;
+}
+
+/* .btnWrapper {
+    margin-bottom: 10px;
+} */
+
+.resetBtn {
+    font-weight: 400;
+    font-style: 16px;
+    line-height: 20px;
+    border: 1px solid #2F4FBB;
+    border-radius: 70px;
+    cursor: pointer;
+    width: 300px;
+    height: 50px;
+    background-color: white;
+    color: #2F4FBB;
+    margin-right: 60px;
+}
+
+.submitBtn {
+    font-weight: 400;
+    font-style: 16px;
+    line-height: 20px;
+    cursor: pointer;
+    border-radius: 70px;
+    width: 300px;
+    height: 50px;
+    border: none;
+    background-color: #2F4FBB;
+    color: white;
+}
