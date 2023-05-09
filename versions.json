@@ -1,0 +1,14 @@
+[
+    {
+        "name": "text_to_image",
+        "version": "db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf"
+    },
+    {
+        "name": "text_to_video",
+        "version": "1e205ea73084bd17a0a3b43396e49ba0d6bc2e754e9283b2df49fad2dcf95755"
+    },
+    {
+        "name": "text_to_3D",
+        "version": "1a4da7adf0bc84cd786c1df41c02db3097d899f5c159f5fd5814a11117bdf02b"
+    }
+]

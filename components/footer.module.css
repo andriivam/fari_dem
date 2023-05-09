@@ -3,6 +3,7 @@
     display: flex;
     justify-content: flex-start;
     margin: 0 65px;
+    margin-bottom: 30px;
 }
 
 /* .btnWrapper {

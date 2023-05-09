@@ -1,24 +1,71 @@
 import Head from 'next/head';
 import Header from '../../components/header';
 import Footer from '../../components/footer';
-import ImgSection from '../../components/img_section';
 import styles from '@/styles/Home.module.css';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import ImageSection from '../../components/imageSection';
 import Image from 'next/image';
 
 export default function Home() {
 
   const [inputType, setInputType] = useState('text');
   const [outputType, setOutputType] = useState('image');
+  const [userInput, setUserInput] = useState('');
+  const [prediction, setPrediction] = useState(null);
+  const [error, setError] = useState(null);
+  const inputRef = useRef();
+
+
+  console.log(inputType, 'inputType');
+  console.log(outputType, 'outputType');
 
   const handleInputType = (e) => {
-    console.log(e.target.value);
     setInputType(e.target.value);
   }
 
   const handleOutputType = (e) => {
-    console.log(e.target.value);
     setOutputType(e.target.value);
+  }
+
+  const handleChange = (e) => {
+    setUserInput(e.target.value);
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("/api/predictions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: userInput,
+      }),
+    });
+    let prediction = await response.json();
+    if (response.status !== 201) {
+      setError(prediction.detail);
+      console.log(error)
+      return;
+    }
+    setPrediction(prediction);
+
+    while (
+      prediction.status !== "succeeded" &&
+      prediction.status !== "failed"
+    ) {
+      // await sleep(1000);
+      const response = await fetch("/api/predictions/" + prediction.id);
+      prediction = await response.json();
+      if (response.status !== 200) {
+        setError(prediction.detail);
+        console.log(error)
+        return;
+      }
+      console.log({ prediction }, 'prediction')
+      setPrediction(prediction);
+    }
   }
 
   return (
@@ -30,42 +77,72 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <form className={styles.container}>
+      <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.col1}>
           <h2 className={styles.inputHeader}>Input</h2>
           <div className={styles.selectDiv}>
             <h4 className={styles.selectHeader}>Choose an option</h4>
             <select className={styles.select} name="inputType" value={inputType} onChange={handleInputType}>
-              <option value="text" selected="selected" >Text</option>
+              <option value="text" defaultValue="text" >Text</option>
               <option value="image">Image</option>
               <option value="image + text">Image&Text</option>
             </select>
           </div>
+          {inputType === 'image + text' ? (
+            <>
+              <ImageSection />
+              <h3 className={styles.imgHeader}>Describe your image</h3>
+              <input onChange={handleChange} className={styles.input} type="text" placeholder="Write your prompt here" />
+            </>
+          ) : null}
+          {inputType === 'image' ? <ImageSection /> : null}
           <div>
-            <h3 className={styles.imgHeader}>Describe your image</h3>
-            <input className={styles.input} type="text" placeholder="Describe your image" />
+            {inputType === 'text' ? (
+              <>
+                <h3 className={styles.imgHeader}>Write your prompt here</h3>
+                <input value={userInput} ref={inputRef} onChange={handleChange} className={styles.input} type="text" placeholder="Write your prompt here" />
+              </>
+            ) : null}
           </div>
         </div>
+
         {/* Right side of screen */}
+
         <div className={styles.col2}>
           <h2 className={styles.outputHeader}>Output</h2>
           <div className={styles.selectDiv}>
             <h3 className={styles.selectHeader}>Choose an option</h3>
             <select className={styles.select} name="outputType" value={outputType} onChange={handleOutputType}>
-              <option selected="selected" value="image">Image</option>
+              <option defaultValue="image" value="image">Image</option>
               <option value="video">Video</option>
               <option value="3D">3D</option>
             </select>
           </div>
-          <div>
+          <div className={styles.resultContainer}>
             <h3 className={styles.resultHeader}>Result</h3>
-            <div className={styles.resultDiv}>
-              <p>Once you have completed settings, click on <q>submit</q> to generate image</p>
-            </div>
+            {prediction ? (
+              <div>
+                {prediction.output && (
+                  <div className={styles.prediction}>
+                    <Image
+                      src={prediction.output[prediction.output.length - 1]}
+                      alt="output"
+                      width={580}
+                      height={460}
+                    />
+                  </div>
+                )}
+                <p>status: {prediction.status}</p>
+              </div>) : (
+              <div className={styles.resultDiv}>
+                <p className={styles.outputText}>Once you have completed settings, click on <q>submit</q> to generate image</p>
+              </div>
+            )}
           </div>
         </div>
       </form>
-      <Footer />
+      {error && <div>{error}</div>}
+      <Footer handleSubmit={handleSubmit} />
     </>
   )
 }

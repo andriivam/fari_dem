@@ -1,0 +1,60 @@
+.container {
+    margin-bottom: 25px;
+}
+
+.imageHeading {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #181715;
+    margin-bottom: 10px;
+}
+
+.imgContainer {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 42px;
+}
+
+.selected {
+    border: 2px solid blue;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    margin-right: 23px;
+}
+
+.imageParagraph {
+    margin-bottom: 40px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #181715;
+}
+
+.cameraDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 240px;
+    background-color: #EBEBEB;
+    border: 1px dashed #677683;
+}
+
+.cameraPar {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+}
+
+.cameraBtn {
+    border: none;
+    cursor: pointer;
+}
