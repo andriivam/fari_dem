@@ -1,14 +1,20 @@
 .container {
-    /* width: 50%; */
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     margin: 0 65px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    margin-top: 35px;
+
 }
 
-/* .btnWrapper {
-    margin-bottom: 10px;
-} */
+.resetWrapper {
+    width: 26%;
+}
+
+.submitWrapper {
+    width: 26%;
+}
 
 .resetBtn {
     font-weight: 400;
@@ -17,11 +23,10 @@
     border: 1px solid #2F4FBB;
     border-radius: 70px;
     cursor: pointer;
-    width: 300px;
+    width: 400px;
     height: 50px;
     background-color: white;
     color: #2F4FBB;
-    margin-right: 60px;
 }
 
 .submitBtn {
@@ -30,7 +35,7 @@
     line-height: 20px;
     cursor: pointer;
     border-radius: 70px;
-    width: 300px;
+    width: 400px;
     height: 50px;
     border: none;
     background-color: #2F4FBB;

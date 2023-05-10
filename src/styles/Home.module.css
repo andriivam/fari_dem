@@ -2,6 +2,7 @@
 .container {
     display: flex;
     margin: 0 65px;
+
 }
 
 /* Style for left column */
@@ -62,9 +63,12 @@
     height: 50px;
     border: 1px solid #2F4FBB;
     border-radius: 5px;
-    margin-bottom: 35px;
+    /* margin-bottom: 35px; */
 }
 
+.hidden {
+    margin-bottom: 100px;
+}
 
 /* Style for right column */
 .col2 {
@@ -105,6 +109,7 @@
     height: 440px;
     margin-bottom: 140px;
 }
+
 
 .resultDiv p {
     font-weight: 400;

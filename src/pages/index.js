@@ -1,10 +1,15 @@
 import Head from 'next/head';
+import React from 'react';
 import Header from '../../components/header';
 import Footer from '../../components/footer';
 import styles from '@/styles/Home.module.css';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ImageSection from '../../components/imageSection';
 import Image from 'next/image';
+import MyImage from '../../components/image';
+
+import ReactPlayer from 'react-player';
+
 
 export default function Home() {
 
@@ -12,12 +17,10 @@ export default function Home() {
   const [outputType, setOutputType] = useState('image');
   const [userInput, setUserInput] = useState('');
   const [prediction, setPrediction] = useState(null);
+  const [version, setVersion] = useState("db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf");
   const [error, setError] = useState(null);
+  const [link, setLink] = useState(null);
   const inputRef = useRef();
-
-
-  console.log(inputType, 'inputType');
-  console.log(outputType, 'outputType');
 
   const handleInputType = (e) => {
     setInputType(e.target.value);
@@ -27,46 +30,89 @@ export default function Home() {
     setOutputType(e.target.value);
   }
 
-  const handleChange = (e) => {
-    setUserInput(e.target.value);
+  const handleUserInput = (e) => {
+    const textInput = e.target.value;
+    setUserInput(textInput);
   };
 
+  useEffect(() => {
+    if (outputType === 'image') {
+      setVersion("db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf");
+      console.log(version, 'image version')
+    } else if (outputType === 'video') {
+      setVersion("1e205ea73084bd17a0a3b43396e49ba0d6bc2e754e9283b2df49fad2dcf95755");
+      console.log(version, 'video version')
+    } else if (outputType === '3D') {
+      setVersion("1a4da7adf0bc84cd786c1df41c02db3097d899f5c159f5fd5814a11117bdf02b");
+      console.log(version, '3D version')
+    }
+  }, [outputType])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await fetch("/api/predictions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: userInput,
-      }),
-    });
-    let prediction = await response.json();
-    if (response.status !== 201) {
-      setError(prediction.detail);
-      console.log(error)
-      return;
-    }
-    setPrediction(prediction);
+    try {
+      e.preventDefault();
+      console.log(version, 'version from main index js')
 
-    while (
-      prediction.status !== "succeeded" &&
-      prediction.status !== "failed"
-    ) {
-      // await sleep(1000);
-      const response = await fetch("/api/predictions/" + prediction.id);
-      prediction = await response.json();
-      if (response.status !== 200) {
+      const response = await fetch("/api/predictions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: userInput,
+          version: version,
+        }),
+      });
+
+      let prediction = await response.json();
+
+      if (response.status !== 201) {
         setError(prediction.detail);
         console.log(error)
         return;
       }
-      console.log({ prediction }, 'prediction')
+
       setPrediction(prediction);
+
+      while (prediction.status !== "succeeded" && prediction.status !== "failed") {
+        const response = await fetch("/api/predictions/" + prediction.id);
+        prediction = await response.json();
+
+        if (response.status !== 200) {
+          setError(prediction.detail);
+          console.log(error)
+          return;
+        }
+
+        setPrediction(prediction);
+        console.log({ prediction }, 'prediction from handler')
+
+        // Add a delay before checking again
+        // await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
+
+      const { output } = prediction;
+      let link = "";
+
+      if (Array.isArray(output)) {
+        link = output[0];
+      } else if (typeof output === "string") {
+        link = output;
+      } else if (typeof output === "object" && output.animation) {
+        link = output.animation;
+      }
+
+      setLink(link);
+
+    } catch (error) {
+      console.log(error);
     }
   }
+
+  console.log(prediction, ' prediction');
+
+  console.log(link, 'link');
 
   return (
     <>
@@ -89,18 +135,18 @@ export default function Home() {
             </select>
           </div>
           {inputType === 'image + text' ? (
-            <>
+            <div>
               <ImageSection />
               <h3 className={styles.imgHeader}>Describe your image</h3>
-              <input onChange={handleChange} className={styles.input} type="text" placeholder="Write your prompt here" />
-            </>
+              <input onChange={handleUserInput} id="text_input" className={styles.input} type="text" placeholder="Write your prompt here" />
+            </div>
           ) : null}
-          {inputType === 'image' ? <ImageSection /> : null}
+          {inputType === 'image' ? <div className={styles.hidden}><ImageSection /></div> : null}
           <div>
             {inputType === 'text' ? (
               <>
                 <h3 className={styles.imgHeader}>Write your prompt here</h3>
-                <input value={userInput} ref={inputRef} onChange={handleChange} className={styles.input} type="text" placeholder="Write your prompt here" />
+                <input value={userInput} ref={inputRef} onChange={handleUserInput} className={styles.input} type="text" placeholder="Write your prompt here" />
               </>
             ) : null}
           </div>
@@ -124,12 +170,12 @@ export default function Home() {
               <div>
                 {prediction.output && (
                   <div className={styles.prediction}>
-                    <Image
-                      src={prediction.output[prediction.output.length - 1]}
-                      alt="output"
+                    <MyImage
+                      src={link}
                       width={580}
                       height={460}
-                    />
+                      alt="replicate video"
+                      autoPlay controls loop />
                   </div>
                 )}
                 <p>status: {prediction.status}</p>

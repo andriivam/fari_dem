@@ -1,9 +1,10 @@
 import { useRef, useState, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import styles from './camera2.module.css';
+import Image from 'next/image';
 
 const videoConstraints = {
-    width: 655,
+    width: 895,
     height: 440,
     facingMode: 'environment'
 };
@@ -27,7 +28,7 @@ const Camera = () => {
     }
 
     return (
-        <div className={styles.cameraDiv}>
+        <div className={styles.photoDiv}>
             {url === null ? (
                 <>
                     <Webcam
@@ -36,14 +37,15 @@ const Camera = () => {
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
                         videoConstraints={videoConstraints}
+                        className={styles.webcam}
                     />
-                    <button onClick={capturePhoto}>Capture photo</button>
+                    <button className={styles.cameraBtn} onClick={capturePhoto} aria-label="Capture photo"><Image className={styles.iconPhoto} src='/static/circle.svg' width={80} height={80} /></button>
                 </>
             ) : (
-                <>
-                    <img src={url} alt="screenshot" />
-                    <button onClick={handleRefresh}>Retake</button>
-                </>
+                <div>
+                    <img className={styles.screenshot} src={url} alt="screenshot" />
+                    <button onClick={handleRefresh} className={styles.retakePhoto} aria-label="take new photo"><Image src='/static/close.svg' className={styles.iconRetakePhoto} width={50} height={50} /></button>
+                </div>
             )}
         </div>
     )

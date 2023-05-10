@@ -17,6 +17,7 @@ const ImageSection = () => {
     const [selectedImage, setSelectedImage] = useState('');
     const [cameraOpen, setCameraOpen] = useState(false);
 
+
     const handleImageClick = (imageUrl) => {
         setSelectedImage(imageUrl);
         console.log(selectedImage, 'selectedImage')
