@@ -1,13 +1,70 @@
-.react-webcam video {
+/* .react-webcam video {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     border: none;
 }
+ */
 
-.cameraDiv {
+
+.photoDiv {
+    position: relative;
     width: 100%;
-    margin: 0;
+    height: 440px;
+    /* adjust to match your video height */
+    margin-bottom: 40px;
     padding: 0;
+}
+
+
+.cameraBtn {
+    position: absolute;
+    bottom: 40px;
+    /* adjust as necessary to position the button */
+    right: 50%;
+    /* adjust as necessary to position the button */
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    border: none;
+}
+
+.iconPhoto {
+    position: absolute;
+    bottom: -15px;
+    right: -30%;
+    z-index: 1;
+    filter: blur(1px);
+}
+
+.webcam {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.retakePhoto {
+    position: absolute;
+    bottom: 40px;
+    right: 50%;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #2250C6;
+    border: none;
+    box-shadow: 0px 8px 15px #2250C6;
+}
+
+.iconRetakePhoto {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 1;
+}
+
+.screenshot {
+    margin-top: 30px;
 }

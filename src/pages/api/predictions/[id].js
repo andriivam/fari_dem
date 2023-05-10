@@ -9,7 +9,7 @@ export default async function handler(req, res) {
             },
         }
     );
-    console.log(req.query.id, 'req.query.id');
+
     if (response.status !== 200) {
         let error = await response.json();
         res.statusCode = 500;
