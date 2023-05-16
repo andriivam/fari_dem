@@ -1,6 +1,6 @@
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
-import styles from './camera2.module.css';
+import styles from './camera.module.css';
 import Image from 'next/image';
 
 const videoConstraints = {
@@ -10,8 +10,7 @@ const videoConstraints = {
 };
 
 
-const Camera = () => {
-
+const Camera = ({ onStateChange }) => {
     const webcamRef = useRef(null);
     const [url, setUrl] = useState(null);
 
@@ -19,12 +18,20 @@ const Camera = () => {
         e.preventDefault();
         const imageSrc = webcamRef.current.getScreenshot();
         setUrl(imageSrc);
-    }, [webcamRef]);
+        onStateChange(url)
+    }, [webcamRef, setUrl, onStateChange]);
+
+
+    useEffect(() => {
+        onStateChange(url, 'photo from camera');
+        console.log(onStateChange, 'onStateChange')
+    }, [url]);
 
 
     const handleRefresh = (e) => {
         e.preventDefault();
         setUrl(null);
+        onStateChange(null)
     }
 
     return (
@@ -39,12 +46,12 @@ const Camera = () => {
                         videoConstraints={videoConstraints}
                         className={styles.webcam}
                     />
-                    <button className={styles.cameraBtn} onClick={capturePhoto} aria-label="Capture photo"><Image className={styles.iconPhoto} src='/static/circle.svg' width={80} height={80} /></button>
+                    <button className={styles.cameraBtn} onClick={capturePhoto} aria-label="Capture photo"><Image alt="circle icon" className={styles.iconPhoto} src='/static/circle.svg' width={80} height={80} /></button>
                 </>
             ) : (
                 <div>
                     <img className={styles.screenshot} src={url} alt="screenshot" />
-                    <button onClick={handleRefresh} className={styles.retakePhoto} aria-label="take new photo"><Image src='/static/close.svg' className={styles.iconRetakePhoto} width={50} height={50} /></button>
+                    <button onClick={handleRefresh} className={styles.retakePhoto} aria-label="take new photo"><Image alt="close icon" src='/static/close.svg' className={styles.iconRetakePhoto} width={50} height={50} /></button>
                 </div>
             )}
         </div>

@@ -10,5 +10,13 @@
     {
         "name": "text_to_3D",
         "version": "1a4da7adf0bc84cd786c1df41c02db3097d899f5c159f5fd5814a11117bdf02b"
+    },
+    {
+        "name": "image_to_text",
+        "version": "2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746"
+    },
+    {
+        "name": "image_to_image",
+        "version": "d0742988ca2894860b9f19cb18eeaaa446c6812f700296520fc823330503d861"
     }
 ]

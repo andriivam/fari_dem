@@ -1,35 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './imageSection.module.css';
 import cls from 'classnames';
 import Image from 'next/image';
-import Camera from './camera.js';
+import Camera from '../camera/camera.js';
+import getListOfPhotos from '../../static_images/listOfImages';
 
-
-const images = [
-    'https://images.unsplash.com/photo-1577717707588-58e49821e851?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    'https://images.unsplash.com/photo-1682968356839-e72de61bd076?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    'https://images.unsplash.com/photo-1682795176020-1752b4446818?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1713&q=80',
-    'https://images.unsplash.com/photo-1682801008786-31abd2329712?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-];
-
-const ImageSection = () => {
+const ImageSection = ({ onStateChange }) => {
 
     const [selectedImage, setSelectedImage] = useState('');
     const [cameraOpen, setCameraOpen] = useState(false);
+    const [images, setImages] = useState([]);
+
+
+    useEffect(() => {
+        async function fetchData() {
+            const photos = await getListOfPhotos();
+            setImages(photos);
+        }
+        fetchData();
+    }, []);
 
 
     const handleImageClick = (imageUrl) => {
         setSelectedImage(imageUrl);
-        console.log(selectedImage, 'selectedImage')
-    };
+    }
+
+    useEffect(() => {
+        onStateChange(selectedImage);
+    }, [selectedImage]);
+
 
     const handleCameraOpen = (e) => {
         e.preventDefault();
         setCameraOpen(true);
-    }
+    };
 
     if (cameraOpen) {
-        return (<Camera />
+        return (<Camera onStateChange={onStateChange} />
         )
     };
 
@@ -38,10 +45,12 @@ const ImageSection = () => {
             <h3 className={styles.imageHeading}>Choose one of these images</h3>
             <div className={styles.imgContainer}>
                 {images.map((imageUrl, index) => (
-                    <img
+                    <Image
+                        src={imageUrl || 'https://images.unsplash.com/photo-1683009427619-a1a11b799e05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NDY5OTd8MXwxfHNlYXJjaHwxfHxuYXR1cmV8ZW58MHx8fHwxNjg0MTUyMzYxfDA&ixlib=rb-4.0.3&q=80&w=400'}
+                        width={200}
+                        height={200}
                         onClick={() => handleImageClick(imageUrl)}
                         key={index}
-                        src={imageUrl}
                         alt={`Image ${index}`}
                         className={cls(styles.img, { [styles.selected]: selectedImage === imageUrl })}
                     />

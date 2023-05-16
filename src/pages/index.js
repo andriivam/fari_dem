@@ -1,27 +1,27 @@
 import Head from 'next/head';
 import React from 'react';
-import Header from '../../components/header';
-import Footer from '../../components/footer';
+import Header from '../../components/header/header';
+import Footer from '../../components/footer/footer';
 import styles from '@/styles/Home.module.css';
 import { useState, useRef, useEffect } from 'react';
-import ImageSection from '../../components/imageSection';
+import ImageSection from '../../components/imageSection/imageSection';
 import Image from 'next/image';
 import MyImage from '../../components/image';
-
-import ReactPlayer from 'react-player';
-
 
 export default function Home() {
 
   const [inputType, setInputType] = useState('text');
   const [outputType, setOutputType] = useState('image');
   const [userInput, setUserInput] = useState('');
+  const [stateValue, setStateValue] = useState("");
   const [prediction, setPrediction] = useState(null);
   const [version, setVersion] = useState("db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf");
   const [error, setError] = useState(null);
   const [link, setLink] = useState(null);
   const inputRef = useRef();
 
+
+  console.log(stateValue, 'stateValue')
   const handleInputType = (e) => {
     setInputType(e.target.value);
   }
@@ -32,7 +32,14 @@ export default function Home() {
 
   const handleUserInput = (e) => {
     const textInput = e.target.value;
+    console.log(textInput, 'textInput')
     setUserInput(textInput);
+    setStateValue(textInput);
+  };
+
+  const handleStateChange = (newValue) => {
+    setStateValue(newValue);
+    console.log(stateValue, 'stateValue');
   };
 
   useEffect(() => {
@@ -48,18 +55,34 @@ export default function Home() {
     }
   }, [outputType])
 
+
+  useEffect(() => {
+    if (inputType === 'image') {
+      setVersion("2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746");
+      console.log(version, 'image version')
+    }
+
+  }, [inputType]);
+
+  useEffect(() => {
+    if (inputType === 'image' && outputType === 'image') {
+      setVersion("d0742988ca2894860b9f19cb18eeaaa446c6812f700296520fc823330503d861");
+    }
+    console.log(version, 'text version');
+  }, [inputType, outputType]);
+
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(version, 'version from main index js')
-
       const response = await fetch("/api/predictions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          prompt: userInput,
+          prompt: stateValue,
+          image: stateValue,
           version: version,
         }),
       });
@@ -68,7 +91,7 @@ export default function Home() {
 
       if (response.status !== 201) {
         setError(prediction.detail);
-        console.log(error)
+        console.log(error, 'error from frontend')
         return;
       }
 
@@ -80,17 +103,10 @@ export default function Home() {
 
         if (response.status !== 200) {
           setError(prediction.detail);
-          console.log(error)
           return;
         }
-
         setPrediction(prediction);
-        console.log({ prediction }, 'prediction from handler')
-
-        // Add a delay before checking again
-        // await new Promise(resolve => setTimeout(resolve, 1000));
       }
-
 
       const { output } = prediction;
       let link = "";
@@ -108,11 +124,7 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  console.log(prediction, ' prediction');
-
-  console.log(link, 'link');
+  };
 
   return (
     <>
@@ -136,12 +148,12 @@ export default function Home() {
           </div>
           {inputType === 'image + text' ? (
             <div>
-              <ImageSection />
+              <ImageSection onStateChange={handleStateChange} />
               <h3 className={styles.imgHeader}>Describe your image</h3>
               <input onChange={handleUserInput} id="text_input" className={styles.input} type="text" placeholder="Write your prompt here" />
             </div>
           ) : null}
-          {inputType === 'image' ? <div className={styles.hidden}><ImageSection /></div> : null}
+          {inputType === 'image' ? <div className={styles.hidden}><ImageSection onStateChange={handleStateChange} /></div> : null}
           <div>
             {inputType === 'text' ? (
               <>
@@ -160,6 +172,7 @@ export default function Home() {
             <h3 className={styles.selectHeader}>Choose an option</h3>
             <select className={styles.select} name="outputType" value={outputType} onChange={handleOutputType}>
               <option defaultValue="image" value="image">Image</option>
+              <option value="text">Text</option>
               <option value="video">Video</option>
               <option value="3D">3D</option>
             </select>
@@ -168,20 +181,29 @@ export default function Home() {
             <h3 className={styles.resultHeader}>Result</h3>
             {prediction ? (
               <div>
-                {prediction.output && (
+                {outputType !== 'text' && prediction.output && (
                   <div className={styles.prediction}>
                     <MyImage
                       src={link}
                       width={580}
                       height={460}
                       alt="replicate video"
-                      autoPlay controls loop />
+                      autoPlay
+                      controls
+                      loop
+                    />
+                  </div>
+                )}
+                {outputType === 'text' && (
+                  <div>
+                    <p>{prediction.output}</p>
                   </div>
                 )}
                 <p>status: {prediction.status}</p>
-              </div>) : (
+              </div>
+            ) : (
               <div className={styles.resultDiv}>
-                <p className={styles.outputText}>Once you have completed settings, click on <q>submit</q> to generate image</p>
+                <p className={styles.outputText}>Once you have completed settings, click on <q>submit</q> to generate an image</p>
               </div>
             )}
           </div>

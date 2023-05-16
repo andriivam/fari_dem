@@ -9,10 +9,12 @@ export default async function handler(req, res) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            // Pinned to a specific version of Stable Diffusion
-            // See https://replicate.com/stability-ai/stable-diffussion/versions
             version: version,
             // This is the text prompt that will be submitted by a form on the frontend
+            // input: { prompt: req.body.prompt },
+            input: {
+                image: req.body.image,
+            },
             input: { prompt: req.body.prompt },
         }),
     });
@@ -20,7 +22,8 @@ export default async function handler(req, res) {
 
     if (response.status !== 201) {
         let error = await response.json();
-        res.statusCode = 500;
+        console.log(error, 'backend error')
+        // res.statusCode = 500;
         res.end(JSON.stringify({ detail: error.detail }));
         return;
     }

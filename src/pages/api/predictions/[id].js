@@ -10,9 +10,11 @@ export default async function handler(req, res) {
         }
     );
 
+    console.log(response, 'response from backend')
+
     if (response.status !== 200) {
         let error = await response.json();
-        res.statusCode = 500;
+        // res.statusCode = 500;
         res.end(JSON.stringify({ detail: error.detail }));
         return;
     }
