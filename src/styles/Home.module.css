@@ -96,8 +96,19 @@
     font-size: 14px;
     line-height: 18px;
     color: #181715;
-    margin-bottom: 10px;
 }
+
+.contentContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.predictionStatus {
+    padding-top: 10px;
+}
+
 
 .resultDiv {
     display: flex;
@@ -107,6 +118,7 @@
     border: 1px dashed #677683;
     width: 100%;
     height: 440px;
+    margin-top: 10px;
     margin-bottom: 140px;
 }
 

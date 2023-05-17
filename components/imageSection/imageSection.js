@@ -5,28 +5,37 @@ import Image from 'next/image';
 import Camera from '../camera/camera.js';
 import getListOfPhotos from '../../static_images/listOfImages';
 
-const ImageSection = ({ onStateChange }) => {
+const ImageSection = ({ onStateChange, outputType }) => {
 
     const [selectedImage, setSelectedImage] = useState('');
     const [cameraOpen, setCameraOpen] = useState(false);
     const [images, setImages] = useState([]);
 
-
     useEffect(() => {
         async function fetchData() {
-            const photos = await getListOfPhotos();
+            const query = outputType === 'image' ? 'winter' :
+                outputType === 'video' ? 'summer' :
+                    outputType === '3D' ? 'sunset' :
+                        outputType === 'text' ? 'mountain' : '';
+            const photos = await getListOfPhotos(query);
             setImages(photos);
         }
         fetchData();
-    }, []);
+    }, [outputType]);
 
+    console.log({ images })
 
     const handleImageClick = (imageUrl) => {
         setSelectedImage(imageUrl);
     }
 
     useEffect(() => {
-        onStateChange(selectedImage);
+        if (outputType === 'video') {
+            onStateChange((prevState) => ({ ...prevState, "input_image": selectedImage }));
+        } else {
+            onStateChange((prevState) => ({ ...prevState, "image": selectedImage }));
+        }
+
     }, [selectedImage]);
 
 

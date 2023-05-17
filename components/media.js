@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const MyImage = React.forwardRef((props, ref) => {
+const MediaComponent = React.forwardRef((props, ref) => {
     const { src, alt, ...rest } = props;
 
     if (src.endsWith(".mp4")) {
@@ -26,4 +26,4 @@ const MyImage = React.forwardRef((props, ref) => {
     return <Image ref={ref} src={src} alt={alt} {...rest} />;
 });
 
-export default MyImage;
+export default MediaComponent;

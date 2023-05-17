@@ -4,9 +4,10 @@ const unsplash = createApi({
     accessKey: process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY,
 });
 
-const getListOfPhotos = async () => {
+const getListOfPhotos = async (query) => {
+    // console.log({ query })
     const photos = await unsplash.search.getPhotos({
-        query: 'nature',
+        query: query,
         perPage: 4
     });
     const unsplashResults = photos.response.results;

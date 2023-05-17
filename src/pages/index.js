@@ -3,44 +3,56 @@ import React from 'react';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import styles from '@/styles/Home.module.css';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ImageSection from '../../components/imageSection/imageSection';
-import Image from 'next/image';
-import MyImage from '../../components/image';
+import MediaComponent from '../../components/media';
+import handleReset from '../../handlers/reset_handler';
+import { outputFileTracing } from '../../next.config';
+import Notification from '../../components/notification/notification';
+
+
 
 export default function Home() {
 
   const [inputType, setInputType] = useState('text');
   const [outputType, setOutputType] = useState('image');
   const [userInput, setUserInput] = useState('');
-  const [stateValue, setStateValue] = useState("");
+  const [globalInput, setGlobalInput] = useState({ "prompt": null, "image": null, "input_image": null });
   const [prediction, setPrediction] = useState(null);
   const [version, setVersion] = useState("db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf");
   const [error, setError] = useState(null);
-  const [link, setLink] = useState(null);
-  const inputRef = useRef();
+  const [resultLink, setLink] = useState(null);
+  const [submittedWithoutInputs, setSubmittedWithoutInputs] = useState(false);
 
 
-  console.log(stateValue, 'stateValue')
+  console.log(typeof globalInput, 'stateValue');
+
   const handleInputType = (e) => {
-    setInputType(e.target.value);
+    const value = e.target.value;
+    setInputType(value);
+    if (value === 'text') {
+      setOutputType('');
+    }
   }
 
   const handleOutputType = (e) => {
     setOutputType(e.target.value);
+
   }
 
   const handleUserInput = (e) => {
     const textInput = e.target.value;
-    console.log(textInput, 'textInput')
     setUserInput(textInput);
-    setStateValue(textInput);
+    setGlobalInput((prevState) => ({ ...prevState, "prompt": textInput }));
   };
 
+
   const handleStateChange = (newValue) => {
-    setStateValue(newValue);
-    console.log(stateValue, 'stateValue');
+    setGlobalInput(newValue);
   };
+
+  console.log(globalInput, 'globalInput');
+
 
   useEffect(() => {
     if (outputType === 'image') {
@@ -55,35 +67,46 @@ export default function Home() {
     }
   }, [outputType])
 
-
   useEffect(() => {
     if (inputType === 'image') {
-      setVersion("2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746");
-      console.log(version, 'image version')
+      setVersion("b2691db53f2d96add0051a4a98e7a3861bd21bf5972031119d344d956d2f8256");
     }
-
+    console.log(version, 'image to image version');
   }, [inputType]);
 
+  console.log({ resultLink })
+  console.log({ prediction })
+
   useEffect(() => {
-    if (inputType === 'image' && outputType === 'image') {
-      setVersion("d0742988ca2894860b9f19cb18eeaaa446c6812f700296520fc823330503d861");
+    if (inputType === 'image' && outputType === 'text') {
+      setVersion("2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746");
+      console.log(version, 'image version')
+    } else if (inputType === 'image' && outputType === 'video') {
+      setVersion("e6388365da9642563cbeec306b4f7693add294c7d6e1b4d3bc7f2ad9d0ff03dc");
+      console.log(version, 'video version')
     }
-    console.log(version, 'text version');
+
   }, [inputType, outputType]);
 
-
   const handleSubmit = async (e) => {
+    const endPoint = "/api/predictions";
+    const fakeEndPoint = "/api/predictions";
+
+    if (userInput === '' && globalInput === {}) {
+      setSubmittedWithoutInputs(true);
+      return
+    }
     try {
       e.preventDefault();
-      const response = await fetch("/api/predictions", {
+      const response = await fetch(fakeEndPoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          prompt: stateValue,
-          image: stateValue,
           version: version,
+          input: globalInput
+          //{ "prompt": null, "image": null, "input_image": null },
         }),
       });
 
@@ -114,15 +137,15 @@ export default function Home() {
       if (Array.isArray(output)) {
         link = output[0];
       } else if (typeof output === "string") {
-        link = output;
-      } else if (typeof output === "object" && output.animation) {
-        link = output.animation;
+        link = output || outputFileTracing;
+      } else if (typeof output === "object" && output.img_out || output.animation) {
+        link = output.img_out || output.animation;
       }
 
       setLink(link);
 
     } catch (error) {
-      console.log(error);
+      console.log({ error });
     }
   };
 
@@ -135,6 +158,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+      {submittedWithoutInputs && <Notification />}
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.col1}>
           <h2 className={styles.inputHeader}>Input</h2>
@@ -148,17 +172,27 @@ export default function Home() {
           </div>
           {inputType === 'image + text' ? (
             <div>
-              <ImageSection onStateChange={handleStateChange} />
+              <ImageSection
+                onStateChange={handleStateChange}
+                inputType={inputType}
+                outputType={outputType}
+              />
               <h3 className={styles.imgHeader}>Describe your image</h3>
               <input onChange={handleUserInput} id="text_input" className={styles.input} type="text" placeholder="Write your prompt here" />
             </div>
           ) : null}
-          {inputType === 'image' ? <div className={styles.hidden}><ImageSection onStateChange={handleStateChange} /></div> : null}
+          {inputType === 'image' ? <div className={styles.hidden}>
+            <ImageSection
+              onStateChange={handleStateChange}
+              inputType={inputType}
+              outputType={outputType}
+            />
+          </div> : null}
           <div>
             {inputType === 'text' ? (
               <>
                 <h3 className={styles.imgHeader}>Write your prompt here</h3>
-                <input value={userInput} ref={inputRef} onChange={handleUserInput} className={styles.input} type="text" placeholder="Write your prompt here" />
+                <input value={userInput} onChange={handleUserInput} className={styles.input} type="text" placeholder="Write your prompt here" />
               </>
             ) : null}
           </div>
@@ -172,7 +206,7 @@ export default function Home() {
             <h3 className={styles.selectHeader}>Choose an option</h3>
             <select className={styles.select} name="outputType" value={outputType} onChange={handleOutputType}>
               <option defaultValue="image" value="image">Image</option>
-              <option value="text">Text</option>
+              <option value="text" disabled={inputType === 'text'}>Text</option>
               <option value="video">Video</option>
               <option value="3D">3D</option>
             </select>
@@ -180,11 +214,11 @@ export default function Home() {
           <div className={styles.resultContainer}>
             <h3 className={styles.resultHeader}>Result</h3>
             {prediction ? (
-              <div>
+              <div className={styles.contentContainer}>
                 {outputType !== 'text' && prediction.output && (
                   <div className={styles.prediction}>
-                    <MyImage
-                      src={link}
+                    <MediaComponent
+                      src={resultLink}
                       width={580}
                       height={460}
                       alt="replicate video"
@@ -199,7 +233,10 @@ export default function Home() {
                     <p>{prediction.output}</p>
                   </div>
                 )}
-                <p>status: {prediction.status}</p>
+                {/* Temporary div to display status of prediction */}
+                <div className={styles.predictionStatus}>
+                  <p >status: {prediction.status}</p>
+                </div>
               </div>
             ) : (
               <div className={styles.resultDiv}>
@@ -210,7 +247,10 @@ export default function Home() {
         </div>
       </form>
       {error && <div>{error}</div>}
-      <Footer handleSubmit={handleSubmit} />
+      <Footer
+        handleSubmit={handleSubmit}
+        handleReset={() => handleReset(setInputType, setOutputType, setUserInput, setGlobalInput, setPrediction, setError, setLink)}
+      />
     </>
   )
 }

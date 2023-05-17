@@ -1,8 +1,11 @@
 
 export default async function handler(req, res) {
-    const { version } = req.body;
+    const { version, input, prompt } = req.body;
+    console.log({ input })
+    const url = "https://api.replicate.com/v1/predictions";
+    const fakeUrl = "http://localhost:3010/api/predictions";
     console.log(version, 'version from backend');
-    const response = await fetch("https://api.replicate.com/v1/predictions", {
+    const response = await fetch(fakeUrl, {
         method: "POST",
         headers: {
             Authorization: process.env.REPLICATE_API_TOKEN,
@@ -10,12 +13,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
             version: version,
-            // This is the text prompt that will be submitted by a form on the frontend
-            // input: { prompt: req.body.prompt },
-            input: {
-                image: req.body.image,
-            },
-            input: { prompt: req.body.prompt },
+            input: input
         }),
     });
     console.log('Response received:', response);
@@ -32,3 +30,4 @@ export default async function handler(req, res) {
     res.statusCode = 201;
     res.end(JSON.stringify(prediction));
 }
+
