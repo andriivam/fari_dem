@@ -42,6 +42,8 @@ const ImageSection = ({ onStateChange, outputType }) => {
         setCameraOpen(true);
     };
 
+    const check = "check";
+
     if (cameraOpen) {
         return (<Camera onStateChange={onStateChange} />
         )
