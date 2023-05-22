@@ -1,80 +1,16 @@
 import Head from 'next/head';
 import React from 'react';
 import Header from '../../components/header/header';
-import Footer from '../../components/footer/footer';
-import styles from '@/styles/Home.module.css';
-import { useState, useEffect } from 'react';
-import ImageSection from '../../components/imageSection/imageSection';
-import MediaComponent from '../../components/media';
-import handleReset from '../../handlers/reset_handler';
-import { outputFileTracing } from '../../next.config';
-import Notification from '../../components/notification/notification';
+import styles from '../styles/Home.module.css';
+import ImageInput from '../../components/imageInput/image-input';
+import ImageTextInput from '../../components/imageTextInput/image-text-input';
+import TextInput from '../../components/textInput/textInput';
 
 
 
 export default function Home() {
 
-  const [inputType, setInputType] = useState('text');
-  const [outputType, setOutputType] = useState('image');
-  const [userInput, setUserInput] = useState('');
-  const [globalInput, setGlobalInput] = useState({ "prompt": null, "image": null, "input_image": null });
-  const [prediction, setPrediction] = useState(null);
-  const [version, setVersion] = useState("db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf");
-  const [error, setError] = useState(null);
-  const [resultLink, setLink] = useState(null);
-  const [submittedWithoutInputs, setSubmittedWithoutInputs] = useState(false);
 
-
-  const handleInputType = (e) => {
-    const value = e.target.value;
-    setInputType(value);
-    if (value === 'text') {
-      setOutputType('');
-    }
-  }
-
-  const handleOutputType = (e) => {
-    setOutputType(e.target.value);
-
-  }
-
-  const handleUserInput = (e) => {
-    const textInput = e.target.value;
-    setUserInput(textInput);
-    setGlobalInput((prevState) => ({ ...prevState, "prompt": textInput }));
-  };
-
-
-  const handleStateChange = (newValue) => {
-    setGlobalInput(newValue);
-  };
-
-
-  useEffect(() => {
-    if (outputType === 'image') {
-      setVersion("db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf");
-    } else if (outputType === 'video') {
-      setVersion("1e205ea73084bd17a0a3b43396e49ba0d6bc2e754e9283b2df49fad2dcf95755");
-    } else if (outputType === '3D') {
-      setVersion("1a4da7adf0bc84cd786c1df41c02db3097d899f5c159f5fd5814a11117bdf02b");
-    }
-  }, [outputType])
-
-  useEffect(() => {
-    if (inputType === 'image') {
-      setVersion("b2691db53f2d96add0051a4a98e7a3861bd21bf5972031119d344d956d2f8256");
-    }
-  }, [inputType]);
-
-
-  useEffect(() => {
-    if (inputType === 'image' && outputType === 'text') {
-      setVersion("2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746");
-    } else if (inputType === 'image' && outputType === 'video') {
-      setVersion("e6388365da9642563cbeec306b4f7693add294c7d6e1b4d3bc7f2ad9d0ff03dc");
-    }
-
-  }, [inputType, outputType]);
 
   const handleSubmit = async (e) => {
     const endPoint = "/api/predictions";
@@ -119,18 +55,7 @@ export default function Home() {
         setPrediction(prediction);
       }
 
-      const { output } = prediction;
-      let link = "";
 
-      if (Array.isArray(output)) {
-        link = output[0];
-      } else if (typeof output === "string") {
-        link = output || outputFileTracing;
-      } else if (typeof output === "object" && output.img_out || output.animation) {
-        link = output.img_out || output.animation;
-      }
-
-      setLink(link);
 
     } catch (error) {
       console.log({ error });
@@ -146,99 +71,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      {submittedWithoutInputs && <Notification />}
-      <form className={styles.container} onSubmit={handleSubmit}>
-        <div className={styles.col1}>
-          <h2 className={styles.inputHeader}>Input</h2>
-          <div className={styles.selectDiv}>
-            <h4 className={styles.selectHeader}>Choose an option</h4>
-            <select className={styles.select} name="inputType" value={inputType} onChange={handleInputType}>
-              <option value="text" defaultValue="text" >Text</option>
-              <option value="image">Image</option>
-              <option value="image + text">Image&Text</option>
-            </select>
-          </div>
-          {inputType === 'image + text' ? (
-            <div>
-              <ImageSection
-                onStateChange={handleStateChange}
-                inputType={inputType}
-                outputType={outputType}
-              />
-              <h3 className={styles.imgHeader}>Describe your image</h3>
-              <input onChange={handleUserInput} id="text_input" className={styles.input} type="text" placeholder="Write your prompt here" />
-            </div>
-          ) : null}
-          {inputType === 'image' ? <div className={styles.hidden}>
-            <ImageSection
-              onStateChange={handleStateChange}
-              inputType={inputType}
-              outputType={outputType}
-            />
-          </div> : null}
-          <div>
-            {inputType === 'text' ? (
-              <>
-                <h3 className={styles.imgHeader}>Write your prompt here</h3>
-                <input value={userInput} onChange={handleUserInput} className={styles.input} type="text" placeholder="Write your prompt here" />
-              </>
-            ) : null}
-          </div>
+      <div className={styles.container}>
+        <div className={styles.headingInfo}>
+          <h2 className={styles.header}>Step 1: choose an input</h2>
+          <p className={styles.inputParagraph}> Choose what you want to submit. It will then be assimilated and modified by the algorithm.</p>
         </div>
-
-        {/* Right side of screen */}
-
-        <div className={styles.col2}>
-          <h2 className={styles.outputHeader}>Output</h2>
-          <div className={styles.selectDiv}>
-            <h3 className={styles.selectHeader}>Choose an option</h3>
-            <select className={styles.select} name="outputType" value={outputType} onChange={handleOutputType}>
-              <option defaultValue="image" value="image">Image</option>
-              <option value="text" disabled={inputType === 'text'}>Text</option>
-              <option value="video">Video</option>
-              <option value="3D">3D</option>
-            </select>
-          </div>
-          <div className={styles.resultContainer}>
-            <h3 className={styles.resultHeader}>Result</h3>
-            {prediction ? (
-              <div className={styles.contentContainer}>
-                {outputType !== 'text' && prediction.output && (
-                  <div className={styles.prediction}>
-                    <MediaComponent
-                      src={resultLink}
-                      width={580}
-                      height={460}
-                      alt="replicate video"
-                      autoPlay
-                      controls
-                      loop
-                    />
-                  </div>
-                )}
-                {outputType === 'text' && (
-                  <div>
-                    <p>{prediction.output}</p>
-                  </div>
-                )}
-                {/* Temporary div to display status of prediction */}
-                <div className={styles.predictionStatus}>
-                  <p >status: {prediction.status}</p>
-                </div>
-              </div>
-            ) : (
-              <div className={styles.resultDiv}>
-                <p className={styles.outputText}>Once you have completed settings, click on <q>submit</q> to generate an image</p>
-              </div>
-            )}
-          </div>
+        <div className={styles.cartsDiv}>
+          <ImageInput />
+          <ImageTextInput />
+          <TextInput />
         </div>
-      </form>
-      {error && <div>{error}</div>}
-      <Footer
-        handleSubmit={handleSubmit}
-        handleReset={() => handleReset(setInputType, setOutputType, setUserInput, setGlobalInput, setPrediction, setError, setLink)}
-      />
+      </div>
     </>
   )
 }
