@@ -1,7 +1,8 @@
 
 export default async function handler(req, res) {
-    const response = await fetch(
-        "https://api.replicate.com/v1/predictions/" + req.query.id,
+    const url = "https://api.replicate.com/v1/predictions/";
+    const fakeUrl = "http://localhost:3010/v1/predictions/";
+    const response = await fetch(url + req.query.id,
         {
             headers: {
                 Authorization: process.env.REPLICATE_API_TOKEN,
@@ -9,8 +10,6 @@ export default async function handler(req, res) {
             },
         }
     );
-
-    console.log(response, 'response from backend')
 
     if (response.status !== 200) {
         let error = await response.json();

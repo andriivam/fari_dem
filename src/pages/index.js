@@ -25,8 +25,6 @@ export default function Home() {
   const [submittedWithoutInputs, setSubmittedWithoutInputs] = useState(false);
 
 
-  console.log(typeof globalInput, 'stateValue');
-
   const handleInputType = (e) => {
     const value = e.target.value;
     setInputType(value);
@@ -51,19 +49,14 @@ export default function Home() {
     setGlobalInput(newValue);
   };
 
-  console.log(globalInput, 'globalInput');
-
 
   useEffect(() => {
     if (outputType === 'image') {
       setVersion("db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf");
-      console.log(version, 'image version')
     } else if (outputType === 'video') {
       setVersion("1e205ea73084bd17a0a3b43396e49ba0d6bc2e754e9283b2df49fad2dcf95755");
-      console.log(version, 'video version')
     } else if (outputType === '3D') {
       setVersion("1a4da7adf0bc84cd786c1df41c02db3097d899f5c159f5fd5814a11117bdf02b");
-      console.log(version, '3D version')
     }
   }, [outputType])
 
@@ -71,26 +64,21 @@ export default function Home() {
     if (inputType === 'image') {
       setVersion("b2691db53f2d96add0051a4a98e7a3861bd21bf5972031119d344d956d2f8256");
     }
-    console.log(version, 'image to image version');
   }, [inputType]);
 
-  console.log({ resultLink })
-  console.log({ prediction })
 
   useEffect(() => {
     if (inputType === 'image' && outputType === 'text') {
       setVersion("2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746");
-      console.log(version, 'image version')
     } else if (inputType === 'image' && outputType === 'video') {
       setVersion("e6388365da9642563cbeec306b4f7693add294c7d6e1b4d3bc7f2ad9d0ff03dc");
-      console.log(version, 'video version')
     }
 
   }, [inputType, outputType]);
 
   const handleSubmit = async (e) => {
     const endPoint = "/api/predictions";
-    const fakeEndPoint = "/api/predictions";
+    const fakeEndPoint = "http://localhost:3010/v1/predictions";
 
     if (userInput === '' && globalInput === {}) {
       setSubmittedWithoutInputs(true);

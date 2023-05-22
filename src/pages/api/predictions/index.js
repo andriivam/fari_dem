@@ -3,9 +3,9 @@ export default async function handler(req, res) {
     const { version, input, prompt } = req.body;
     console.log({ input })
     const url = "https://api.replicate.com/v1/predictions";
-    const fakeUrl = "http://localhost:3010/api/predictions";
+    const fakeUrl = "http://localhost:3010/v1/predictions";
     console.log(version, 'version from backend');
-    const response = await fetch(fakeUrl, {
+    const response = await fetch(url, {
         method: "POST",
         headers: {
             Authorization: process.env.REPLICATE_API_TOKEN,
@@ -16,7 +16,6 @@ export default async function handler(req, res) {
             input: input
         }),
     });
-    console.log('Response received:', response);
 
     if (response.status !== 201) {
         let error = await response.json();

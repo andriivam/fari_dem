@@ -23,8 +23,6 @@ const ImageSection = ({ onStateChange, outputType }) => {
         fetchData();
     }, [outputType]);
 
-    console.log({ images })
-
     const handleImageClick = (imageUrl) => {
         setSelectedImage(imageUrl);
     }

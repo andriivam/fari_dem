@@ -9,7 +9,6 @@ const Notification = () => {
         setClosed(true)
     }
 
-    console.log({ closed })
     if (closed) return null;
 
     return (

@@ -24,7 +24,6 @@ const Camera = ({ onStateChange }) => {
 
     useEffect(() => {
         onStateChange(url, 'photo from camera');
-        console.log(onStateChange, 'onStateChange')
     }, [url]);
 
 
