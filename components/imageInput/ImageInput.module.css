@@ -1,26 +1,21 @@
-.content {
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 100px;
 }
-
-.imageContainer {}
 
 .image {
     border-radius: 8px;
 }
 
-.btnDiv {
-    margin-top: 40px;
+.textDiv {
+    margin-top: 15px;
 }
 
-.btn {
-    color: white;
-    background-color: #2F4FBB;
-    border: 1px solid #2F4FBB;
-    width: 100px;
-    height: 50px;
-    border-radius: 40px;
-
+.imageParagraph {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    color: #2F4FBB;
 }

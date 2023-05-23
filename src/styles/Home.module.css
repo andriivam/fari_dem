@@ -1,6 +1,6 @@
 /* Style for container */
 .container {
-    margin: 0 70px;
+    margin: 40px;
 }
 
 .headingInfo {
@@ -24,6 +24,8 @@
 }
 
 .cartsDiv {
-    display: flex;
-    margin: 100px;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 40px;
 }
