@@ -1,0 +1,20 @@
+.container {
+    position: absolute;
+    padding-left: 70px;
+    right: 1288px;
+    top: 164px;
+}
+
+.hintDiv {
+    background-color: #EBEBEB;
+    width: 280px;
+    height: auto;
+    padding: 5px;
+    border: 3px solid #2F4FBB;
+    border-radius: 20px;
+    border-bottom-left-radius: 0px;
+}
+
+.textHint {
+    text-align: center;
+}

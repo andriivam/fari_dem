@@ -1,35 +1,32 @@
-[
-    {
-        "id": 1,
-        "name": "text_to_image",
-        "version": "db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
-        "input": [
-            "prompt"
-        ]
-    },
-    {
-        "id": 2,
-        "name": "text_to_video",
-        "version": "1e205ea73084bd17a0a3b43396e49ba0d6bc2e754e9283b2df49fad2dcf95755"
-    },
-    {
-        "id": 3,
-        "name": "text_to_3D",
-        "version": "1a4da7adf0bc84cd786c1df41c02db3097d899f5c159f5fd5814a11117bdf02b"
-    },
-    {
-        "id": 4,
-        "name": "image_to_text",
-        "version": "2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746"
-    },
-    {
-        "id": 5,
-        "name": "image_to_image",
-        "version": "b2691db53f2d96add0051a4a98e7a3861bd21bf5972031119d344d956d2f8256"
-    },
-    {
-        "id": 6,
-        "name": "image_to_video",
-        "version": "e6388365da9642563cbeec306b4f7693add294c7d6e1b4d3bc7f2ad9d0ff03dc"
-    }
-]
+    [
+        {
+            "model": "text_to_image",
+            "version": "db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
+            "hint": "A latent text-to-image diffusion model capable of generating photo-realistic images given any text input"
+        },
+        {
+            "model": "text_to_video",
+            "version": "1e205ea73084bd17a0a3b43396e49ba0d6bc2e754e9283b2df49fad2dcf95755",
+            "hint": "This model is based on a multi-stage text-to-video generation diffusion model, which inputs a description text and returns a video that matches the text description. Only English input is supported"
+        },
+        {
+            "model": "text_to_3D",
+            "version": "1a4da7adf0bc84cd786c1df41c02db3097d899f5c159f5fd5814a11117bdf02b",
+            "hint": "This model is based on a multi-stage text-to-3D generation diffusion model, which inputs a description text and returns a 3D object that matches the text description. Only English input is supported."
+        },
+        {
+            "model": "image_to_text",
+            "version": "2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746",
+            "hint": "This model is based on a multi-stage image-to-text generation diffusion model, which inputs an image and returns a text description of the image. Only English output is supported."
+        },
+        {
+            "model": "image_to_image",
+            "version": "b2691db53f2d96add0051a4a98e7a3861bd21bf5972031119d344d956d2f8256",
+            "hint": "This model is based on a multi-stage image-to-image generation diffusion model, which inputs an image and returns an image that matches the input image. Only English output is supported."
+        },
+        {
+            "model": "image_to_video",
+            "version": "e6388365da9642563cbeec306b4f7693add294c7d6e1b4d3bc7f2ad9d0ff03dc",
+            "hint": "This model is based on a multi-stage image-to-video generation diffusion model, which inputs an image and returns a video that matches the input image. Only English output is supported."
+        }
+    ]

@@ -1,4 +1,4 @@
-const handleReset = (setInputType, setOutputType, setUserInput, setGlobalInput, setPrediction, setError, setLink) => {
+const handleReset = (setInputType, setOutputType, setUserInput, setGlobalInput, setPrediction, setError, setLink, setShowHint) => {
     setInputType('text');
     setOutputType('image');
     setUserInput('');
@@ -6,6 +6,7 @@ const handleReset = (setInputType, setOutputType, setUserInput, setGlobalInput, 
     setPrediction(null);
     setError(null);
     setLink(null);
+    setShowHint(false);
     console.log('Reset is working')
 }
 

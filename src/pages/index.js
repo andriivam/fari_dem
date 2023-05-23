@@ -9,6 +9,8 @@ import MediaComponent from '../../components/media';
 import handleReset from '../../handlers/reset_handler';
 import { outputFileTracing } from '../../next.config';
 import Notification from '../../components/notification/notification';
+import Image from 'next/image';
+import Hint from '../../components/hint/hint';
 
 
 
@@ -23,6 +25,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [resultLink, setLink] = useState(null);
   const [submittedWithoutInputs, setSubmittedWithoutInputs] = useState(false);
+  const [showHint, setShowHint] = useState(false);
 
 
   const handleInputType = (e) => {
@@ -49,6 +52,9 @@ export default function Home() {
     setGlobalInput(newValue);
   };
 
+  const handleHint = () => {
+    setShowHint(!showHint);
+  }
 
   useEffect(() => {
     if (outputType === 'image') {
@@ -86,7 +92,7 @@ export default function Home() {
     }
     try {
       e.preventDefault();
-      const response = await fetch(fakeEndPoint, {
+      const response = await fetch(endPoint, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -150,13 +156,21 @@ export default function Home() {
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.col1}>
           <h2 className={styles.inputHeader}>Input</h2>
-          <div className={styles.selectDiv}>
-            <h4 className={styles.selectHeader}>Choose an option</h4>
-            <select className={styles.select} name="inputType" value={inputType} onChange={handleInputType}>
-              <option value="text" defaultValue="text" >Text</option>
-              <option value="image">Image</option>
-              <option value="image + text">Image&Text</option>
-            </select>
+          <div className={styles.helpDiv}>
+            <div className={styles.selectDiv}>
+              <h4 className={styles.selectHeader}>Choose an option</h4>
+              <select className={styles.select} name="inputType" value={inputType} onChange={handleInputType}>
+                <option value="text" defaultValue="text" >Text</option>
+                <option value="image">Image</option>
+                <option value="image + text">Image&Text</option>
+              </select>
+            </div>
+            <div className={styles.helpIconDiv}>
+              {showHint && <Hint inputType={inputType} outputType={outputType} setOutputType={setOutputType} />}
+              <div className={styles.hintDivIcon} onClick={handleHint}>
+                <Image src="/static/help2.svg" alt="help icon" width={50} height={50} />
+              </div>
+            </div>
           </div>
           {inputType === 'image + text' ? (
             <div>
@@ -237,7 +251,7 @@ export default function Home() {
       {error && <div>{error}</div>}
       <Footer
         handleSubmit={handleSubmit}
-        handleReset={() => handleReset(setInputType, setOutputType, setUserInput, setGlobalInput, setPrediction, setError, setLink)}
+        handleReset={() => handleReset(setInputType, setOutputType, setUserInput, setGlobalInput, setPrediction, setError, setLink, setShowHint)}
       />
     </>
   )

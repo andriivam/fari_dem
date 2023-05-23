@@ -20,6 +20,16 @@
     margin-bottom: 35px;
 }
 
+.helpDiv {
+    display: flex;
+    align-items: center;
+}
+
+.hintDivIcon {
+    cursor: pointer;
+    margin: 10px;
+}
+
 .selectDiv {
     margin-bottom: 35px;
 }
@@ -49,6 +59,9 @@
     cursor: pointer;
 }
 
+.helpIconDiv {
+    padding-left: 20px;
+}
 
 .imgHeader {
     font-weight: 400;
