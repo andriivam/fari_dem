@@ -10,7 +10,7 @@ const videoConstraints = {
 };
 
 
-const Camera = ({ onStateChange }) => {
+const Camera = () => {
     const webcamRef = useRef(null);
     const [url, setUrl] = useState(null);
 
@@ -18,13 +18,9 @@ const Camera = ({ onStateChange }) => {
         e.preventDefault();
         const imageSrc = webcamRef.current.getScreenshot();
         setUrl(imageSrc);
-        onStateChange(url)
-    }, [webcamRef, setUrl, onStateChange]);
+    }, [webcamRef, setUrl]);
 
 
-    useEffect(() => {
-        onStateChange(url, 'photo from camera');
-    }, [url]);
 
 
     const handleRefresh = (e) => {

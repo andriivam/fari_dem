@@ -1,0 +1,63 @@
+.container {
+    margin: 40px;
+}
+
+.headingInfo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.stepHeader {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    color: #181715;
+    margin-bottom: 20px;
+}
+
+.inputParagraph {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #181715;
+}
+
+.textArea {
+
+    display: grid;
+    justify-content: center;
+}
+
+
+.inputHeader {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    color: #677683;
+    margin-bottom: 20px;
+}
+
+
+.input {
+    width: 860px;
+    height: 160px;
+    border: 1px solid #677683;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.input::placeholder {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    text-transform: capitalize;
+    color: #000000;
+    text-align: top;
+}

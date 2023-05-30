@@ -1,52 +1,74 @@
 .container {
-    margin: 40px 40px 0 40px;
+    margin: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-
-.btnWrapper {
-    margin-bottom: 30px;
+.btnContainer {
+    display: flex;
 }
 
-.backHomeBtn {
+.btnWrapper {
+    margin-left: 40px;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.previousBtn {
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
     cursor: pointer;
     border: 1px solid #2F4FBB;
-    border-radius: 55px;
-    width: 260px;
+    border-radius: 60px;
+    width: auto;
     height: 50px;
     color: #2F4FBB;
     background-color: white;
-    padding: 0 30px;
+    padding: 10px 40px 10px 0px;
 }
 
-.icon {
-    margin-right: 30px;
+.homeBtn {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    cursor: pointer;
+    border-radius: 50px;
+    width: auto;
+    height: 50px;
+    border: 1px solid #2F4FBB;
+    color: #2F4FBB;
+    background-color: white;
+    padding: 10px 40px 10px 0px;
 }
 
 
 .languageBtn {
+    display: flex;
+    align-items: center;
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;
-    cursor: help;
+    cursor: pointer;
     border-radius: 50px;
-    width: 140px;
+    width: auto;
     height: 50px;
     border: 1px solid #2F4FBB;
     color: #2F4FBB;
     background-color: white;
-    padding: 0 30px;
+    padding: 10px 40px 10px 0px;
 }
 
 .helpBtn {
+    display: flex;
+    align-items: center;
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;
@@ -57,5 +79,9 @@
     border: 1px solid #2F4FBB;
     color: #2F4FBB;
     background-color: white;
-    padding: 0 30px;
+    padding: 10px 40px 10px 0px;
+}
+
+.icon {
+    margin: 10px 20px 10px 40px;
 }

@@ -1,65 +1,25 @@
 import Head from 'next/head';
 import React from 'react';
-import Header from '../../components/header/header';
 import styles from '../styles/Home.module.css';
-import ImageInput from '../../components/imageInput/image-input';
-import ImageTextInput from '../../components/imageTextInput/image-text-input';
-import TextInput from '../../components/textInput/textInput';
+import ImageCard from '../../components/Cards/imageCard/image-card';
+import ImageTextCard from '../../components/Cards/imageTextCard/image-text-card';
+import TextCard from '../../components/Cards/textCard/textCard';
+import { useState } from 'react';
 
 
+export default function Home({ handleSelectedPath }) {
 
-export default function Home() {
-
-
-
-  const handleSubmit = async (e) => {
-    const endPoint = "/api/predictions";
-    const fakeEndPoint = "http://localhost:3010/v1/predictions";
-
-    if (userInput === '' && globalInput === {}) {
-      setSubmittedWithoutInputs(true);
-      return
-    }
-    try {
-      e.preventDefault();
-      const response = await fetch(fakeEndPoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          version: version,
-          input: globalInput
-          //{ "prompt": null, "image": null, "input_image": null },
-        }),
-      });
-
-      let prediction = await response.json();
-
-      if (response.status !== 201) {
-        setError(prediction.detail);
-        console.log(error, 'error from frontend')
-        return;
-      }
-
-      setPrediction(prediction);
-
-      while (prediction.status !== "succeeded" && prediction.status !== "failed") {
-        const response = await fetch("/api/predictions/" + prediction.id);
-        prediction = await response.json();
-
-        if (response.status !== 200) {
-          setError(prediction.detail);
-          return;
-        }
-        setPrediction(prediction);
-      }
+  const [selectedInputType, setSelectedInputType] = useState(null);
 
 
+  console.log({ selectedInputType })
 
-    } catch (error) {
-      console.log({ error });
-    }
+  const handleSelectedInput = (inputType) => {
+    setSelectedInputType(inputType);
+  };
+
+  const handlePathValueClick = (pathValue) => {
+    handleSelectedPath(pathValue);
   };
 
   return (
@@ -70,16 +30,29 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
       <div className={styles.container}>
         <div className={styles.headingInfo}>
           <h2 className={styles.header}>Step 1: choose an input</h2>
-          <p className={styles.inputParagraph}> Choose what you want to submit. It will then be assimilated and modified by the algorithm.</p>
+          <p className={styles.inputParagraph}> Choose what you want to submit. It will then be assimilated and modified by the algorithm
+            to create a new output such as an image for example.</p>
         </div>
         <div className={styles.cartsDiv}>
-          <ImageInput />
-          <ImageTextInput />
-          <TextInput />
+          <ImageCard
+            handleSelectedInput={() => handleSelectedInput('image')}
+            selectedInputType={selectedInputType === 'image'}
+            handlePathValueClick={handlePathValueClick}
+          />
+          <TextCard
+            handleSelectedInput={() => handleSelectedInput('text')}
+            selectedInputType={selectedInputType === 'text'}
+            handlePathValueClick={handlePathValueClick}
+          />
+          <ImageTextCard
+            handleSelectedInput={() => handleSelectedInput('image + text')}
+            selectedInputType={selectedInputType === 'image + text'}
+            handlePathValueClick={handlePathValueClick}
+          />
+
         </div>
       </div>
     </>

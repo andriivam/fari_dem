@@ -1,0 +1,97 @@
+.container {
+    margin: 40px;
+}
+
+.headingInfo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.header {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 20px;
+    color: #181715;
+}
+
+.inputParagraph {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    color: #181715;
+}
+
+/* Image  section */
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.imageHeading {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 17px;
+    color: #677683;
+    margin-bottom: 10px;
+}
+
+.middleParagraph {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    color: #181715;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.imagesList {
+    /* flex-grow: 1; */
+}
+
+/* Camera style */
+
+
+.cameraDivWrapper {
+    box-sizing: border-box;
+    /* flex-grow: 2; */
+}
+
+.cameraDiv {
+
+    width: 880px;
+    height: 125px;
+    box-sizing: border-box;
+    background: #EBEBEB;
+    border: 1px dashed #677683;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cameraBtn {
+    border: none;
+    background: #EBEBEB;
+}
+
+.cameraPar {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    color: #677683;
+}

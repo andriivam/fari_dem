@@ -1,0 +1,18 @@
+.imgWrapper {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.imgContainer {
+    display: flex;
+    /* width: 400px;
+    height: 400px; */
+}
+
+.img {
+    border-radius: 15px;
+    object-fit: cover;
+    /* max-width: 100%;
+    height: auto; */
+}

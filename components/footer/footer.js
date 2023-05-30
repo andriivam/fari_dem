@@ -1,17 +1,18 @@
 import styles from './footer.module.css';
+import cls from 'classnames';
 
-const Footer = ({ handleSubmit, handleReset }) => {
+const Footer = ({ handleNextStep, disabled }) => {
 
     return (
-        <footer className={styles.container}>
-            <div className={styles.resetWrapper}>
-                <button className={styles.resetBtn} onClick={handleReset} >Reset</button>
+        <footer className={styles.footer} >
+            <div className={styles.container}>
+                <div className={styles.btnWrapper}>
+                    <button onClick={handleNextStep} disabled={disabled} className={cls(styles.nextStepBtn, { [styles.disabledBtn]: disabled })}>Next Step</button>
+                </div>
             </div>
-            <div className={styles.submitWrapper}>
-                <button className={styles.submitBtn} onClick={handleSubmit}>Submit</button>
-            </div>
+
         </footer>
     )
 }
 
-export default Footer;
+export default Footer; 
