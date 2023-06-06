@@ -17,7 +17,12 @@
 
 }
 
-.selected {
+.selectedInput {
+    border: 4px solid #2F4FBB;
+    border-radius: 15px;
+}
+
+.selectedOutput {
     border: 4px solid #2F4FBB;
     border-radius: 15px;
 }
@@ -45,6 +50,7 @@
 }
 
 .imageParagraph {
+    font-family: 'Plain';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

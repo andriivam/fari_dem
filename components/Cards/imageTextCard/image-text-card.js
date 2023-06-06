@@ -1,23 +1,14 @@
 import styles from './ImageTextCard.module.css';
 import Image from 'next/image';
 import cls from 'classnames';
-import usePathValue from '../../../handlers/path_handler';
-
 
 
 const ImageTextCard = ({ handleSelectedInput, selectedInputType, handlePathValueClick }) => {
 
 
-    const { handleGetPathValue } = usePathValue();
-
-    const handleItemClick = (pathValue) => {
-        handleGetPathValue(pathValue);
-        handlePathValueClick(pathValue);
-    };
-
     return (
         <div onClick={handleSelectedInput} className={styles.container} >
-            <div onClick={() => handleItemClick('/output')} className={cls(styles.iconContainer, { [styles.selected]: selectedInputType })}>
+            <div onClick={handlePathValueClick} className={cls(styles.iconContainer, { [styles.selected]: selectedInputType })}>
                 <div className={styles.secondColorDiv}>
                     <Image
                         className={styles.image}

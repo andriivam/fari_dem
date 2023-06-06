@@ -1,6 +1,6 @@
 /* Style for container */
 .container {
-    margin: 0px 40px;
+    margin: 40px 40px 0px 40px;
 }
 
 .headingInfo {
@@ -9,6 +9,7 @@
 }
 
 .header {
+    font-family: 'Plain';
     font-style: normal;
     font-weight: 600;
     font-size: 24px;
@@ -17,6 +18,7 @@
 
 .inputParagraph {
     margin-top: 15px;
+    font-family: 'Plain';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

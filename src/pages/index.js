@@ -4,22 +4,27 @@ import styles from '../styles/Home.module.css';
 import ImageCard from '../../components/Cards/imageCard/image-card';
 import ImageTextCard from '../../components/Cards/imageTextCard/image-text-card';
 import TextCard from '../../components/Cards/textCard/textCard';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { InputTypeContext } from '../../context/InputTypeContext';
+import usePathValue from '../../handlers/path_handler';
 
+export default function Home({ setNextPageHref }) {
 
-export default function Home({ handleSelectedPath }) {
-
-  const [selectedInputType, setSelectedInputType] = useState(null);
-
+  const { selectedInputType, setSelectedInputType } = useContext(InputTypeContext);
+  const { handleGetPathValue } = usePathValue();
 
   console.log({ selectedInputType })
 
   const handleSelectedInput = (inputType) => {
-    setSelectedInputType(inputType);
+    setSelectedInputType((prevInputType) => (prevInputType === inputType ? null : inputType));
   };
 
-  const handlePathValueClick = (pathValue) => {
-    handleSelectedPath(pathValue);
+  let pathValue = '/output';
+
+  const handlePathValueClick = () => {
+    setNextPageHref(pathValue);
+    handleGetPathValue(pathValue);
+    setSelectedInputType(null);
   };
 
   return (
@@ -33,7 +38,7 @@ export default function Home({ handleSelectedPath }) {
       <div className={styles.container}>
         <div className={styles.headingInfo}>
           <h2 className={styles.header}>Step 1: choose an input</h2>
-          <p className={styles.inputParagraph}> Choose what you want to submit. It will then be assimilated and modified by the algorithm
+          <p className={styles.inputParagraph}> Choose what you want to submit. It will then be assimilated and modified by the algorithm<br />
             to create a new output such as an image for example.</p>
         </div>
         <div className={styles.cartsDiv}>
@@ -43,6 +48,7 @@ export default function Home({ handleSelectedPath }) {
             handlePathValueClick={handlePathValueClick}
           />
           <TextCard
+            onClick={() => console.log('test')}
             handleSelectedInput={() => handleSelectedInput('text')}
             selectedInputType={selectedInputType === 'text'}
             handlePathValueClick={handlePathValueClick}

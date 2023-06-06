@@ -1,22 +1,14 @@
 import styles from './VideoCard.module.css';
 import Image from 'next/image';
 import cls from 'classnames';
-import usePathValue from '../../../handlers/path_handler';
 
 
 const VideoCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueClick }) => {
 
-    // const { handleGetPathValue } = usePathValue();
-
-    // const handleItemClick = (pathValue) => {
-    //     handleGetPathValue(pathValue);
-    //     handlePathValueClick(pathValue);
-    // };
-
     return (
         <div onClick={handleSelectedOutput} className={styles.container}>
             <div
-                // onClick={() => handleItemClick('/image-page')}
+                onClick={handlePathValueClick}
                 className={cls(styles.iconContainer, { [styles.selected]: selectedOutputType })}>
                 <div className={styles.secondColorDiv}>
                     <Image

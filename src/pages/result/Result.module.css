@@ -1,0 +1,82 @@
+.container {
+    margin: 40px;
+}
+
+.headingInfo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.stepHeader {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    color: #181715;
+    margin-bottom: 20px;
+}
+
+.resultHeader {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #181715;
+}
+
+.inputHeader {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 17px;
+    color: #677683;
+    margin-bottom: 20px;
+}
+
+.userInputDiv {
+    display: grid;
+    grid-template-columns: 100px;
+    grid-template-rows: 100px;
+    border: 2px solid #EBEBEB;
+    border-radius: 6px;
+}
+
+.userInputParagraph {
+    font-family: 'Plain';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    text-transform: capitalize;
+    color: #000000;
+    padding: 20px 0px 0px 20px;
+}
+
+.selectedImage {
+    border-radius: 15px;
+    object-fit: cover;
+    width: 100%;
+    height: 570px;
+}
+
+.result {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: auto;
+    grid-gap: 40px;
+}
+
+.resultItem {
+    grid-column: span 4;
+}
+
+.resultImage {
+    width: 100%;
+    height: 570px;
+    border-radius: 15px;
+    object-fit: cover;
+}

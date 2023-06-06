@@ -2,6 +2,12 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'Plain';
+  src: url('/fonts/CustomFont-Regular.ttf') format('truetype');
+  /* Add more src declarations for different font file formats if necessary */
+}
+
 html,
 body {
   margin: 0;

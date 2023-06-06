@@ -2,6 +2,10 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import styles from './camera.module.css';
 import Image from 'next/image';
+import { GlobalInputContext } from '../../context/GlobalInputContext';
+import { useContext } from 'react';
+import usePathValue from '../../handlers/path_handler';
+
 
 const videoConstraints = {
     width: 895,
@@ -10,14 +14,24 @@ const videoConstraints = {
 };
 
 
-const Camera = () => {
+const Camera = ({ setNextPageHref }) => {
+
     const webcamRef = useRef(null);
     const [url, setUrl] = useState(null);
+    const { setGlobalInput } = useContext(GlobalInputContext);
+    const { handleGetPathValue } = usePathValue();
+
+    const handlePathValueClick = (pathValue) => {
+        setNextPageHref(pathValue);
+        handleGetPathValue(pathValue);
+    };
 
     const capturePhoto = useCallback(async (e) => {
         e.preventDefault();
         const imageSrc = webcamRef.current.getScreenshot();
         setUrl(imageSrc);
+        setGlobalInput(prevState => ({ ...prevState, "image": imageSrc }));
+        handlePathValueClick('/result');
     }, [webcamRef, setUrl]);
 
 
@@ -26,13 +40,12 @@ const Camera = () => {
     const handleRefresh = (e) => {
         e.preventDefault();
         setUrl(null);
-        onStateChange(null)
     }
 
     return (
-        <div className={styles.photoDiv}>
+        <div className={styles.cameraWrapper}>
             {url === null ? (
-                <>
+                <div className={styles.photoDiv}>
                     <Webcam
                         audio={false}
                         mirrored={true}
@@ -42,9 +55,9 @@ const Camera = () => {
                         className={styles.webcam}
                     />
                     <button className={styles.cameraBtn} onClick={capturePhoto} aria-label="Capture photo"><Image alt="circle icon" className={styles.iconPhoto} src='/static/circle.svg' width={80} height={80} /></button>
-                </>
+                </div>
             ) : (
-                <div>
+                <div className={styles.photoDiv}>
                     <img className={styles.screenshot} src={url} alt="screenshot" />
                     <button onClick={handleRefresh} className={styles.retakePhoto} aria-label="take new photo"><Image alt="close icon" src='/static/close.svg' className={styles.iconRetakePhoto} width={50} height={50} /></button>
                 </div>
