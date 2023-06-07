@@ -51,6 +51,12 @@ const Result = () => {
                             <Image className={styles.selectedImage} src={globalInput.image} alt="animal" width={500} height={500} />
                         </div>
                     )}
+                    {globalInput.input_image && (
+                        <div className={styles.resultItem}>
+                            <p className={styles.inputHeader}>This is the image you chose</p>
+                            <Image className={styles.selectedImage} src={globalInput.input_image} alt="animal" width={500} height={500} />
+                        </div>
+                    )}
                 </div>
                 <div className={styles.resultItem}>
                     {prediction && prediction.output && (

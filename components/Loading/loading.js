@@ -1,9 +1,23 @@
 import styles from './Loading.module.css';
+import Image from 'next/image';
 
 const Loading = () => {
     return (
-        <div className={styles.loading}>
-            <h3>Loading...</h3>
+        <div className={styles.container}>
+            <div className={styles.logoContainer}>
+                <Image
+                    src='static/FARI_logo.svg'
+                    width={450}
+                    height={450}
+                    className={styles.logo}
+                />
+                <div className={styles.cover}></div>
+                <div className={styles.dots}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
         </div>
     )
 }

@@ -28,9 +28,10 @@ const ImageCard = ({ handleSelectedInput, handlePathValueClick, handleSelectedOu
                 <div className={styles.secondColorDiv}>
                     <Image
                         className={styles.image}
+                        priority={true}
                         src="/static/image.svg"
                         alt="Fox in the show" width={420} height={365} />
-                    {selectedInputType && <div className={styles.imgWrapper}><img className={styles.icon} src="/static/check.svg" alt="Selected Icon" /></div>}
+                    {selectedInputType && <div className={styles.imgWrapper}></div>}
                 </div>
             </div>
             <div className={styles.textDiv}>

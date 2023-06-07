@@ -1,16 +1,16 @@
 import styles from './footer.module.css';
 import cls from 'classnames';
-import { FormContext } from '../../context/FormContext';
-import { useContext } from 'react';
+// import { HiddenButtonContext } from '../../context/HiddenButtonContext';
+// import { useContext } from 'react';
 
 const Footer = ({ handleNextStep, disabled }) => {
 
-    const { handleSubmitForm } = useContext(FormContext);
 
+    // const { fireButtonClickEvent } = useContext(HiddenButtonContext);
 
     const handleButtonClick = () => {
-        handleSubmitForm();
         handleNextStep();
+        // fireButtonClickEvent();
     };
 
     return (

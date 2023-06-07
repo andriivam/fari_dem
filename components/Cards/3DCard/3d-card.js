@@ -14,6 +14,7 @@ const DCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueClick 
                 className={cls(styles.iconContainer, { [styles.selected]: selectedOutputType })}>
                 <div className={styles.secondColorDiv}>
                     <Image
+                        priority={true}
                         className={styles.image}
                         src="/static/cube.svg"
                         alt="Fox in the show" width={420} height={365} />

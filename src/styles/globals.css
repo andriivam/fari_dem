@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'Plain';
-  src: url('/fonts/CustomFont-Regular.ttf') format('truetype');
+  src: url('/fonts/Plain-Regular.otf') format('truetype');
   /* Add more src declarations for different font file formats if necessary */
 }
 

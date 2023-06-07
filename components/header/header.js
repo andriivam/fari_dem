@@ -27,6 +27,15 @@ const Header = ({ setNextPageHref }) => {
     };
 
     const handlePreviousStep = () => {
+        if (router.pathname === '/output') {
+            console.log('state is clean')
+            setSelectedInputType(null);
+        }
+        else if
+            (router.pathname === '/image-page' || router.pathname === '/text-page' || router.pathname === '/image-text-page') {
+            setSelectedOutputType(null);
+            setGlobalInput({});
+        }
         router.back(); // Navigate to the previous page
     };
 
@@ -34,7 +43,12 @@ const Header = ({ setNextPageHref }) => {
     return (
         <div className={styles.container}>
             <div className={styles.btnContainer}>
-                <button onClick={handlePreviousStep} className={styles.previousBtn}><Image className={styles.icon} src="/static/arrow-left-light.svg" alt="arrow" width={24} height={24} />Previous</button>
+                <button
+                    onClick={handlePreviousStep}
+                    className={styles.previousBtn}>
+                    <Image className={styles.icon} src="/static/arrow-left-light.svg" alt="arrow" width={24} height={24} />
+                    Previous
+                </button>
             </div>
             <div className={styles.btnContainer}>
                 <div className={styles.btnWrapper}>

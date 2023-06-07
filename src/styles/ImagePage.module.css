@@ -32,7 +32,7 @@
 .content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+
 }
 
 
@@ -57,22 +57,19 @@
     margin-bottom: 20px;
 }
 
-.imageList {
-    width: 100%;
-}
 
 /* Camera style */
 
 
 .cameraDivWrapper {
-    box-sizing: border-box;
-    /* flex-grow: 2; */
+    display: flex;
+    justify-content: center;
 }
 
 .cameraDiv {
 
-    width: 880px;
-    height: 125px;
+    width: 1220px;
+    height: 170px;
     box-sizing: border-box;
     background: #EBEBEB;
     border: 1px dashed #677683;

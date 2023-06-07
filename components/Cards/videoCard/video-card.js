@@ -12,10 +12,11 @@ const VideoCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueCl
                 className={cls(styles.iconContainer, { [styles.selected]: selectedOutputType })}>
                 <div className={styles.secondColorDiv}>
                     <Image
+                        priority={true}
                         className={styles.image}
                         src="/static/video.svg"
                         alt="Fox in the show" width={420} height={365} />
-                    {selectedOutputType && <div className={styles.imgWrapper}><img className={styles.icon} src="/static/check.svg" alt="Selected Icon" /></div>}
+                    {selectedOutputType && <div className={styles.imgWrapper}></div>}
                 </div>
             </div>
             <div className={styles.textDiv}>

@@ -11,6 +11,7 @@ const ImageTextCard = ({ handleSelectedInput, selectedInputType, handlePathValue
             <div onClick={handlePathValueClick} className={cls(styles.iconContainer, { [styles.selected]: selectedInputType })}>
                 <div className={styles.secondColorDiv}>
                     <Image
+                        priority={true}
                         className={styles.image}
                         src="/static/image.svg"
                         alt="Fox in the show" width={420} height={225} />
