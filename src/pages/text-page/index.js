@@ -8,7 +8,7 @@ import Loading from '../../../components/Loading/loading';
 import { PredictionContext } from '../../../context/PredictionContext';
 import { useRouter } from 'next/router';
 
-const TextPage = () => {
+const TextPage = ({ submitForm }) => {
 
     const [textInput, setTextInput] = useState('');
     const [error, setError] = useState(null);
@@ -47,6 +47,13 @@ const TextPage = () => {
         }
     }
 
+    useEffect(() => {
+        if (submitForm) {
+            handleSubmitForm({ preventDefault: () => { } });
+            console.log(('submitForm was clicked'))
+        }
+    }, [submitForm]);
+
 
     useEffect(() => {
         if (prediction?.status === 'succeeded') {
@@ -67,7 +74,7 @@ const TextPage = () => {
                     </div>
                     <div className={styles.textArea}>
                         <h3 className={styles.inputHeader}>Describe your image (max 100 characters)</h3>
-                        <form id="text-input" className={styles.inputWrapper} onSubmit={handleSubmitForm}>
+                        <form id="text-input" className={styles.inputWrapper}>
                             <input
                                 onChange={handleTextInput}
                                 value={textInput}

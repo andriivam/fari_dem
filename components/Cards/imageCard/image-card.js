@@ -1,10 +1,14 @@
 import styles from './ImageCard.module.css';
 import Image from 'next/image';
 import cls from 'classnames';
+import { useTranslation } from 'next-i18next';
 
 
 
 const ImageCard = ({ handleSelectedInput, handlePathValueClick, handleSelectedOutput, selectedInputType, selectedOutputType }) => {
+
+
+    const { t } = useTranslation('common');
 
     const handleInputOutputClick = (event) => {
         event.stopPropagation();
@@ -35,10 +39,11 @@ const ImageCard = ({ handleSelectedInput, handlePathValueClick, handleSelectedOu
                 </div>
             </div>
             <div className={styles.textDiv}>
-                <p className={styles.imageParagraph}>Image</p>
+                <p className={styles.imageParagraph}>{t("Image")}</p>
             </div>
         </div>
     )
 }
+
 
 export default ImageCard;

@@ -1,0 +1,9 @@
+{
+    "Step1": "Step 1: choose an input",
+    "inputParagraph": "Choose what you want to submit. It will then be assimilated and modified by the algorithm <br/> to create a new output such as an image for example.",
+    "Image": "Image",
+    "Example:": "Example:",
+    "exampleText": " an astronaut riding a horse on mars, hd, dramatic lighting",
+    "Text": "Text",
+    "Step2": "Step 2: Transform your input"
+}

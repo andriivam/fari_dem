@@ -8,16 +8,29 @@ import { OutputTypeProvider } from '../../context/OutputTypeContext';
 import { GlobalInputProvider } from '../../context/GlobalInputContext';
 import { PredictionProvider } from '../../context/PredictionContext';
 import { GlobalInputContext } from '../../context/GlobalInputContext';
-import { useContext, useState } from 'react';
-import { HiddenButtonProvider } from '../../context/HiddenButtonContext';
+import { useState } from 'react';
+import { appWithTranslation } from 'next-i18next';
 
 
-export default function App({ Component, pageProps }) {
-
+function App({ Component, pageProps }) {
 
   const [nextPageHref, setNextPageHref] = useState('/');
+  const [submitForm, setSubmitForm] = useState(false);
+  const [languages, setLanguages] = useState('en');
 
-  const { globalInput } = useContext(GlobalInputContext) || {};
+
+  console.log(languages, 'from app')
+  // const { globalInput, setGlobalInput } = useContext(GlobalInputContext) || {};
+
+  const handleSubmitForm = async (e) => {
+    try {
+      setSubmitForm(true);
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
 
   const router = useRouter();
 
@@ -26,24 +39,36 @@ export default function App({ Component, pageProps }) {
   };
 
 
+
+  const isResultPage = router.pathname === '/result';
+
   console.log({ nextPageHref }, 'from app');
 
 
   return (
-    <HiddenButtonProvider>
-      <PredictionProvider>
-        <GlobalInputProvider>
-          <InputTypeProvider>
-            <OutputTypeProvider>
-              <div className={styles.pageContainer}>
-                <Header setNextPageHref={setNextPageHref} disabled={!nextPageHref} />
-                <Component {...pageProps} setNextPageHref={setNextPageHref} />
-                <Footer handleNextStep={handleNextStep} disabled={!nextPageHref} />
-              </div>
-            </OutputTypeProvider>
-          </InputTypeProvider>
-        </GlobalInputProvider>
-      </PredictionProvider>
-    </HiddenButtonProvider>
+    <PredictionProvider>
+      <GlobalInputProvider>
+        <InputTypeProvider>
+          <OutputTypeProvider>
+            <div className={styles.pageContainer}>
+              <Header
+                setNextPageHref={setNextPageHref}
+                disabled={!nextPageHref}
+                setSubmitForm={setSubmitForm}
+                languages={languages}
+                setLanguages={setLanguages}
+              />
+              <Component
+                {...pageProps}
+                setNextPageHref={setNextPageHref}
+                submitForm={submitForm} />
+              {isResultPage ? null : <Footer handleNextStep={handleNextStep} disabled={!nextPageHref} onSubmit={handleSubmitForm} />}
+            </div>
+          </OutputTypeProvider>
+        </InputTypeProvider>
+      </GlobalInputProvider>
+    </PredictionProvider>
   )
 }
+
+export default appWithTranslation(App);

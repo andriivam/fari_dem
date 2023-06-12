@@ -34,34 +34,33 @@ const Result = () => {
                 <p className={styles.resultHeader}>This is the output of the algorithm based on the parameters you have set.</p>
             </div>
             <div className={styles.result}>
-                <div className={styles.resultItem}>
-                    {globalInput.prompt && (
-                        <div className={styles.resultItem}>
-                            <p className={styles.inputHeader}>This is the text you wrote</p>
-                            <div className={styles.userInputDiv}>
-                                <p className={styles.userInputParagraph}>
-                                    {globalInput.prompt}
-                                </p>
-                            </div>
+                {globalInput.prompt && (
+                    <div className={styles.resultItem}>
+                        <p className={styles.inputHeader}>This is the text you wrote</p>
+                        <div className={styles.userInputDiv}>
+                            <p className={styles.userInputParagraph}>
+                                {globalInput.prompt}
+                            </p>
                         </div>
-                    )}
-                    {globalInput.image && (
-                        <div className={styles.resultItem}>
-                            <p className={styles.inputHeader}>This is the image you chose</p>
-                            <Image className={styles.selectedImage} src={globalInput.image} alt="animal" width={500} height={500} />
-                        </div>
-                    )}
-                    {globalInput.input_image && (
-                        <div className={styles.resultItem}>
-                            <p className={styles.inputHeader}>This is the image you chose</p>
-                            <Image className={styles.selectedImage} src={globalInput.input_image} alt="animal" width={500} height={500} />
-                        </div>
-                    )}
-                </div>
+                    </div>
+                )}
+                {globalInput.image && (
+                    <div className={styles.resultItem}>
+                        <p className={styles.inputHeader}>This is the image you chose</p>
+                        <Image className={styles.selectedImage} src={globalInput.image} alt="animal" width={500} height={500} />
+                    </div>
+                )}
+                {globalInput.input_image && (
+                    <div className={styles.resultItem}>
+                        <p className={styles.inputHeader}>This is the image you chose</p>
+                        <Image className={styles.selectedImage} src={globalInput.input_image} alt="animal" width={500} height={500} />
+                    </div>
+                )}
                 <div className={styles.resultItem}>
                     {prediction && prediction.output && (
                         <div className={styles.resultItem}>
-                            <p className={styles.inputHeader}>This is the image created by the algorithm based on the text you wrote</p>
+                            {globalInput.prompt && (<p className={styles.inputHeader}>This is the image created by the algorithm based on the text you wrote</p>)}
+                            {globalInput.image && (<p className={styles.inputHeader}>This is the image created by the algorithm based on the image you chose</p>)}
                             <MediaComponent
                                 src={linkSource}
                                 className={styles.resultImage}

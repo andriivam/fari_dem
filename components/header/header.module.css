@@ -36,6 +36,8 @@
 .homeBtn {
     display: flex;
     align-items: center;
+    font-family: 'Plain';
+    font-style: normal;
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;
@@ -53,22 +55,32 @@
 .languageBtn {
     display: flex;
     align-items: center;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 20px;
     cursor: pointer;
     border-radius: 50px;
     width: auto;
     height: 50px;
     border: 1px solid #2F4FBB;
-    color: #2F4FBB;
+
     background-color: white;
     padding: 10px 40px 10px 0px;
+}
+
+.select {
+    font-family: 'Plain';
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #2F4FBB;
+    border: none;
+    outline: none;
 }
 
 .helpBtn {
     display: flex;
     align-items: center;
+    font-family: 'Plain';
+    font-style: normal;
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;

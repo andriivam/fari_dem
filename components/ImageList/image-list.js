@@ -5,7 +5,7 @@ import Image from 'next/image';
 import cls from 'classnames';
 
 
-const ImageList = ({ handleImageClick, selectedImage }) => {
+const ImageList = ({ handleImageUrl, selectedImage }) => {
 
     const [images, setImages] = useState([]);
 
@@ -19,7 +19,7 @@ const ImageList = ({ handleImageClick, selectedImage }) => {
     }, []);
 
     const handleClick = (imageUrl, e) => {
-        handleImageClick(imageUrl, e);
+        handleImageUrl(imageUrl, e);
     }
 
     return (

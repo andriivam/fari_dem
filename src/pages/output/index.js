@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { InputTypeContext } from '../../../context/InputTypeContext';
 import { OutputTypeContext } from '../../../context/OutputTypeContext';
 import usePathValue from '../../../handlers/path_handler';
+import { useTranslation } from 'next-i18next';
 
 
 const Output = ({ setNextPageHref }) => {
@@ -14,6 +15,7 @@ const Output = ({ setNextPageHref }) => {
     const { selectedInputType } = useContext(InputTypeContext);
     const { selectedOutputType, setSelectedOutputType } = useContext(OutputTypeContext);
     const { handleGetPathValue } = usePathValue();
+    const { t } = useTranslation();
 
     console.log({ selectedOutputType })
     let pathValue;
@@ -26,20 +28,23 @@ const Output = ({ setNextPageHref }) => {
         pathValue = '/image-page';
     }
 
+    console.log(pathValue, 'pathValue from output page')
+
     const handleSelectedOutput = (outputType) => {
         setSelectedOutputType(outputType);
     };
 
     const handlePathValueClick = () => {
-        setNextPageHref(pathValue);
         handleGetPathValue(pathValue);
+        setNextPageHref(pathValue);
+
     };
 
 
     return (
         <div className={styles.container}>
             <div className={styles.headingInfo}>
-                <h2 className={styles.header}>Step 2: Transform your input </h2>
+                <h2 className={styles.header}>{t("Step2")}</h2>
                 <p className={styles.inputParagraph}>Choose what you want to transform your input into.</p>
             </div>
             <div className={styles.cartsDiv}>

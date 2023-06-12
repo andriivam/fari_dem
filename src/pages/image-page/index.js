@@ -10,11 +10,9 @@ import handleSubmit from '../../../handlers/submit_handler';
 import { PredictionContext } from '../../../context/PredictionContext';
 import Loading from '../../../components/Loading/loading';
 import { useRouter } from 'next/router';
-import { HiddenButtonContext } from '../../../context/HiddenButtonContext';
 
 
-
-const ImagePage = ({ setNextPageHref }) => {
+const ImagePage = ({ submitForm }) => {
 
     const [cameraOpen, setCameraOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -27,9 +25,6 @@ const ImagePage = ({ setNextPageHref }) => {
     const { selectedOutputType } = useContext(OutputTypeContext);
     const { prediction, setPrediction } = useContext(PredictionContext);
 
-    const { setButtonClickHandler } = useContext(HiddenButtonContext);
-    const mountedRef = useRef(true)
-
 
     const router = useRouter();
 
@@ -38,12 +33,7 @@ const ImagePage = ({ setNextPageHref }) => {
         setCameraOpen(true);
     };
 
-    // const handlePathValueClick = (pathValue) => {
-    //     setNextPageHref(pathValue);
-    //     handleGetPathValue(pathValue);
-    // };
-
-    const handleImageClick = (imageUrl, e) => {
+    const handleImageUrl = (imageUrl, e) => {
         setSelectedImage(imageUrl);
         e.preventDefault();
         if (selectedOutputType === 'video') {
@@ -53,7 +43,7 @@ const ImagePage = ({ setNextPageHref }) => {
         }
     }
 
-    const handleSubmitImage = async (e) => {
+    const handleSubmitForm = async (e) => {
         e.preventDefault();
         setLoading(true);
         console.log('handler was submitted')
@@ -73,13 +63,13 @@ const ImagePage = ({ setNextPageHref }) => {
         }
     }
 
+    useEffect(() => {
+        if (submitForm) {
+            handleSubmitForm({ preventDefault: () => { } });
+            console.log(('submitForm was clicked'))
+        }
+    }, [submitForm]);
 
-    // useEffect(() => {
-    //     if (setButtonClickHandler && mountedRef.current) {
-    //         // Create a mock event object with a preventDefault function
-    //         handleSubmitImage({ preventDefault: () => { } });
-    //     }
-    // }, [setButtonClickHandler, mountedRef]);
 
     useEffect(() => {
         console.log(prediction?.status, 'prediction status from image page');
@@ -99,12 +89,14 @@ const ImagePage = ({ setNextPageHref }) => {
                         <h2 className={styles.header}>Step 3: Choose your image</h2>
                         <p className={styles.inputParagraph}> Select one of the proposed images or take a picture with the webcam.</p>
                     </div>
-                    {cameraOpen ? (<Camera setNextPageHref={setNextPageHref} />) : (
+                    {cameraOpen ? (<Camera
+                        handleImageUrl={handleImageUrl}
+                    />) : (
                         <>
                             <h4 className={styles.imageHeading}> Choose one of these images</h4>
                             <div className={styles.content} >
                                 <ImageList
-                                    handleImageClick={handleImageClick}
+                                    handleImageUrl={handleImageUrl}
                                     selectedImage={selectedImage}
                                 />
                                 <p className={styles.middleParagraph}>Or</p>
@@ -114,7 +106,6 @@ const ImagePage = ({ setNextPageHref }) => {
                                         <p className={styles.cameraPar}>Click here to take a picture using webcam</p>
                                     </div>
                                 </div>
-                                <button onClick={handleSubmitImage}>Test Submit </button>
                             </div>
                         </>
                     )}

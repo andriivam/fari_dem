@@ -1,16 +1,19 @@
 import styles from './footer.module.css';
 import cls from 'classnames';
-// import { HiddenButtonContext } from '../../context/HiddenButtonContext';
-// import { useContext } from 'react';
+import { useRouter } from 'next/router';
 
-const Footer = ({ handleNextStep, disabled }) => {
+const Footer = ({ handleNextStep, disabled, onSubmit }) => {
 
+    const router = useRouter();
 
-    // const { fireButtonClickEvent } = useContext(HiddenButtonContext);
-
-    const handleButtonClick = () => {
+    const handleButtonClick = (e) => {
         handleNextStep();
-        // fireButtonClickEvent();
+        e.preventDefault();
+        if (router.pathname === '/image-page'
+            || router.pathname === '/text-page'
+            || router.pathname === '/image-text-page') {
+            onSubmit();
+        }
     };
 
     return (
@@ -20,8 +23,8 @@ const Footer = ({ handleNextStep, disabled }) => {
                     <button
                         onClick={handleButtonClick}
                         disabled={disabled}
-                        form="text-input"
-                        type="submit"
+                        // form="text-input"
+                        // type="submit"
                         className={cls(styles.nextStepBtn, { [styles.disabledBtn]: disabled })}>
                         Next Step
                     </button>

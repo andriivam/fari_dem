@@ -2,9 +2,6 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import styles from './camera.module.css';
 import Image from 'next/image';
-import { GlobalInputContext } from '../../context/GlobalInputContext';
-import { useContext } from 'react';
-import usePathValue from '../../handlers/path_handler';
 
 
 const videoConstraints = {
@@ -14,33 +11,25 @@ const videoConstraints = {
 };
 
 
-const Camera = ({ setNextPageHref }) => {
+const Camera = ({ handleImageUrl }) => {
 
     const webcamRef = useRef(null);
     const [url, setUrl] = useState(null);
-    const { setGlobalInput } = useContext(GlobalInputContext);
-    const { handleGetPathValue } = usePathValue();
 
-    const handlePathValueClick = (pathValue) => {
-        setNextPageHref(pathValue);
-        handleGetPathValue(pathValue);
-    };
+
 
     const capturePhoto = useCallback(async (e) => {
         e.preventDefault();
         const imageSrc = webcamRef.current.getScreenshot();
         setUrl(imageSrc);
-        setGlobalInput(prevState => ({ ...prevState, "image": imageSrc }));
-        handlePathValueClick('/result');
+        handleImageUrl(imageSrc, e);
     }, [webcamRef, setUrl]);
-
-
-
 
     const handleRefresh = (e) => {
         e.preventDefault();
         setUrl(null);
     }
+
 
     return (
         <div className={styles.cameraWrapper}>
@@ -59,7 +48,12 @@ const Camera = ({ setNextPageHref }) => {
             ) : (
                 <div className={styles.photoDiv}>
                     <img className={styles.screenshot} src={url} alt="screenshot" />
-                    <button onClick={handleRefresh} className={styles.retakePhoto} aria-label="take new photo"><Image alt="close icon" src='/static/close.svg' className={styles.iconRetakePhoto} width={50} height={50} /></button>
+                    <button
+                        onClick={handleRefresh}
+                        className={styles.retakePhoto}
+                        aria-label="take new photo">
+                        <Image alt="close icon" src='/static/close.svg' className={styles.iconRetakePhoto} width={50} height={50} />
+                    </button>
                 </div>
             )}
         </div>

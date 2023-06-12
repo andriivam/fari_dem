@@ -7,8 +7,19 @@ import TextCard from '../../components/Cards/textCard/textCard';
 import { useContext } from 'react';
 import { InputTypeContext } from '../../context/InputTypeContext';
 import usePathValue from '../../handlers/path_handler';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 
-export default function Home({ setNextPageHref }) {
+
+export default function Home({ setNextPageHref, languages }) {
+
+  const { t } = useTranslation();
+  // const router = useRouter();
+  // const language = router.query.language || languages;
+  // console.log({ language })
+  // console.log(t('Step1'));
+
 
   const { selectedInputType, setSelectedInputType } = useContext(InputTypeContext);
   const { handleGetPathValue } = usePathValue();
@@ -22,8 +33,8 @@ export default function Home({ setNextPageHref }) {
   let pathValue = '/output';
 
   const handlePathValueClick = () => {
-    setNextPageHref(pathValue);
     handleGetPathValue(pathValue);
+    setNextPageHref(pathValue);
     setSelectedInputType(null);
   };
 
@@ -37,9 +48,10 @@ export default function Home({ setNextPageHref }) {
       </Head>
       <div className={styles.container}>
         <div className={styles.headingInfo}>
-          <h2 className={styles.header}>Step 1: choose an input</h2>
-          <p className={styles.inputParagraph}> Choose what you want to submit. It will then be assimilated and modified by the algorithm<br />
-            to create a new output such as an image for example.</p>
+          <h2 className={styles.header}>{t("Step1")}</h2>
+          <p className={styles.inputParagraph}>
+            {/* {t("inputParagraph", { lng: language })} */}
+          </p>
         </div>
         <div className={styles.cartsDiv}>
           <ImageCard
@@ -63,4 +75,30 @@ export default function Home({ setNextPageHref }) {
       </div>
     </>
   )
+}
+
+
+// export async function getStaticProps(context) {
+//   // extract the locale identifier from the URL
+//   const { locale } = context
+
+//   return {
+//     props: {
+//       // pass the translation props to the page component
+//       ...(await serverSideTranslations(locale)),
+//     },
+//   }
+// }
+
+export async function getStaticProps(context) {
+  // extract the locale identifier from the URL
+  const { locale } = context
+
+  const translations = await serverSideTranslations(locale, ['common'])
+
+  return {
+    props: {
+      ...translations,
+    },
+  }
 }

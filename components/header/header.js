@@ -6,15 +6,19 @@ import { InputTypeContext } from '../../context/InputTypeContext';
 import { OutputTypeContext } from '../../context/OutputTypeContext';
 import { GlobalInputContext } from '../../context/GlobalInputContext';
 import { PredictionContext } from '../../context/PredictionContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 
-const Header = ({ setNextPageHref }) => {
+
+
+const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => {
 
     const { setSelectedInputType } = useContext(InputTypeContext);
     const { setSelectedOutputType } = useContext(OutputTypeContext);
     const { setGlobalInput } = useContext(GlobalInputContext);
     const { setPrediction } = useContext(PredictionContext);
+    //const [language, setLanguage] = useState('en');
+
 
     const router = useRouter();
 
@@ -24,19 +28,61 @@ const Header = ({ setNextPageHref }) => {
         setSelectedOutputType(null);
         setGlobalInput({});
         setPrediction(null);
+        setSubmitForm(false);
     };
 
     const handlePreviousStep = () => {
+        setSubmitForm(false);
         if (router.pathname === '/output') {
-            console.log('state is clean')
             setSelectedInputType(null);
         }
         else if
             (router.pathname === '/image-page' || router.pathname === '/text-page' || router.pathname === '/image-text-page') {
             setSelectedOutputType(null);
             setGlobalInput({});
+        } else if (router.pathname === '/result') {
+            setPrediction(null);
+            setGlobalInput({});
         }
         router.back(); // Navigate to the previous page
+    };
+
+
+
+    // const handleLanguageChange = (event) => {
+    //     const selectedLanguage = event.target.value;
+    //     setLanguages(selectedLanguage);
+    //     const currentPath = router.pathname;
+
+    //     let newPath;
+    //     if (currentPath === '/') {
+    //         newPath = `/${languages}`;
+    //     } else {
+    //         const languageCode = currentPath.split('/')[1]; // Extract the existing language code from the path
+    //         newPath = currentPath.replace(`/${languageCode}`, `/${languages}`);
+    //     }
+
+    //     router.push(newPath)
+    //         .then(() => {
+    //             // Reset the selected value after navigation
+    //             event.target.value = languages;
+    //         });
+    // };
+
+    // const handleLanguageChange = (event) => {
+    //     const selectedLanguage = event.target.value;
+    //     setLanguages(selectedLanguage);
+    //     const { pathname, query } = router;
+    //     query.language = selectedLanguage;
+    //     router.push({ pathname, query }, undefined, { shallow: true });
+    // };
+
+    const handleLanguageChange = (event) => {
+        const selectedLanguage = event.target.value;
+        const currentPath = router.pathname; // Get the current path without the query parameters
+        const newPath = `/${selectedLanguage}${currentPath}`; // Append the selected language to the current path
+
+        router.push(newPath);
     };
 
 
@@ -62,7 +108,22 @@ const Header = ({ setNextPageHref }) => {
                 <div className={styles.btnWrapper}>
                     <button className={styles.languageBtn}>
                         <Image className={styles.icon} alt="earth" src="/static/language-light.svg" width={24} height={24} />
-                        EN
+                        <select
+                            className={styles.select}
+                            name="languages"
+                            onChange={handleLanguageChange}
+                            value={languages}
+                        >
+                            <option value="en" defaultValue="en">
+                                EN
+                            </option>
+                            <option value="fr">
+                                FR
+                            </option>
+                            <option value="nl">
+                                NL
+                            </option>
+                        </select>
                     </button>
                 </div>
                 <div className={styles.btnWrapper}></div>
