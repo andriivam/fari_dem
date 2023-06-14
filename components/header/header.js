@@ -6,10 +6,9 @@ import { InputTypeContext } from '../../context/InputTypeContext';
 import { OutputTypeContext } from '../../context/OutputTypeContext';
 import { GlobalInputContext } from '../../context/GlobalInputContext';
 import { PredictionContext } from '../../context/PredictionContext';
-import { useContext, useState } from 'react';
-
-
-
+import { useContext, useState, useEffect } from 'react';
+import i18n from '../../src/i18n';
+import { useTranslation } from 'react-i18next';
 
 const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => {
 
@@ -17,10 +16,9 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
     const { setSelectedOutputType } = useContext(OutputTypeContext);
     const { setGlobalInput } = useContext(GlobalInputContext);
     const { setPrediction } = useContext(PredictionContext);
-    //const [language, setLanguage] = useState('en');
-
 
     const router = useRouter();
+    const { t } = useTranslation();
 
     const handleResetPathValue = (pathValue) => {
         setNextPageHref(pathValue);
@@ -35,6 +33,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
         setSubmitForm(false);
         if (router.pathname === '/output') {
             setSelectedInputType(null);
+            setSelectedOutputType(null);
         }
         else if
             (router.pathname === '/image-page' || router.pathname === '/text-page' || router.pathname === '/image-text-page') {
@@ -48,41 +47,14 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
     };
 
 
+    // useEffect(() => {
+    //     i18n.changeLanguage(languages);
+    // }, [languages, i18n]);
 
-    // const handleLanguageChange = (event) => {
-    //     const selectedLanguage = event.target.value;
-    //     setLanguages(selectedLanguage);
-    //     const currentPath = router.pathname;
-
-    //     let newPath;
-    //     if (currentPath === '/') {
-    //         newPath = `/${languages}`;
-    //     } else {
-    //         const languageCode = currentPath.split('/')[1]; // Extract the existing language code from the path
-    //         newPath = currentPath.replace(`/${languageCode}`, `/${languages}`);
-    //     }
-
-    //     router.push(newPath)
-    //         .then(() => {
-    //             // Reset the selected value after navigation
-    //             event.target.value = languages;
-    //         });
-    // };
-
-    // const handleLanguageChange = (event) => {
-    //     const selectedLanguage = event.target.value;
-    //     setLanguages(selectedLanguage);
-    //     const { pathname, query } = router;
-    //     query.language = selectedLanguage;
-    //     router.push({ pathname, query }, undefined, { shallow: true });
-    // };
-
-    const handleLanguageChange = (event) => {
+    const handleLanguageChange = async (event) => {
         const selectedLanguage = event.target.value;
-        const currentPath = router.pathname; // Get the current path without the query parameters
-        const newPath = `/${selectedLanguage}${currentPath}`; // Append the selected language to the current path
-
-        router.push(newPath);
+        setLanguages(selectedLanguage);
+        // Use i18next to change the language
     };
 
 
@@ -93,7 +65,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
                     onClick={handlePreviousStep}
                     className={styles.previousBtn}>
                     <Image className={styles.icon} src="/static/arrow-left-light.svg" alt="arrow" width={24} height={24} />
-                    Previous
+                    {t("Previous")}
                 </button>
             </div>
             <div className={styles.btnContainer}>
@@ -101,7 +73,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
                     <Link className={styles.link} href="/">
                         <button onClick={() => handleResetPathValue(null)} className={styles.homeBtn}>
                             <Image className={styles.icon} alt="house" src="/static/house-light.svg" width={24} height={24} />
-                            Home
+                            {t("Home")}
                         </button>
                     </Link>
                 </div>
@@ -130,7 +102,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
 
                 <button className={styles.helpBtn}>
                     <Image className={styles.icon} alt="question mark" src="/static/question-light.svg" width={24} height={24} />
-                    Help
+                    {t("Help")}
                 </button>
             </div>
         </div>

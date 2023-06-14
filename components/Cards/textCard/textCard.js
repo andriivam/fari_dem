@@ -1,19 +1,18 @@
 import styles from './TextCard.module.css';
 import cls from 'classnames';
-import { useTranslation } from 'next-i18next';
 
-const TextCard = ({ handleSelectedInput, selectedInputType, handlePathValueClick }) => {
 
-    const { t } = useTranslation('common');
+export default function TextCard({ handleSelectedInput, selectedInputType, handlePathValueClick, t }) {
+
     return (
         <div onClick={handleSelectedInput} className={styles.container}>
             <div
                 onClick={handlePathValueClick}
                 className={cls(styles.iconContainer, { [styles.selected]: selectedInputType })}>
-                <h3 className={styles.exampleHeader}>{t("Example:")}</h3>
+                <h3 className={styles.exampleHeader}>{t("Example")}</h3>
                 <div className={styles.secondColorDiv}>
                     <p className={styles.exampleText}>
-                        {t("exampleText")}
+                        {t("input")}
                     </p>
                 </div>
             </div>
@@ -24,4 +23,3 @@ const TextCard = ({ handleSelectedInput, selectedInputType, handlePathValueClick
     )
 }
 
-export default TextCard;

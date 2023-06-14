@@ -4,7 +4,7 @@ import Camera from '../../../components/camera/camera';
 import { useState } from 'react';
 import Image from 'next/image';
 
-const ImageTextPage = () => {
+const ImageTextPage = ({ t }) => {
 
     const [cameraOpen, setCameraOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -21,12 +21,12 @@ const ImageTextPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.headingInfo}>
-                <h2 className={styles.header}>Step 3: Choose your image</h2>
-                <p className={styles.inputParagraph}> Select one of the proposed images or take a picture with the webcam. Then describe the image you chose.</p>
+                <h2 className={styles.header}>{t("Step3")}</h2>
+                <p className={styles.inputParagraph}>{t("Step3_img_paragraph")}</p>
             </div>
             {cameraOpen ? (<Camera />) : (
                 <>
-                    <h4 className={styles.imageHeading}> Choose one of these images</h4>
+                    <h4 className={styles.imageHeading}>{t("Step3_img_header")}</h4>
                     <div className={styles.content} >
                         <ImageList
                             handleImageClick={handleImageClick}

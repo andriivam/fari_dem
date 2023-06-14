@@ -3,7 +3,7 @@ import Image from 'next/image';
 import cls from 'classnames';
 
 
-const ImageTextCard = ({ handleSelectedInput, selectedInputType, handlePathValueClick }) => {
+const ImageTextCard = ({ handleSelectedInput, selectedInputType, handlePathValueClick, t }) => {
 
 
     return (
@@ -17,14 +17,14 @@ const ImageTextCard = ({ handleSelectedInput, selectedInputType, handlePathValue
                         alt="Fox in the show" width={420} height={225} />
                 </div>
                 <div className={styles.inputDiv}>
-                    <h3 className={styles.exampleParagraph}>Example:</h3>
+                    <h3 className={styles.exampleParagraph}>{t("Example")}</h3>
                     <div className={styles.inputArea}>
-                        <p className={styles.exampleText}>an astronaut riding a horse on mars, hd, dramatic lighting</p>
+                        <p className={styles.exampleText}>{t("input")}</p>
                     </div>
                 </div>
             </div>
             <div className={styles.imageTextDiv}>
-                <h4 className={styles.imageTextHeader}>Image + Text</h4>
+                <h4 className={styles.imageTextHeader}>{t("imageText")}</h4>
             </div>
         </div>
     )

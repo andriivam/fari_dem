@@ -7,20 +7,19 @@ import { InputTypeProvider } from '../../context/InputTypeContext';
 import { OutputTypeProvider } from '../../context/OutputTypeContext';
 import { GlobalInputProvider } from '../../context/GlobalInputContext';
 import { PredictionProvider } from '../../context/PredictionContext';
-import { GlobalInputContext } from '../../context/GlobalInputContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { appWithTranslation } from 'next-i18next';
+import { useTranslation } from 'react-i18next';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../i18n';
 
 
-function App({ Component, pageProps }) {
+function App({ Component, pageProps, translations }) {
+
 
   const [nextPageHref, setNextPageHref] = useState('/');
   const [submitForm, setSubmitForm] = useState(false);
   const [languages, setLanguages] = useState('en');
-
-
-  console.log(languages, 'from app')
-  // const { globalInput, setGlobalInput } = useContext(GlobalInputContext) || {};
 
   const handleSubmitForm = async (e) => {
     try {
@@ -31,7 +30,6 @@ function App({ Component, pageProps }) {
 
   };
 
-
   const router = useRouter();
 
   const handleNextStep = () => {
@@ -39,31 +37,47 @@ function App({ Component, pageProps }) {
   };
 
 
-
   const isResultPage = router.pathname === '/result';
 
   console.log({ nextPageHref }, 'from app');
 
+
+  const { t } = useTranslation('translation', { resources: translations });
+
+
+  useEffect(() => {
+    i18n.changeLanguage(languages);
+  }, [languages, i18n]);
 
   return (
     <PredictionProvider>
       <GlobalInputProvider>
         <InputTypeProvider>
           <OutputTypeProvider>
-            <div className={styles.pageContainer}>
-              <Header
-                setNextPageHref={setNextPageHref}
-                disabled={!nextPageHref}
-                setSubmitForm={setSubmitForm}
-                languages={languages}
-                setLanguages={setLanguages}
-              />
-              <Component
-                {...pageProps}
-                setNextPageHref={setNextPageHref}
-                submitForm={submitForm} />
-              {isResultPage ? null : <Footer handleNextStep={handleNextStep} disabled={!nextPageHref} onSubmit={handleSubmitForm} />}
-            </div>
+            <I18nextProvider i18n={i18n}>
+              <div className={styles.pageContainer}>
+                <Header
+                  setNextPageHref={setNextPageHref}
+                  disabled={!nextPageHref}
+                  setSubmitForm={setSubmitForm}
+                  setLanguages={setLanguages}
+                  languages={languages}
+                />
+                <Component
+                  {...pageProps}
+                  setNextPageHref={setNextPageHref}
+                  submitForm={submitForm}
+                  t={t}
+                />
+                {isResultPage ? null : !submitForm && (
+                  <Footer
+                    handleNextStep={handleNextStep}
+                    disabled={!nextPageHref}
+                    onSubmit={handleSubmitForm}
+                  />
+                )}
+              </div>
+            </I18nextProvider>
           </OutputTypeProvider>
         </InputTypeProvider>
       </GlobalInputProvider>
@@ -71,4 +85,19 @@ function App({ Component, pageProps }) {
   )
 }
 
+
+export async function getStaticProps({ locale }) {
+  i18n.changeLanguage(locale);
+  const translations = await i18n.getResourceBundle(locale, 'translation');
+
+  return {
+    props: {
+      translations,
+    },
+  };
+}
+
+
 export default appWithTranslation(App);
+
+

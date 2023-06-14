@@ -12,7 +12,7 @@ import Loading from '../../../components/Loading/loading';
 import { useRouter } from 'next/router';
 
 
-const ImagePage = ({ submitForm }) => {
+const ImagePage = ({ submitForm, t }) => {
 
     const [cameraOpen, setCameraOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -86,14 +86,14 @@ const ImagePage = ({ submitForm }) => {
             ) : (
                 <div className={styles.container}>
                     <div className={styles.headingInfo}>
-                        <h2 className={styles.header}>Step 3: Choose your image</h2>
-                        <p className={styles.inputParagraph}> Select one of the proposed images or take a picture with the webcam.</p>
+                        <h2 className={styles.header}>{t("Step3")}</h2>
+                        <p className={styles.inputParagraph}>{t("Step3_paragraph")}</p>
                     </div>
                     {cameraOpen ? (<Camera
                         handleImageUrl={handleImageUrl}
                     />) : (
                         <>
-                            <h4 className={styles.imageHeading}> Choose one of these images</h4>
+                            <h4 className={styles.imageHeading}>{t("Step3_img_header")}</h4>
                             <div className={styles.content} >
                                 <ImageList
                                     handleImageUrl={handleImageUrl}

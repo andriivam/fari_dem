@@ -1,14 +1,12 @@
 import styles from './ImageCard.module.css';
 import Image from 'next/image';
 import cls from 'classnames';
-import { useTranslation } from 'next-i18next';
+// import { useTranslation } from 'next-i18next';
+
+const ImageCard = ({ handleSelectedInput, handlePathValueClick, handleSelectedOutput, selectedInputType, selectedOutputType, t }) => {
 
 
-
-const ImageCard = ({ handleSelectedInput, handlePathValueClick, handleSelectedOutput, selectedInputType, selectedOutputType }) => {
-
-
-    const { t } = useTranslation('common');
+    // const { t } = useTranslation();
 
     const handleInputOutputClick = (event) => {
         event.stopPropagation();

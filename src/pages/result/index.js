@@ -5,7 +5,7 @@ import { GlobalInputContext } from '../../../context/GlobalInputContext';
 import { PredictionContext } from '../../../context/PredictionContext';
 import MediaComponent from '../../../components/media';
 
-const Result = () => {
+const Result = ({ t }) => {
 
     const [linkSource, setLinkSource] = useState('');
     const { globalInput } = useContext(GlobalInputContext);
@@ -30,13 +30,13 @@ const Result = () => {
     return (
         <div className={styles.container}>
             <div className={styles.headingInfo}>
-                <h2 className={styles.stepHeader}>Result</h2>
-                <p className={styles.resultHeader}>This is the output of the algorithm based on the parameters you have set.</p>
+                <h2 className={styles.stepHeader}>{t("Result")}</h2>
+                <p className={styles.resultHeader}>{t("resultHeader")}</p>
             </div>
             <div className={styles.result}>
                 {globalInput.prompt && (
                     <div className={styles.resultItem}>
-                        <p className={styles.inputHeader}>This is the text you wrote</p>
+                        <p className={styles.inputHeader}>{t("textInput")}</p>
                         <div className={styles.userInputDiv}>
                             <p className={styles.userInputParagraph}>
                                 {globalInput.prompt}
@@ -46,13 +46,13 @@ const Result = () => {
                 )}
                 {globalInput.image && (
                     <div className={styles.resultItem}>
-                        <p className={styles.inputHeader}>This is the image you chose</p>
+                        <p className={styles.inputHeader}>{t("imageInput")}</p>
                         <Image className={styles.selectedImage} src={globalInput.image} alt="animal" width={500} height={500} />
                     </div>
                 )}
                 {globalInput.input_image && (
                     <div className={styles.resultItem}>
-                        <p className={styles.inputHeader}>This is the image you chose</p>
+                        <p className={styles.inputHeader}>{t("imageInput")}</p>
                         <Image className={styles.selectedImage} src={globalInput.input_image} alt="animal" width={500} height={500} />
                     </div>
                 )}

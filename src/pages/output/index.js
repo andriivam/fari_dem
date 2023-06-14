@@ -6,16 +6,16 @@ import { useContext } from 'react';
 import { InputTypeContext } from '../../../context/InputTypeContext';
 import { OutputTypeContext } from '../../../context/OutputTypeContext';
 import usePathValue from '../../../handlers/path_handler';
-import { useTranslation } from 'next-i18next';
 
 
-const Output = ({ setNextPageHref }) => {
+
+const Output = ({ setNextPageHref, t }) => {
 
 
     const { selectedInputType } = useContext(InputTypeContext);
     const { selectedOutputType, setSelectedOutputType } = useContext(OutputTypeContext);
     const { handleGetPathValue } = usePathValue();
-    const { t } = useTranslation();
+
 
     console.log({ selectedOutputType })
     let pathValue;
@@ -27,8 +27,6 @@ const Output = ({ setNextPageHref }) => {
     } else if (selectedInputType === 'image') {
         pathValue = '/image-page';
     }
-
-    console.log(pathValue, 'pathValue from output page')
 
     const handleSelectedOutput = (outputType) => {
         setSelectedOutputType(outputType);
@@ -45,13 +43,14 @@ const Output = ({ setNextPageHref }) => {
         <div className={styles.container}>
             <div className={styles.headingInfo}>
                 <h2 className={styles.header}>{t("Step2")}</h2>
-                <p className={styles.inputParagraph}>Choose what you want to transform your input into.</p>
+                <p className={styles.inputParagraph}>{t("outputType")}</p>
             </div>
             <div className={styles.cartsDiv}>
                 <ImageCard
                     handleSelectedOutput={() => handleSelectedOutput('image')}
                     selectedOutputType={selectedOutputType === 'image'}
                     handlePathValueClick={handlePathValueClick}
+                    t={t}
                 />
                 <VideoCard
                     handleSelectedOutput={() => handleSelectedOutput('video')}

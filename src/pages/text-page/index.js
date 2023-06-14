@@ -8,7 +8,7 @@ import Loading from '../../../components/Loading/loading';
 import { PredictionContext } from '../../../context/PredictionContext';
 import { useRouter } from 'next/router';
 
-const TextPage = ({ submitForm }) => {
+const TextPage = ({ submitForm, t }) => {
 
     const [textInput, setTextInput] = useState('');
     const [error, setError] = useState(null);
@@ -69,11 +69,11 @@ const TextPage = ({ submitForm }) => {
             ) : (
                 <div className={styles.container}>
                     <div className={styles.headingInfo}>
-                        <h2 className={styles.stepHeader}>Step 3: Write your text</h2>
-                        <p className={styles.inputParagraph}>Write a text describing the image you would like to be created by the algorithm.</p>
+                        <h2 className={styles.stepHeader}>{t("Step3_textPage")}</h2>
+                        <p className={styles.inputParagraph}>{t("Step3_textPage_paragraph")}</p>
                     </div>
                     <div className={styles.textArea}>
-                        <h3 className={styles.inputHeader}>Describe your image (max 100 characters)</h3>
+                        <h3 className={styles.inputHeader}>{t("Step3_textPage_placeholder")}</h3>
                         <form id="text-input" className={styles.inputWrapper}>
                             <input
                                 onChange={handleTextInput}

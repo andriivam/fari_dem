@@ -1,9 +1,8 @@
+const i18n = {
+    defaultLocale: 'en',
+    locales: ['en', 'fr', 'nl'],
+};
+
 module.exports = {
-    i18n: {
-        // all the locales supported in the application
-        locales: ['en', 'fr', 'nl'],
-        // the default locale to be used when visiting
-        // a non-localized route (e.g. `/about`)   
-        defaultLocale: 'en'
-    },
-}
+    i18n,
+};

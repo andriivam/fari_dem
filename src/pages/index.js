@@ -7,18 +7,11 @@ import TextCard from '../../components/Cards/textCard/textCard';
 import { useContext } from 'react';
 import { InputTypeContext } from '../../context/InputTypeContext';
 import usePathValue from '../../handlers/path_handler';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
+import { Trans } from "react-i18next";
 
 
-export default function Home({ setNextPageHref, languages }) {
 
-  const { t } = useTranslation();
-  // const router = useRouter();
-  // const language = router.query.language || languages;
-  // console.log({ language })
-  // console.log(t('Step1'));
+export default function Home({ setNextPageHref, t }) {
 
 
   const { selectedInputType, setSelectedInputType } = useContext(InputTypeContext);
@@ -48,9 +41,13 @@ export default function Home({ setNextPageHref, languages }) {
       </Head>
       <div className={styles.container}>
         <div className={styles.headingInfo}>
-          <h2 className={styles.header}>{t("Step1")}</h2>
+          <h2 className={styles.header}>
+            {t("Step1")}
+          </h2>
           <p className={styles.inputParagraph}>
-            {/* {t("inputParagraph", { lng: language })} */}
+            <Trans key="inputParagraph">
+              {t("inputParagraph")}
+            </Trans>
           </p>
         </div>
         <div className={styles.cartsDiv}>
@@ -58,8 +55,10 @@ export default function Home({ setNextPageHref, languages }) {
             handleSelectedInput={() => handleSelectedInput('image')}
             selectedInputType={selectedInputType === 'image'}
             handlePathValueClick={handlePathValueClick}
+            t={t}
           />
           <TextCard
+            t={t}
             onClick={() => console.log('test')}
             handleSelectedInput={() => handleSelectedInput('text')}
             selectedInputType={selectedInputType === 'text'}
@@ -69,6 +68,7 @@ export default function Home({ setNextPageHref, languages }) {
             handleSelectedInput={() => handleSelectedInput('image + text')}
             selectedInputType={selectedInputType === 'image + text'}
             handlePathValueClick={handlePathValueClick}
+            t={t}
           />
 
         </div>
@@ -78,27 +78,6 @@ export default function Home({ setNextPageHref, languages }) {
 }
 
 
-// export async function getStaticProps(context) {
-//   // extract the locale identifier from the URL
-//   const { locale } = context
 
-//   return {
-//     props: {
-//       // pass the translation props to the page component
-//       ...(await serverSideTranslations(locale)),
-//     },
-//   }
-// }
 
-export async function getStaticProps(context) {
-  // extract the locale identifier from the URL
-  const { locale } = context
 
-  const translations = await serverSideTranslations(locale, ['common'])
-
-  return {
-    props: {
-      ...translations,
-    },
-  }
-}
