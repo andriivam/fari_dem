@@ -52,5 +52,14 @@
         "input_key": [
             "input_image"
         ]
+    },
+    {
+        "id": 7,
+        "input": "image",
+        "output": "3D",
+        "version": "1fd4e970159fb9b7c2dfa39c8172c2d862f1f042c1eb1a7effca1b6e055bd4be",
+        "input_key": [
+            "image"
+        ]
     }
 ]

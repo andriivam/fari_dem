@@ -1,22 +1,33 @@
 import styles from '../../styles/ImageText.module.css';
 import ImageList from '../../../components/ImageList/image-list';
 import Camera from '../../../components/camera/camera';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Image from 'next/image';
+import { GlobalInputContext } from '../../../context/GlobalInputContext';
+import { InputTypeContext } from '../../../context/InputTypeContext';
+import { OutputTypeContext } from '../../../context/OutputTypeContext';
+import { PredictionContext } from '../../../context/PredictionContext';
 
 const ImageTextPage = ({ t }) => {
 
     const [cameraOpen, setCameraOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
 
+    const { globalInput, setGlobalInput } = useContext(GlobalInputContext);
+    const { selectedInputType } = useContext(InputTypeContext);
+    const { selectedOutputType } = useContext(OutputTypeContext);
+    const { prediction, setPrediction } = useContext(PredictionContext);
+
     const handleCameraOpen = (e) => {
         e.preventDefault();
         setCameraOpen(true);
     };
 
-    const handleImageClick = (imageUrl) => {
+    const handleImageClick = (imageUrl, e) => {
+        e.preventDefault();
         setSelectedImage(imageUrl);
     }
+
 
     return (
         <div className={styles.container}>

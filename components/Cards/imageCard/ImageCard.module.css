@@ -14,6 +14,8 @@
 }
 
 .secondColorDiv {
+    display: flex;
+    justify-content: center;
     background: #D3D3D3;
     border-radius: 5px;
 
@@ -24,27 +26,14 @@
     border-radius: 15px;
 }
 
-.selectedInput::before {
-    content: '';
-    position: absolute;
-    top: 260px;
-    /* Adjust the positioning based on your icon's size */
-    right: 1256px;
-    /* Adjust the positioning based on your icon's size */
-    width: 35px;
-    /* Adjust the width based on your icon's size */
-    height: 40px;
-    /* Adjust the height based on your icon's size */
-    background-color: #2F4FBB;
-    background-image: url('/static/check.svg');
-    background-repeat: no-repeat;
-    border-radius: 0px 10px 0px 10px;
-}
+
 
 .selectedOutput {
     border: 4px solid #2F4FBB;
     border-radius: 15px;
 }
+
+
 
 .icon {
     position: absolute;
@@ -60,8 +49,6 @@
 
 .image {
     border-radius: 10px;
-    height: 345px;
-
 }
 
 .textDiv {

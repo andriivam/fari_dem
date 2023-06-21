@@ -3,7 +3,7 @@ import Image from 'next/image';
 import cls from 'classnames';
 
 
-const VideoCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueClick }) => {
+const VideoCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueClick, task }) => {
 
     return (
         <div onClick={handleSelectedOutput} className={styles.container}>
@@ -16,11 +16,10 @@ const VideoCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueCl
                         className={styles.image}
                         src="/static/video.svg"
                         alt="Fox in the show" width={420} height={365} />
-                    {selectedOutputType && <div className={styles.imgWrapper}></div>}
                 </div>
             </div>
             <div className={styles.textDiv}>
-                <p className={styles.imageParagraph}>Video</p>
+                <p className={styles.imageParagraph}>{task}</p>
             </div>
         </div>
     )

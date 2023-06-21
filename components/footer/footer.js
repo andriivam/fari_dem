@@ -23,8 +23,6 @@ const Footer = ({ handleNextStep, disabled, onSubmit }) => {
                     <button
                         onClick={handleButtonClick}
                         disabled={disabled}
-                        // form="text-input"
-                        // type="submit"
                         className={cls(styles.nextStepBtn, { [styles.disabledBtn]: disabled })}>
                         Next Step
                     </button>

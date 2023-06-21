@@ -6,9 +6,10 @@ import { InputTypeContext } from '../../context/InputTypeContext';
 import { OutputTypeContext } from '../../context/OutputTypeContext';
 import { GlobalInputContext } from '../../context/GlobalInputContext';
 import { PredictionContext } from '../../context/PredictionContext';
-import { useContext, useState, useEffect } from 'react';
-import i18n from '../../src/i18n';
+import { VersionContext } from '../../context/VersionContext';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import changeLanguage from '../../functions/change-language';
 
 const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => {
 
@@ -16,6 +17,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
     const { setSelectedOutputType } = useContext(OutputTypeContext);
     const { setGlobalInput } = useContext(GlobalInputContext);
     const { setPrediction } = useContext(PredictionContext);
+    const { setSelectedVersion } = useContext(VersionContext);
 
     const router = useRouter();
     const { t } = useTranslation();
@@ -27,6 +29,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
         setGlobalInput({});
         setPrediction(null);
         setSubmitForm(false);
+        setSelectedVersion([]);
     };
 
     const handlePreviousStep = () => {
@@ -34,6 +37,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
         if (router.pathname === '/output') {
             setSelectedInputType(null);
             setSelectedOutputType(null);
+            setNextPageHref(null);
         }
         else if
             (router.pathname === '/image-page' || router.pathname === '/text-page' || router.pathname === '/image-text-page') {
@@ -47,16 +51,16 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
     };
 
 
-    // useEffect(() => {
-    //     i18n.changeLanguage(languages);
-    // }, [languages, i18n]);
 
     const handleLanguageChange = async (event) => {
         const selectedLanguage = event.target.value;
         setLanguages(selectedLanguage);
-        // Use i18next to change the language
+        await changeLanguage(selectedLanguage);
+        router.push({
+            pathname: router.pathname,
+            query: { languages: selectedLanguage },
+        });
     };
-
 
     return (
         <div className={styles.container}>
@@ -80,6 +84,9 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
                 <div className={styles.btnWrapper}>
                     <button className={styles.languageBtn}>
                         <Image className={styles.icon} alt="earth" src="/static/language-light.svg" width={24} height={24} />
+                        {languages === "en" ? <Image src="/static/united-kingdom.png" alt="england flag" width={20} height={20} /> : null}
+                        {languages === "fr" ? <Image src="/static/france.png" alt="france flag" width={20} height={20} /> : null}
+                        {languages === "nl" ? <Image src="/static/netherlands.png" alt="netherlands flag" width={20} height={20} /> : null}
                         <select
                             className={styles.select}
                             name="languages"

@@ -1,12 +1,17 @@
 import styles from './ImageCard.module.css';
 import Image from 'next/image';
 import cls from 'classnames';
-// import { useTranslation } from 'next-i18next';
-
-const ImageCard = ({ handleSelectedInput, handlePathValueClick, handleSelectedOutput, selectedInputType, selectedOutputType, t }) => {
 
 
-    // const { t } = useTranslation();
+const ImageCard = ({
+    handleSelectedInput,
+    handlePathValueClick,
+    handleSelectedOutput,
+    selectedInputType,
+    t,
+    task,
+    selectedOutputType }) => {
+
 
     const handleInputOutputClick = (event) => {
         event.stopPropagation();
@@ -22,7 +27,6 @@ const ImageCard = ({ handleSelectedInput, handlePathValueClick, handleSelectedOu
         [styles.selectedOutput]: selectedOutputType
     });
 
-
     return (
         <div onClick={handleInputOutputClick}
             className={styles.container}>
@@ -37,7 +41,7 @@ const ImageCard = ({ handleSelectedInput, handlePathValueClick, handleSelectedOu
                 </div>
             </div>
             <div className={styles.textDiv}>
-                <p className={styles.imageParagraph}>{t("Image")}</p>
+                <p className={styles.imageParagraph}>{task ? task : t("Image")}</p>
             </div>
         </div>
     )

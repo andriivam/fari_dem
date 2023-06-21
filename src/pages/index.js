@@ -17,7 +17,7 @@ export default function Home({ setNextPageHref, t }) {
   const { selectedInputType, setSelectedInputType } = useContext(InputTypeContext);
   const { handleGetPathValue } = usePathValue();
 
-  console.log({ selectedInputType })
+  console.log(selectedInputType, 'selectedInputType');
 
   const handleSelectedInput = (inputType) => {
     setSelectedInputType((prevInputType) => (prevInputType === inputType ? null : inputType));

@@ -23,6 +23,7 @@ const resources = {
             "Step3": "Step 3: Choose your image",
             "Step3_paragraph": "Select one of the proposed images or take a picture with the webcam.",
             "Step3_img_header": "Choose one of these images",
+            "Camera_header": "Click here to take a picture using webcam",
             //Image_Text Page
             "Step3_img_paragraph": "Select one of the proposed images or take a picture with the webcam. Then describe the image you chose.",
             //Text Page
@@ -34,6 +35,9 @@ const resources = {
             "resultHeader": "This is the output of the algorithm based on the parameters you have set.",
             "textInput": "This is the text you wrote",
             "imageInput": "This is the image you chose",
+            "globalInput_header1": "This is the image created by the algorithm based on the text you wrote",
+            "globalInput_header2": "This is the video created by the algorithm based on the text you wrote",
+            "globalInput_header3": "This is the 3D object created by the algorithm based on the text you wrote",
         },
     },
     fr: {
@@ -57,6 +61,7 @@ const resources = {
             "Step3": "Étape 3 : Choisissez votre image",
             "Step3_paragraph": "Sélectionnez l'une des images proposées ou prenez une photo avec la webcam.",
             "Step3_img_header": "Choisissez une de ces images",
+            "Camera_header": "Cliquez ici pour prendre une photo avec la webcam",
             //Image_Text Page
             "Step3_img_paragraph": "Sélectionnez l'une des images proposées ou prenez une photo avec la webcam. Ensuite, décrivez l'image que vous avez choisie.",
             //Text Page
@@ -68,6 +73,9 @@ const resources = {
             "resultHeader": "Voici la sortie de l'algorithme basée sur les paramètres que vous avez définis.",
             "textInput": "Voici le texte que vous avez écrit",
             "imageInput": "Voici l'image que vous avez choisie",
+            "globalInput_header1": "Voici l'image créée par l'algorithme basée sur le texte que vous avez écrit",
+            "globalInput_header2": "Voici la vidéo créée par l'algorithme basée sur le texte que vous avez écrit",
+            "globalInput_header3": "Voici l'objet 3D créé par l'algorithme basé sur le texte que vous avez écrit",
 
         },
     },
@@ -92,6 +100,7 @@ const resources = {
             "Step3": "Stap 3: Kies je afbeelding",
             "Step3_paragraph": "Selecteer een van de voorgestelde afbeeldingen of maak een foto met de webcam.",
             "Step3_img_header": "Kies een van deze afbeeldingen",
+            "Camera_header": "Klik hier om een ​​foto te maken met de webcam",
             //Image_Text Page
             "Step3_img_paragraph": "Selecteer een van de voorgestelde afbeeldingen of maak een foto met de webcam. Beschrijf vervolgens de afbeelding die je hebt gekozen.",
             //Text Page
@@ -103,7 +112,9 @@ const resources = {
             "resultHeader": "Dit is de output van het algoritme op basis van de door u ingestelde parameters.",
             "textInput": "Dit is de tekst die je hebt geschreven",
             "imageInput": "Dit is de afbeelding die je hebt gekozen",
-
+            "globalInput_header1": "Dit is de afbeelding die door het algoritme is gemaakt op basis van de tekst die je hebt geschreven",
+            "globalInput_header2": "Dit is de video die door het algoritme is gemaakt op basis van de tekst die je hebt geschreven",
+            "globalInput_header3": "Dit is het 3D-object dat door het algoritme is gemaakt op basis van de tekst die je hebt geschreven",
 
         },
     },

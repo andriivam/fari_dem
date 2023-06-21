@@ -1,18 +1,21 @@
 import styles from '../../styles/ImagePage.module.css';
 import ImageList from '../../../components/ImageList/image-list';
 import Camera from '../../../components/camera/camera';
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useEffect, use } from 'react';
 import Image from 'next/image';
 import { GlobalInputContext } from '../../../context/GlobalInputContext';
 import { InputTypeContext } from '../../../context/InputTypeContext';
 import { OutputTypeContext } from '../../../context/OutputTypeContext';
+import { VersionContext } from '../../../context/VersionContext';
 import handleSubmit from '../../../handlers/submit_handler';
 import { PredictionContext } from '../../../context/PredictionContext';
 import Loading from '../../../components/Loading/loading';
 import { useRouter } from 'next/router';
+import usePathValue from '../../../handlers/path_handler';
+import { fetchData } from '../../../api/axios';
 
 
-const ImagePage = ({ submitForm, t }) => {
+const ImagePage = ({ setNextPageHref, submitForm, t, data }) => {
 
     const [cameraOpen, setCameraOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -24,7 +27,25 @@ const ImagePage = ({ submitForm, t }) => {
     const { selectedInputType } = useContext(InputTypeContext);
     const { selectedOutputType } = useContext(OutputTypeContext);
     const { prediction, setPrediction } = useContext(PredictionContext);
+    const { selectedVersion } = useContext(VersionContext);
 
+    const { handleGetPathValue } = usePathValue();
+
+    console.log(selectedInputType, 'selectedInputType from image page');
+    console.log(selectedVersion, 'selectedVersion from image page');
+    console.log(globalInput, 'from image page');
+
+
+    useEffect(() => {
+        if (selectedInputType === 'image + text') {
+            console.log('condition is working');
+            const handlePathValueClick = (pathValue) => {
+                handleGetPathValue(pathValue);
+                setNextPageHref(pathValue);
+            };
+            handlePathValueClick('/image-text');
+        }
+    }, [selectedInputType, handleGetPathValue, setNextPageHref]);
 
     const router = useRouter();
 
@@ -33,15 +54,28 @@ const ImagePage = ({ submitForm, t }) => {
         setCameraOpen(true);
     };
 
-    const handleImageUrl = (imageUrl, e) => {
+
+    let dataList = data.data;
+
+    const handleImageUrl = async (imageUrl, e) => {
         setSelectedImage(imageUrl);
         e.preventDefault();
-        if (selectedOutputType === 'video') {
-            setGlobalInput(prevState => ({ ...prevState, "input_image": imageUrl }));
-        } else {
-            setGlobalInput(prevState => ({ ...prevState, "image": imageUrl }));
+        const selectedObject = dataList.find(item => item.version === selectedVersion.version);
+        console.log(selectedObject, 'selectedObject from image page')
+        if (selectedObject) {
+            const inputKey = selectedObject.attributes.inputs_keys;
+            console.log(inputKey, 'inputKey from image page');
+            if (inputKey === 'image') {
+                await setGlobalInput(prevState => ({ ...prevState, image: imageUrl }));
+            } else if (inputKey === 'input_image') {
+                await setGlobalInput(prevState => ({ ...prevState, input_image: imageUrl }));
+            } else if (inputKey === 'img') {
+                await setGlobalInput(prevState => ({ ...prevState, img: imageUrl }));
+            }
         }
-    }
+    };
+
+
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
@@ -54,6 +88,7 @@ const ImagePage = ({ submitForm, t }) => {
                 setPrediction,
                 setError,
                 error,
+                selectedVersion,
                 selectedInputType,
                 selectedOutputType)
             setLoading(false);
@@ -66,7 +101,6 @@ const ImagePage = ({ submitForm, t }) => {
     useEffect(() => {
         if (submitForm) {
             handleSubmitForm({ preventDefault: () => { } });
-            console.log(('submitForm was clicked'))
         }
     }, [submitForm]);
 
@@ -103,7 +137,7 @@ const ImagePage = ({ submitForm, t }) => {
                                 <div className={styles.cameraDivWrapper}>
                                     <div className={styles.cameraDiv}>
                                         <button className={styles.cameraBtn} onClick={handleCameraOpen}><Image src="/static/camera.svg" alt="camera" width={60} height={55} /></button>
-                                        <p className={styles.cameraPar}>Click here to take a picture using webcam</p>
+                                        <p className={styles.cameraPar}>{t("Camera_header")}</p>
                                     </div>
                                 </div>
                             </div>
@@ -115,5 +149,17 @@ const ImagePage = ({ submitForm, t }) => {
 
     )
 }
+
+export async function getStaticProps() {
+
+    const data = await fetchData();
+
+    return {
+        props: {
+            data: data,
+        },
+    };
+}
+
 
 export default ImagePage;

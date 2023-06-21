@@ -7,7 +7,8 @@ const PredictionContext = createContext();
 const PredictionProvider = ({ children }) => {
 
     const [prediction, setPrediction] = useState(null);
-    console.log({ prediction }, 'from global input type context')
+
+    console.log(prediction, 'from prediction context');
 
     return (
         <PredictionContext.Provider value={{ prediction, setPrediction }}>

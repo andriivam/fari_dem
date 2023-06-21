@@ -6,7 +6,7 @@ const Loading = () => {
         <div className={styles.container}>
             <div className={styles.logoContainer}>
                 <Image
-                    src='static/FARI_logo.svg'
+                    src='static/logo.svg'
                     width={450}
                     height={450}
                     className={styles.logo}

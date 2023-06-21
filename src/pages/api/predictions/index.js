@@ -1,10 +1,9 @@
 
 export default async function handler(req, res) {
-    const { version, input, prompt } = req.body;
-    console.log({ input })
+    const { version, input } = req.body;
     const url = "https://api.replicate.com/v1/predictions";
-    const fakeUrl = "http://localhost:3010/v1/predictions";
-    console.log(version, 'version from backend');
+
+
     const response = await fetch(url, {
         method: "POST",
         headers: {

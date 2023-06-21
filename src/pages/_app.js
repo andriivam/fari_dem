@@ -7,7 +7,8 @@ import { InputTypeProvider } from '../../context/InputTypeContext';
 import { OutputTypeProvider } from '../../context/OutputTypeContext';
 import { GlobalInputProvider } from '../../context/GlobalInputContext';
 import { PredictionProvider } from '../../context/PredictionContext';
-import { useState, useEffect } from 'react';
+import { VersionProvider } from '../../context/VersionContext';
+import { useState, useEffect, use } from 'react';
 import { appWithTranslation } from 'next-i18next';
 import { useTranslation } from 'react-i18next';
 import { I18nextProvider } from 'react-i18next';
@@ -22,6 +23,7 @@ function App({ Component, pageProps, translations }) {
   const [languages, setLanguages] = useState('en');
 
   const handleSubmitForm = async (e) => {
+    //e.preventDefault();
     try {
       setSubmitForm(true);
     } catch (error) {
@@ -45,50 +47,59 @@ function App({ Component, pageProps, translations }) {
   const { t } = useTranslation('translation', { resources: translations });
 
 
+
   useEffect(() => {
-    i18n.changeLanguage(languages);
-  }, [languages, i18n]);
+    const languages = router.query.languages || i18n.language || i18n.options.fallbackLng[0];
+
+    if (languages && languages !== i18n.language) {
+      i18n.changeLanguage(languages);
+      setLanguages(router.query.languages);
+    }
+  }, [router.query.languages, languages]);
 
   return (
-    <PredictionProvider>
-      <GlobalInputProvider>
-        <InputTypeProvider>
-          <OutputTypeProvider>
-            <I18nextProvider i18n={i18n}>
-              <div className={styles.pageContainer}>
-                <Header
-                  setNextPageHref={setNextPageHref}
-                  disabled={!nextPageHref}
-                  setSubmitForm={setSubmitForm}
-                  setLanguages={setLanguages}
-                  languages={languages}
-                />
-                <Component
-                  {...pageProps}
-                  setNextPageHref={setNextPageHref}
-                  submitForm={submitForm}
-                  t={t}
-                />
-                {isResultPage ? null : !submitForm && (
-                  <Footer
-                    handleNextStep={handleNextStep}
+    <VersionProvider>
+      <PredictionProvider>
+        <GlobalInputProvider>
+          <InputTypeProvider>
+            <OutputTypeProvider>
+              <I18nextProvider i18n={i18n}>
+                <div className={styles.pageContainer}>
+                  <Header
+                    setNextPageHref={setNextPageHref}
                     disabled={!nextPageHref}
-                    onSubmit={handleSubmitForm}
+                    setSubmitForm={setSubmitForm}
+                    setLanguages={setLanguages}
+                    languages={languages}
                   />
-                )}
-              </div>
-            </I18nextProvider>
-          </OutputTypeProvider>
-        </InputTypeProvider>
-      </GlobalInputProvider>
-    </PredictionProvider>
+                  <Component
+                    {...pageProps}
+                    setNextPageHref={setNextPageHref}
+                    submitForm={submitForm}
+                    t={t}
+                  />
+                  {isResultPage ? null : !submitForm && (
+                    <Footer
+                      handleNextStep={handleNextStep}
+                      disabled={!nextPageHref}
+                      onSubmit={handleSubmitForm}
+                    />
+                  )}
+                </div>
+              </I18nextProvider>
+            </OutputTypeProvider>
+          </InputTypeProvider>
+        </GlobalInputProvider>
+      </PredictionProvider>
+    </VersionProvider>
   )
 }
 
 
-export async function getStaticProps({ locale }) {
-  i18n.changeLanguage(locale);
-  const translations = await i18n.getResourceBundle(locale, 'translation');
+export async function getStaticProps({ locale, query }) {
+  const languages = query.languages || locale;
+  await i18n.changeLanguage(languages); // Update the language using i18n.changeLanguage
+  const translations = await serverSideTranslations(languages, ['common']);
 
   return {
     props: {

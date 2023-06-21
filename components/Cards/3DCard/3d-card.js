@@ -4,7 +4,7 @@ import cls from 'classnames';
 
 
 
-const DCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueClick }) => {
+const DCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueClick, task }) => {
 
 
     return (
@@ -18,11 +18,10 @@ const DCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueClick 
                         className={styles.image}
                         src="/static/cube.svg"
                         alt="Fox in the show" width={420} height={365} />
-                    {selectedOutputType && <div className={styles.imgWrapper}><img className={styles.icon} src="/static/check.svg" alt="Selected Icon" /></div>}
                 </div>
             </div>
             <div className={styles.textDiv}>
-                <p className={styles.imageParagraph}>3D</p>
+                <p className={styles.imageParagraph}>{task}</p>
             </div>
         </div>
     )

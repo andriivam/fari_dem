@@ -27,7 +27,6 @@
 }
 
 .selected {
-    background-image: url('/static/check.svg');
     border: 4px solid #2F4FBB;
     background-repeat: no-repeat;
     background-position: 100% 0;

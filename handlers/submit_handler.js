@@ -1,12 +1,14 @@
 import getVersion from '../functions/set-version';
+import { VersionContext } from '../context/VersionContext';
+import { useContext } from 'react';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const handleSubmit = async (e, globalInput, setPrediction, setError, error, inputType, outputType) => {
+const handleSubmit = async (e, globalInput, setPrediction, setError, error, selectedVersion, inputType, outputType) => {
     const endPoint = "/api/predictions";
     const fakeEndPoint = "http://localhost:3010/v1/predictions";
-
-    const version = getVersion(inputType, outputType);
+    // cosnt { selectedVersion } = useContext(VersionContext);
+    // const version = getVersion(inputType, outputType);
     if (globalInput === {}) {
         setSubmittedWithoutInputs(true);
         return;
@@ -19,7 +21,7 @@ const handleSubmit = async (e, globalInput, setPrediction, setError, error, inpu
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                version: version,
+                version: selectedVersion,
                 input: globalInput
             }),
         });

@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { GlobalInputContext } from '../../../context/GlobalInputContext';
 import { InputTypeContext } from '../../../context/InputTypeContext';
 import { OutputTypeContext } from '../../../context/OutputTypeContext';
+import { VersionContext } from '../../../context/VersionContext';
 import handleSubmit from '../../../handlers/submit_handler';
 import Loading from '../../../components/Loading/loading';
 import { PredictionContext } from '../../../context/PredictionContext';
@@ -19,8 +20,11 @@ const TextPage = ({ submitForm, t }) => {
     const { selectedInputType } = useContext(InputTypeContext);
     const { selectedOutputType } = useContext(OutputTypeContext);
     const { prediction, setPrediction } = useContext(PredictionContext);
+    const { selectedVersion } = useContext(VersionContext);
+    console.log(selectedVersion, 'selectedVersion from text page')
 
     const router = useRouter();
+
 
 
     const handleTextInput = (e) => {
@@ -31,6 +35,7 @@ const TextPage = ({ submitForm, t }) => {
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
+        console.log('handler was called');
         setLoading(true);
         try {
             await handleSubmit(
@@ -39,6 +44,7 @@ const TextPage = ({ submitForm, t }) => {
                 setPrediction,
                 setError,
                 error,
+                selectedVersion,
                 selectedInputType,
                 selectedOutputType);
             setLoading(false);
@@ -56,6 +62,7 @@ const TextPage = ({ submitForm, t }) => {
 
 
     useEffect(() => {
+        console.log(prediction?.status, 'prediction status from text page');
         if (prediction?.status === 'succeeded') {
             router.push('/result');
         }
@@ -74,7 +81,7 @@ const TextPage = ({ submitForm, t }) => {
                     </div>
                     <div className={styles.textArea}>
                         <h3 className={styles.inputHeader}>{t("Step3_textPage_placeholder")}</h3>
-                        <form id="text-input" className={styles.inputWrapper}>
+                        <div className={styles.inputWrapper}>
                             <input
                                 onChange={handleTextInput}
                                 value={textInput}
@@ -82,7 +89,7 @@ const TextPage = ({ submitForm, t }) => {
                                 required
                                 type="text"
                                 placeholder="Write your prompt here" />
-                        </form>
+                        </div>
                     </div>
                 </div>
             )}

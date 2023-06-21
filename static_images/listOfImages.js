@@ -5,13 +5,11 @@ const unsplash = createApi({
 });
 
 const getListOfPhotos = async (query) => {
-    // console.log({ query })
     const photos = await unsplash.search.getPhotos({
         query: query,
         perPage: 4
     });
     const unsplashResults = photos.response.results;
-    console.log(unsplashResults, 'unsplashResults')
     return unsplashResults.map((result => result.urls.small));
 }
 

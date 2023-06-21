@@ -8,6 +8,8 @@ const OutputTypeProvider = ({ children }) => {
 
     const [selectedOutputType, setSelectedOutputType] = useState(null);
 
+    console.log(selectedOutputType, 'from output type context');
+
     return (
         <OutputTypeContext.Provider value={{ selectedOutputType, setSelectedOutputType }}>
             {children}
