@@ -11,7 +11,7 @@ const Footer = ({ handleNextStep, disabled, onSubmit }) => {
         e.preventDefault();
         if (router.pathname === '/image-page'
             || router.pathname === '/text-page'
-            || router.pathname === '/image-text-page') {
+            || router.pathname === '/image-text') {
             onSubmit();
         }
     };

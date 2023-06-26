@@ -15,7 +15,7 @@ import usePathValue from '../../../handlers/path_handler';
 import { fetchData } from '../../../api/axios';
 
 
-const ImagePage = ({ setNextPageHref, submitForm, t, data }) => {
+const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, t, data }) => {
 
     const [cameraOpen, setCameraOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -31,22 +31,6 @@ const ImagePage = ({ setNextPageHref, submitForm, t, data }) => {
 
     const { handleGetPathValue } = usePathValue();
 
-    console.log(selectedInputType, 'selectedInputType from image page');
-    console.log(selectedVersion, 'selectedVersion from image page');
-    console.log(globalInput, 'from image page');
-
-
-    useEffect(() => {
-        if (selectedInputType === 'image + text') {
-            console.log('condition is working');
-            const handlePathValueClick = (pathValue) => {
-                handleGetPathValue(pathValue);
-                setNextPageHref(pathValue);
-            };
-            handlePathValueClick('/image-text');
-        }
-    }, [selectedInputType, handleGetPathValue, setNextPageHref]);
-
     const router = useRouter();
 
     const handleCameraOpen = (e) => {
@@ -55,32 +39,44 @@ const ImagePage = ({ setNextPageHref, submitForm, t, data }) => {
     };
 
 
-    let dataList = data.data;
-
     const handleImageUrl = async (imageUrl, e) => {
         setSelectedImage(imageUrl);
         e.preventDefault();
-        const selectedObject = dataList.find(item => item.version === selectedVersion.version);
-        console.log(selectedObject, 'selectedObject from image page')
+        const selectedObject = data.find(item => item.attributes.version === selectedVersion);
         if (selectedObject) {
             const inputKey = selectedObject.attributes.inputs_keys;
             console.log(inputKey, 'inputKey from image page');
-            if (inputKey === 'image') {
-                await setGlobalInput(prevState => ({ ...prevState, image: imageUrl }));
-            } else if (inputKey === 'input_image') {
-                await setGlobalInput(prevState => ({ ...prevState, input_image: imageUrl }));
-            } else if (inputKey === 'img') {
-                await setGlobalInput(prevState => ({ ...prevState, img: imageUrl }));
+            if (inputKey === 'Prompt, image_path' || inputKey === 'prompt, init_image') {
+                const newKeys = inputKey.split(', ');
+                console.log(newKeys, 'newKeys from image page');
+                setGlobalInput(prevState => ({ ...prevState, [newKeys[0]]: '', [newKeys[1]]: imageUrl }));
+            } else {
+                setGlobalInput(prevState => ({ ...prevState, [inputKey]: imageUrl }));
             }
-        }
+        };
     };
 
-
+    useEffect(() => {
+        if (selectedInputType === 'image + text') {
+            const handlePathValueClick = (pathValue) => {
+                handleGetPathValue(pathValue);
+                setNextPageHref(pathValue);
+            };
+            if (submitForm) {
+                setSubmitForm(false);
+            }
+            handlePathValueClick('/image-text');
+        }
+    }, [selectedInputType, handleGetPathValue, setNextPageHref]);
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
         setLoading(true);
         console.log('handler was submitted')
+        if (selectedInputType === 'image + text') {
+            setLoading(false);
+            return; // Return early if selectedInputType is "image + text"
+        }
         try {
             await handleSubmit(
                 e,
@@ -97,6 +93,7 @@ const ImagePage = ({ setNextPageHref, submitForm, t, data }) => {
             console.error(error);
         }
     }
+
 
     useEffect(() => {
         if (submitForm) {
@@ -156,7 +153,7 @@ export async function getStaticProps() {
 
     return {
         props: {
-            data: data,
+            data: data.data,
         },
     };
 }

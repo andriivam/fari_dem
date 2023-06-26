@@ -5,14 +5,18 @@ import { GlobalInputContext } from '../../../context/GlobalInputContext';
 import { OutputTypeContext } from '../../../context/OutputTypeContext';
 import { PredictionContext } from '../../../context/PredictionContext';
 import MediaComponent from '../../../components/media';
+import { fetchData } from '../../../api/axios';
 
-const Result = ({ t }) => {
+const Result = ({ t, data }) => {
 
     const [linkSource, setLinkSource] = useState('');
     const { globalInput } = useContext(GlobalInputContext);
     const { selectedOutputType } = useContext(OutputTypeContext);
     const { prediction } = useContext(PredictionContext);
-    console.log(selectedOutputType, 'from result page')
+
+
+    console.log(selectedOutputType, 'from result page');
+    console.log(prediction?.version, 'prediction from result page');
 
     const { output } = prediction || {};
     let link = "";
@@ -29,6 +33,7 @@ const Result = ({ t }) => {
         setLinkSource(link);
     }, [link]);
 
+    const selectedObject = data.find(item => item.attributes.version === prediction?.version);
 
     return (
         <div className={styles.container}>
@@ -59,30 +64,48 @@ const Result = ({ t }) => {
                         <Image className={styles.selectedImage} src={globalInput.input_image} alt="animal" width={500} height={500} />
                     </div>
                 )}
-                <div className={styles.resultItem}>
-                    {prediction && prediction.output && (
+                {globalInput.image_path && globalInput.Prompt && (
+                    <div className={styles.resultItem}>
+                        <p className={styles.inputHeader}>{t("imageInput")}</p>
+                        <Image className={styles.selectedImage} src={globalInput.image_path} alt="animal" width={500} height={500} />
                         <div className={styles.resultItem}>
-                            {globalInput.prompt && selectedOutputType === 'image' && (<p className={styles.inputHeader}>{t("globalInput_header1")}</p>)}
-                            {globalInput.prompt && selectedOutputType === 'video' && (<p className={styles.inputHeader}>{t("globalInput_header2")}</p>)}
-                            {globalInput.prompt && selectedOutputType === '3D' && (<p className={styles.inputHeader}>{t("globalInput_header3")}</p>)}
-                            {globalInput.image && selectedOutputType === 'image' && (<p className={styles.inputHeader}>This is the image created by the algorithm from the image you chose</p>)}
-                            {globalInput.image && selectedOutputType === '3D' && (<p className={styles.inputHeader}>This is the 3D object created by the algorithm from the image you chose</p>)}
-                            {globalInput.input_image && selectedOutputType === 'video' && (<p className={styles.inputHeader}>This is the video created by the algorithm from the image you chose</p>)}
-                            {linkSource ? < MediaComponent
-                                src={linkSource}
-                                className={styles.resultImage}
-                                width={400}
-                                height={400}
-                                alt="replicate video"
-                                autoPlay
-                                controls
-                                loop /> : null}
+                            <p className={styles.inputHeader}>{t("textInput")}</p>
+                            <div className={styles.userInputDiv}>
+                                <p className={styles.userInputParagraph}>
+                                    {globalInput.Prompt}
+                                </p>
+                            </div>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
+                {selectedObject && (
+                    <div className={styles.resultItem}>
+                        <p className={styles.inputHeader}>{selectedObject.attributes.output_description}</p>
+                        {linkSource ? < MediaComponent
+                            src={linkSource}
+                            className={styles.resultImage}
+                            width={400}
+                            height={400}
+                            alt="replicate video"
+                            autoPlay
+                            controls
+                            loop /> : null}
+                    </div>
+                )}
             </div>
         </div>
     )
+}
+
+export async function getStaticProps() {
+
+    const data = await fetchData();
+
+    return {
+        props: {
+            data: data.data,
+        },
+    };
 }
 
 export default Result;

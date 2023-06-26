@@ -76,6 +76,7 @@ function App({ Component, pageProps, translations }) {
                     {...pageProps}
                     setNextPageHref={setNextPageHref}
                     submitForm={submitForm}
+                    setSubmitForm={setSubmitForm}
                     t={t}
                   />
                   {isResultPage ? null : !submitForm && (

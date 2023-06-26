@@ -21,11 +21,8 @@ const TextPage = ({ submitForm, t }) => {
     const { selectedOutputType } = useContext(OutputTypeContext);
     const { prediction, setPrediction } = useContext(PredictionContext);
     const { selectedVersion } = useContext(VersionContext);
-    console.log(selectedVersion, 'selectedVersion from text page')
 
     const router = useRouter();
-
-
 
     const handleTextInput = (e) => {
         let textInput = e.target.value;
@@ -35,7 +32,6 @@ const TextPage = ({ submitForm, t }) => {
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
-        console.log('handler was called');
         setLoading(true);
         try {
             await handleSubmit(
@@ -56,7 +52,6 @@ const TextPage = ({ submitForm, t }) => {
     useEffect(() => {
         if (submitForm) {
             handleSubmitForm({ preventDefault: () => { } });
-            console.log(('submitForm was clicked'))
         }
     }, [submitForm]);
 

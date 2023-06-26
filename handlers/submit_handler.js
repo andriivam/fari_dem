@@ -7,8 +7,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const handleSubmit = async (e, globalInput, setPrediction, setError, error, selectedVersion, inputType, outputType) => {
     const endPoint = "/api/predictions";
     const fakeEndPoint = "http://localhost:3010/v1/predictions";
-    // cosnt { selectedVersion } = useContext(VersionContext);
-    // const version = getVersion(inputType, outputType);
+
     if (globalInput === {}) {
         setSubmittedWithoutInputs(true);
         return;
@@ -47,20 +46,6 @@ const handleSubmit = async (e, globalInput, setPrediction, setError, error, sele
             }
             setPrediction(prediction);
         }
-
-        // const { output } = prediction;
-        // let link = "";
-
-        // if (Array.isArray(output)) {
-        //     link = output[0];
-        //     setLinkSource(link);
-        // } else if (typeof output === "string") {
-        //     link = output || outputFileTracing;
-        //     setLinkSource(link);
-        // } else if (typeof output === "object" && (output.img_out || output.animation)) {
-        //     link = output.img_out || output.animation;
-        //     setLinkSource(link);
-        // }
 
     } catch (error) {
         console.log({ error });

@@ -2,7 +2,7 @@ import styles from '../../styles/Output.module.css';
 import ImageCard from '../../../components/Cards/imageCard/image-card';
 import VideoCard from '../../../components/Cards/videoCard/video-card';
 import DCard from '../../../components/Cards/3DCard/3d-card';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { InputTypeContext } from '../../../context/InputTypeContext';
 import { OutputTypeContext } from '../../../context/OutputTypeContext';
 import { VersionContext } from '../../../context/VersionContext';
@@ -10,22 +10,14 @@ import usePathValue from '../../../handlers/path_handler';
 import { fetchData } from '../../../api/axios';
 
 
-
-
-
 const Output = ({ setNextPageHref, t, data }) => {
-
 
     const { selectedInputType } = useContext(InputTypeContext);
     const { selectedOutputType, setSelectedOutputType } = useContext(OutputTypeContext);
     const { selectedVersion, setSelectedVersion } = useContext(VersionContext);
     const { handleGetPathValue } = usePathValue();
-    // const [selectedOutputItems, setSelectedOutputItems] = useState([]);
-
-
 
     console.log(selectedOutputType, 'selectedOutputType');
-    console.log(selectedVersion, 'selectedVersion')
 
     let pathValue;
 
@@ -41,7 +33,6 @@ const Output = ({ setNextPageHref, t, data }) => {
     const handleSelectedOutput = (outputType, version) => {
         setSelectedVersion(version);
         setSelectedOutputType(outputType);
-        console.log(version, 'selected version');
     };
 
     const handlePathValueClick = () => {
@@ -49,15 +40,13 @@ const Output = ({ setNextPageHref, t, data }) => {
         setNextPageHref(pathValue);
     };
 
-
-    console.log(data, 'data');
-
     const outputComponentMap = {
         'image': ImageCard,
         'video': VideoCard,
         '3D': DCard,
     };
 
+    console.log(data, 'data from output page');
 
 
     return (

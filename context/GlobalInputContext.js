@@ -6,7 +6,7 @@ const GlobalInputContext = createContext();
 // Create a provider component
 const GlobalInputProvider = ({ children }) => {
 
-    const [globalInput, setGlobalInput] = useState({ "prompt": null, "image": null, "img": null, "input_image": null });
+    const [globalInput, setGlobalInput] = useState({});
 
     console.log(globalInput, 'from global input context');
     return (

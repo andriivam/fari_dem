@@ -40,7 +40,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages }) => 
             setNextPageHref(null);
         }
         else if
-            (router.pathname === '/image-page' || router.pathname === '/text-page' || router.pathname === '/image-text-page') {
+            (router.pathname === '/image-page' || router.pathname === '/text-page') {
             setSelectedOutputType(null);
             setGlobalInput({});
         } else if (router.pathname === '/result') {
