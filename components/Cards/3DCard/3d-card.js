@@ -17,7 +17,7 @@ const DCard = ({ handleSelectedOutput, selectedOutputType, handlePathValueClick,
                         priority={true}
                         className={styles.image}
                         src="/static/cube.svg"
-                        alt="Fox in the show" width={420} height={365} />
+                        alt="Fox in the show" width={420} height={345} />
                 </div>
             </div>
             <div className={styles.textDiv}>

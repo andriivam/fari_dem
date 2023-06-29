@@ -2,6 +2,7 @@ import styles from './footer.module.css';
 import cls from 'classnames';
 import { useRouter } from 'next/router';
 
+
 const Footer = ({ handleNextStep, disabled, onSubmit }) => {
 
     const router = useRouter();

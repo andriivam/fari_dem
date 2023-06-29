@@ -8,14 +8,12 @@ import { OutputTypeProvider } from '../../context/OutputTypeContext';
 import { GlobalInputProvider } from '../../context/GlobalInputContext';
 import { PredictionProvider } from '../../context/PredictionContext';
 import { VersionProvider } from '../../context/VersionContext';
-import { useState, useEffect, use } from 'react';
-import { appWithTranslation } from 'next-i18next';
-import { useTranslation } from 'react-i18next';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '../i18n';
+import { LinkProvider } from '../../context/LinkContext';
+import { useState, useEffect } from 'react';
+import { fetchData, fetchGenerativeAi, fetchInterfaceComponent } from '../../api/axios';
 
 
-function App({ Component, pageProps, translations }) {
+function App({ Component, pageProps }) {
 
 
   const [nextPageHref, setNextPageHref] = useState('/');
@@ -39,31 +37,27 @@ function App({ Component, pageProps, translations }) {
   };
 
 
-  const isResultPage = router.pathname === '/result';
+  const isResultPage = router.pathname === `/result`;
 
   console.log({ nextPageHref }, 'from app');
 
 
-  const { t } = useTranslation('translation', { resources: translations });
-
-
-
   useEffect(() => {
-    const languages = router.query.languages || i18n.language || i18n.options.fallbackLng[0];
-
-    if (languages && languages !== i18n.language) {
-      i18n.changeLanguage(languages);
+    if (router.query.languages) {
       setLanguages(router.query.languages);
+      fetchData(router.query.languages);
+      fetchGenerativeAi(router.query.languages);
+      fetchInterfaceComponent(router.query.languages);
     }
-  }, [router.query.languages, languages]);
+  }, [router.query.languages]);
 
   return (
-    <VersionProvider>
-      <PredictionProvider>
-        <GlobalInputProvider>
-          <InputTypeProvider>
-            <OutputTypeProvider>
-              <I18nextProvider i18n={i18n}>
+    <LinkProvider>
+      <VersionProvider>
+        <PredictionProvider>
+          <GlobalInputProvider>
+            <InputTypeProvider>
+              <OutputTypeProvider>
                 <div className={styles.pageContainer}>
                   <Header
                     setNextPageHref={setNextPageHref}
@@ -77,7 +71,8 @@ function App({ Component, pageProps, translations }) {
                     setNextPageHref={setNextPageHref}
                     submitForm={submitForm}
                     setSubmitForm={setSubmitForm}
-                    t={t}
+                    languages={languages}
+
                   />
                   {isResultPage ? null : !submitForm && (
                     <Footer
@@ -87,29 +82,15 @@ function App({ Component, pageProps, translations }) {
                     />
                   )}
                 </div>
-              </I18nextProvider>
-            </OutputTypeProvider>
-          </InputTypeProvider>
-        </GlobalInputProvider>
-      </PredictionProvider>
-    </VersionProvider>
+              </OutputTypeProvider>
+            </InputTypeProvider>
+          </GlobalInputProvider>
+        </PredictionProvider>
+      </VersionProvider>
+    </LinkProvider>
   )
 }
 
-
-export async function getStaticProps({ locale, query }) {
-  const languages = query.languages || locale;
-  await i18n.changeLanguage(languages); // Update the language using i18n.changeLanguage
-  const translations = await serverSideTranslations(languages, ['common']);
-
-  return {
-    props: {
-      translations,
-    },
-  };
-}
-
-
-export default appWithTranslation(App);
+export default App;
 
 

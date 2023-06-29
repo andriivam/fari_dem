@@ -1,6 +1,7 @@
 import styles from './ImageCard.module.css';
 import Image from 'next/image';
 import cls from 'classnames';
+import { useRouter } from 'next/router';
 
 
 const ImageCard = ({
@@ -8,10 +9,10 @@ const ImageCard = ({
     handlePathValueClick,
     handleSelectedOutput,
     selectedInputType,
-    t,
     task,
     selectedOutputType }) => {
 
+    const router = useRouter();
 
     const handleInputOutputClick = (event) => {
         event.stopPropagation();
@@ -36,12 +37,12 @@ const ImageCard = ({
                         className={styles.image}
                         priority={true}
                         src="/static/image.svg"
-                        alt="Fox in the show" width={420} height={365} />
+                        alt="Fox in the show" width={420} height={350} />
                     {selectedInputType && <div className={styles.imgWrapper}></div>}
                 </div>
             </div>
             <div className={styles.textDiv}>
-                <p className={styles.imageParagraph}>{task ? task : t("Image")}</p>
+                <p className={styles.imageParagraph}>{router.pathname === '/' ? 'Image' : task}</p>
             </div>
         </div>
     )

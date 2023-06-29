@@ -2,22 +2,41 @@ import styles from '../../styles/Output.module.css';
 import ImageCard from '../../../components/Cards/imageCard/image-card';
 import VideoCard from '../../../components/Cards/videoCard/video-card';
 import DCard from '../../../components/Cards/3DCard/3d-card';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { InputTypeContext } from '../../../context/InputTypeContext';
 import { OutputTypeContext } from '../../../context/OutputTypeContext';
 import { VersionContext } from '../../../context/VersionContext';
 import usePathValue from '../../../handlers/path_handler';
-import { fetchData } from '../../../api/axios';
+import { fetchData, fetchGenerativeAi } from '../../../api/axios';
 
 
-const Output = ({ setNextPageHref, t, data }) => {
+// export async function getStaticProps() {
 
+//     const languages = 'en';
+
+//     const data = await fetchData(languages);
+
+//     return {
+//         props: {
+//             data: data.data,
+//             languages,
+//         },
+//     };
+// }
+
+
+const Output = ({ setNextPageHref, disabled, languages }) => {
+
+    const [translation, setTranslation] = useState(null);
+    const [responseData, setResponseData] = useState(null);
     const { selectedInputType } = useContext(InputTypeContext);
     const { selectedOutputType, setSelectedOutputType } = useContext(OutputTypeContext);
     const { selectedVersion, setSelectedVersion } = useContext(VersionContext);
     const { handleGetPathValue } = usePathValue();
 
+
     console.log(selectedOutputType, 'selectedOutputType');
+    console.log(selectedVersion, 'selectedVersion from output');
 
     let pathValue;
 
@@ -36,6 +55,9 @@ const Output = ({ setNextPageHref, t, data }) => {
     };
 
     const handlePathValueClick = () => {
+        if (selectedOutputType === '') {
+            disabled;
+        }
         handleGetPathValue(pathValue);
         setNextPageHref(pathValue);
     };
@@ -46,17 +68,30 @@ const Output = ({ setNextPageHref, t, data }) => {
         '3D': DCard,
     };
 
-    console.log(data, 'data from output page');
+
+    useEffect(() => {
+        const fetchDataAndUpdateState = async () => {
+            const response = await fetchData(languages);
+            setResponseData(response);
+            const translatedData = await fetchGenerativeAi(languages);
+            setTranslation(translatedData);
+        };
+        fetchDataAndUpdateState();
+    }, [languages]);
 
 
     return (
         <div className={styles.container}>
             <div className={styles.headingInfo}>
-                <h2 className={styles.header}>{t("Step2")}</h2>
-                <p className={styles.inputParagraph}>{t("outputType")}</p>
+                <h2 className={styles.header}>
+                    {translation && translation.data.attributes.step2_title}
+                </h2>
+                <p className={styles.inputParagraph}>
+                    {translation && translation.data.attributes.step2_description}
+                </p>
             </div>
             <div className={styles.cartsDiv}>
-                {data.data.map((outputItem) => {
+                {responseData && responseData?.data.map((outputItem) => {
                     const input = outputItem.attributes.input;
                     const OutputComponent = outputComponentMap[outputItem.attributes.output];
                     const isSelected = selectedVersion.includes(outputItem.attributes.version);
@@ -67,7 +102,6 @@ const Output = ({ setNextPageHref, t, data }) => {
                                 handleSelectedOutput={() => handleSelectedOutput(outputItem.attributes.output, outputItem.attributes.version)}
                                 selectedOutputType={isSelected && selectedOutputType}
                                 handlePathValueClick={handlePathValueClick}
-                                t={t}
                                 task={outputItem.attributes.task}
                             />
                         );
@@ -79,16 +113,5 @@ const Output = ({ setNextPageHref, t, data }) => {
     )
 }
 
-
-export async function getStaticProps() {
-
-    const data = await fetchData();
-
-    return {
-        props: {
-            data: data,
-        },
-    };
-}
 
 export default Output;

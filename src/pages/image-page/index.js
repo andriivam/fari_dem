@@ -12,15 +12,17 @@ import { PredictionContext } from '../../../context/PredictionContext';
 import Loading from '../../../components/Loading/loading';
 import { useRouter } from 'next/router';
 import usePathValue from '../../../handlers/path_handler';
-import { fetchData } from '../../../api/axios';
+import { fetchData, fetchGenerativeAi } from '../../../api/axios';
 
 
-const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, t, data }) => {
+const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, languages }) => {
 
     const [cameraOpen, setCameraOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [translation, setTranslation] = useState(null);
+    const [data, setData] = useState(null);
 
 
     const { globalInput, setGlobalInput } = useContext(GlobalInputContext);
@@ -42,13 +44,11 @@ const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, t, data }) => {
     const handleImageUrl = async (imageUrl, e) => {
         setSelectedImage(imageUrl);
         e.preventDefault();
-        const selectedObject = data.find(item => item.attributes.version === selectedVersion);
+        const selectedObject = data.data.find(item => item.attributes.version === selectedVersion);
         if (selectedObject) {
             const inputKey = selectedObject.attributes.inputs_keys;
-            console.log(inputKey, 'inputKey from image page');
             if (inputKey === 'Prompt, image_path' || inputKey === 'prompt, init_image') {
                 const newKeys = inputKey.split(', ');
-                console.log(newKeys, 'newKeys from image page');
                 setGlobalInput(prevState => ({ ...prevState, [newKeys[0]]: '', [newKeys[1]]: imageUrl }));
             } else {
                 setGlobalInput(prevState => ({ ...prevState, [inputKey]: imageUrl }));
@@ -109,22 +109,39 @@ const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, t, data }) => {
         }
     }, [prediction, router]);
 
-    return (
+    useEffect(() => {
+        const fetchDataAndUpdateState = async () => {
+            const data = await fetchData(languages);
+            setData(data);
+            const translatedData = await fetchGenerativeAi(languages);
+            setTranslation(translatedData);
+        };
+        fetchDataAndUpdateState();
+    }, [languages]);
 
+
+
+    return (
         <>
             {loading ? (
                 <Loading />
             ) : (
                 <div className={styles.container}>
                     <div className={styles.headingInfo}>
-                        <h2 className={styles.header}>{t("Step3")}</h2>
-                        <p className={styles.inputParagraph}>{t("Step3_paragraph")}</p>
+                        <h2 className={styles.header}>
+                            {translation && translation.data.attributes.step3_image_title}
+                        </h2>
+                        <p className={styles.inputParagraph}>
+                            {translation && translation.data.attributes.step3_image_description}
+                        </p>
                     </div>
                     {cameraOpen ? (<Camera
                         handleImageUrl={handleImageUrl}
                     />) : (
                         <>
-                            <h4 className={styles.imageHeading}>{t("Step3_img_header")}</h4>
+                            <h4 className={styles.imageHeading}>
+                                Choose one of these images
+                            </h4>
                             <div className={styles.content} >
                                 <ImageList
                                     handleImageUrl={handleImageUrl}
@@ -134,7 +151,7 @@ const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, t, data }) => {
                                 <div className={styles.cameraDivWrapper}>
                                     <div className={styles.cameraDiv}>
                                         <button className={styles.cameraBtn} onClick={handleCameraOpen}><Image src="/static/camera.svg" alt="camera" width={60} height={55} /></button>
-                                        <p className={styles.cameraPar}>{t("Camera_header")}</p>
+                                        <p className={styles.cameraPar}>Click here to take a picture using webcam</p>
                                     </div>
                                 </div>
                             </div>
@@ -147,16 +164,17 @@ const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, t, data }) => {
     )
 }
 
-export async function getStaticProps() {
+// export async function getStaticProps({ locale }) {
 
-    const data = await fetchData();
+//     const data = await fetchData(locale);
 
-    return {
-        props: {
-            data: data.data,
-        },
-    };
-}
+//     return {
+//         props: {
+//             data: data.data,
+//             languages: locale,
+//         },
+//     };
+// }
 
 
 export default ImagePage;

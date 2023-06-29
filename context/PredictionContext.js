@@ -8,7 +8,7 @@ const PredictionProvider = ({ children }) => {
 
     const [prediction, setPrediction] = useState(null);
 
-    console.log(prediction, 'from prediction context');
+    // console.log(prediction, 'from prediction context');
 
     return (
         <PredictionContext.Provider value={{ prediction, setPrediction }}>

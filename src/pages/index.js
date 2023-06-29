@@ -4,16 +4,29 @@ import styles from '../styles/Home.module.css';
 import ImageCard from '../../components/Cards/imageCard/image-card';
 import ImageTextCard from '../../components/Cards/imageTextCard/image-text-card';
 import TextCard from '../../components/Cards/textCard/textCard';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { InputTypeContext } from '../../context/InputTypeContext';
 import usePathValue from '../../handlers/path_handler';
-import { Trans } from "react-i18next";
+import { fetchGenerativeAi } from '../../api/axios';
 
 
+// export async function getServerSideProps({ locale }) {
+//   console.log(locale, 'locale from home page');
 
-export default function Home({ setNextPageHref, t }) {
+//   const data = await fetchData(locale);
+
+//   return {
+//     props: {
+//       data: data.data,
+//       languages: [locale],
+//     },
+//   };
+// }
 
 
+export default function Home({ setNextPageHref, languages }) {
+
+  const [translation, setTranslation] = useState(null);
   const { selectedInputType, setSelectedInputType } = useContext(InputTypeContext);
   const { handleGetPathValue } = usePathValue();
 
@@ -31,6 +44,20 @@ export default function Home({ setNextPageHref, t }) {
     setSelectedInputType(null);
   };
 
+
+
+  useEffect(() => {
+
+    const fetchDataAndUpdateState = async () => {
+      const response = await fetchGenerativeAi(languages);
+      setTranslation(response.data);
+    };
+
+    fetchDataAndUpdateState();
+  }, [languages]);
+
+  console.log(translation, 'translation from home page');
+
   return (
     <>
       <Head>
@@ -42,12 +69,10 @@ export default function Home({ setNextPageHref, t }) {
       <div className={styles.container}>
         <div className={styles.headingInfo}>
           <h2 className={styles.header}>
-            {t("Step1")}
+            {translation && translation.attributes.step1_title}
           </h2>
           <p className={styles.inputParagraph}>
-            <Trans key="inputParagraph">
-              {t("inputParagraph")}
-            </Trans>
+            {translation && translation.attributes.step1_description}
           </p>
         </div>
         <div className={styles.cartsDiv}>
@@ -55,10 +80,8 @@ export default function Home({ setNextPageHref, t }) {
             handleSelectedInput={() => handleSelectedInput('image')}
             selectedInputType={selectedInputType === 'image'}
             handlePathValueClick={handlePathValueClick}
-            t={t}
           />
           <TextCard
-            t={t}
             onClick={() => console.log('test')}
             handleSelectedInput={() => handleSelectedInput('text')}
             selectedInputType={selectedInputType === 'text'}
@@ -68,16 +91,9 @@ export default function Home({ setNextPageHref, t }) {
             handleSelectedInput={() => handleSelectedInput('image + text')}
             selectedInputType={selectedInputType === 'image + text'}
             handlePathValueClick={handlePathValueClick}
-            t={t}
           />
-
         </div>
       </div>
     </>
   )
-}
-
-
-
-
-
+};

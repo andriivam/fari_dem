@@ -9,14 +9,16 @@ import handleSubmit from '../../../handlers/submit_handler';
 import { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { fetchData } from '../../../api/axios';
+import { fetchData, fetchGenerativeAi } from '../../../api/axios';
 
 
-function ImageText({ submitForm, data }) {
+function ImageText({ submitForm, languages }) {
 
     const [loading, setLoading] = useState(false);
     const [textInput, setTextInput] = useState('');
     const [error, setError] = useState(null);
+    const [translatedData, setTranslatedData] = useState(null);
+    const [responseData, setResponseData] = useState(null);
 
     const { globalInput, setGlobalInput } = useContext(GlobalInputContext);
     const { prediction, setPrediction } = useContext(PredictionContext);
@@ -28,16 +30,14 @@ function ImageText({ submitForm, data }) {
     const handleTextInput = (e) => {
         let textInput = e.target.value;
         setTextInput(textInput);
-        const selectedObject = data.find(item => item.attributes.version === selectedVersion);
+        const selectedObject = responseData.find(item => item.attributes.version === selectedVersion);
         if (selectedObject) {
             const inputKey = selectedObject.attributes.inputs_keys;
             if (inputKey === 'Prompt, image_path' || inputKey === 'prompt, init_image') {
                 const newKeys = inputKey.split(', ');
-                console.log(newKeys, 'newKeys from image page');
                 setGlobalInput(prevState => ({ ...prevState, [newKeys[0]]: textInput, [newKeys[1]]: globalInput.image_path || globalInput.init_image }));
             }
         };
-        //setGlobalInput(prevState => ({ ...prevState, "Prompt": textInput }));
     };
 
     const handleSubmitForm = async (e) => {
@@ -75,12 +75,29 @@ function ImageText({ submitForm, data }) {
         }
     }, [prediction, router]);
 
+    useEffect(() => {
+        const fetchDataAndUpdateState = async () => {
+            const response = await fetchData(languages);
+            setResponseData(response.data);
+            const translationData = await fetchGenerativeAi(languages);
+            setTranslatedData(translationData.data);
+        };
+        fetchDataAndUpdateState();
+    }, [languages]);
+
+    console.log(responseData, 'responseData from image text page');
+    console.log(translatedData, 'translatedData from image text page');
+
     return (
         <>
             {loading ? (<Loading />) : (
                 <div className={styles.container}>
-                    <h3 className={styles.stepHeader}>Step 4: Describe your image</h3>
-                    <p className={styles.stepParagraph}>Write a short description of what the image represents.</p>
+                    <h3 className={styles.stepHeader}>
+                        {translatedData && translatedData.attributes.step4_image_text_title}
+                    </h3>
+                    <p className={styles.stepParagraph}>
+                        {translatedData && translatedData.attributes.step4_image_text_description}
+                    </p>
                     <div className={styles.gridContainer}>
                         <div className={styles.gridItem}>
                             <p className={styles.inputHeader}>This is the image you chose</p>
@@ -109,15 +126,15 @@ function ImageText({ submitForm, data }) {
     )
 }
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
 
-    const data = await fetchData();
+//     const data = await fetchData();
 
-    return {
-        props: {
-            data: data.data,
-        },
-    };
-}
+//     return {
+//         props: {
+//             data: data.data,
+//         },
+//     };
+// }
 
 export default ImageText;

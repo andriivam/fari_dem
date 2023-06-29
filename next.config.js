@@ -1,10 +1,9 @@
-const { i18n } = require('./next-i18next.config')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  i18n,
   reactStrictMode: true,
   images: {
-    domains: ['unsplash.com', 'images.unsplash.com', "plus.unsplash.com", 'api.unsplash.com', 'localhost'],
+    domains: ['unsplash.com', 'images.unsplash.com', "plus.unsplash.com", 'api.unsplash.com', 'localhost', '46.226.110.124'],
     remotePatterns: [
       {
         protocol: "https",
@@ -21,6 +20,10 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "localhost:3002/",
+      },
+      {
+        protocol: "http",
+        hostname: "46.226.110.124:1337",
       },
     ],
   },

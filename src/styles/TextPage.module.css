@@ -28,7 +28,6 @@
 }
 
 .textArea {
-
     display: grid;
     justify-content: center;
 }
@@ -62,4 +61,29 @@
     text-transform: capitalize;
     color: #000000;
     text-align: top;
+}
+
+.buttonArea {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    flex-direction: column;
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.suggestionBtn {
+    margin: 0;
+    width: 860px;
+    margin-bottom: 20px;
+    height: 100px;
+    border: 1px solid #677683;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
