@@ -20,7 +20,7 @@ const Result = ({ languages }) => {
 
     //console.log(selectedOutputType, 'from result page');
     //console.log(prediction?.version, 'prediction from result page');
-    console.log(globalInput, 'globalInput from result page');
+    //console.log(globalInput, 'globalInput from result page');
 
     const { output } = prediction || {};
     let link = "";
@@ -111,18 +111,20 @@ const Result = ({ languages }) => {
                     </div>
                 )}
 
-                <div className={styles.resultItem}>
-                    <p className={styles.inputHeader}>This is the example of output  based on the parameters you have set.</p>
-                    < MediaComponent
-                        src={linkSource}
-                        className={styles.resultImage}
-                        width={400}
-                        height={400}
-                        alt="replicate video"
-                        autoPlay
-                        controls
-                        loop />
-                </div>
+                {!selectedObject && (
+                    <div className={styles.resultItem}>
+                        <p className={styles.inputHeader}>This is the example of output  based on the parameters you have set.</p>
+                        < MediaComponent
+                            src={linkSource}
+                            className={styles.resultImage}
+                            width={400}
+                            height={400}
+                            alt="replicate video"
+                            autoPlay
+                            controls
+                            loop />
+                    </div>
+                )}
             </div>
         </div>
     )

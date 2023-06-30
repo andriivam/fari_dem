@@ -10,21 +10,6 @@ import usePathValue from '../../../handlers/path_handler';
 import { fetchData, fetchGenerativeAi } from '../../../api/axios';
 
 
-// export async function getStaticProps() {
-
-//     const languages = 'en';
-
-//     const data = await fetchData(languages);
-
-//     return {
-//         props: {
-//             data: data.data,
-//             languages,
-//         },
-//     };
-// }
-
-
 const Output = ({ setNextPageHref, disabled, languages }) => {
 
     const [translation, setTranslation] = useState(null);
@@ -34,9 +19,6 @@ const Output = ({ setNextPageHref, disabled, languages }) => {
     const { selectedVersion, setSelectedVersion } = useContext(VersionContext);
     const { handleGetPathValue } = usePathValue();
 
-
-    console.log(selectedOutputType, 'selectedOutputType');
-    console.log(selectedVersion, 'selectedVersion from output');
 
     let pathValue;
 

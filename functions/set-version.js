@@ -1,6 +1,4 @@
 import versions from '../versions.json';
-import { fetchData } from '../api/axios';
-
 
 const getVersion = (inputType, outputType) => {
     const item = versions.find(
@@ -8,7 +6,6 @@ const getVersion = (inputType, outputType) => {
             (item.input === inputType || item.image === inputType) &&
             item.output === outputType
     );
-    console.log({ versions }, 'from function');
     return item ? item.version : null;
 };
 

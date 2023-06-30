@@ -11,6 +11,7 @@ import { LinkContext } from '../../context/LinkContext';
 import { useContext, useEffect, useState } from 'react';
 import { fetchData, fetchGenerativeAi, fetchInterfaceComponent } from '../../api/axios';
 import cancelPrediction from '../../handlers/cancelPrediction';
+import axios from 'axios';
 
 
 const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disabled }) => {
@@ -18,10 +19,14 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
     const { setSelectedInputType } = useContext(InputTypeContext);
     const { setSelectedOutputType } = useContext(OutputTypeContext);
     const { setGlobalInput } = useContext(GlobalInputContext);
-    const { setPrediction } = useContext(PredictionContext);
+    const { prediction, setPrediction } = useContext(PredictionContext);
     const { setSelectedVersion } = useContext(VersionContext);
     const { setLinkSource } = useContext(LinkContext);
     const [translation, setTranslation] = useState(null);
+
+    const id = prediction?.urls.cancel
+    const cancelUrl = ` https://api.replicate.com/v1/predictions/${id}/cancel`
+
 
     const router = useRouter();
 
@@ -47,10 +52,11 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
             (router.pathname === '/image-page' || router.pathname === '/text-page') {
             setSelectedOutputType(null);
             setGlobalInput({});
-            cancelPrediction();
+            //cancelPrediction(cancelUrl);
         } else if (router.pathname === '/result') {
             setPrediction(null);
             setGlobalInput({});
+            setLinkSource('');
         }
         router.back(); // Navigate to the previous page
     };
@@ -69,6 +75,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
         });
     };
 
+
     useEffect(() => {
         const fetchDataAndUpdateState = async () => {
             const translatedData = await fetchInterfaceComponent(languages);
@@ -76,6 +83,34 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
         };
         fetchDataAndUpdateState();
     }, [languages]);
+
+
+
+    const handleCancelation = async () => {
+        try {
+            await cancelPrediction(cancelUrl);
+        } catch (error) {
+            console.error('Failed to cancel prediction:', error);
+        }
+
+        console.log('handler is called');
+        console.log(cancelUrl, 'from header from handler');
+        console.log(typeof (cancelUrl))
+    }
+
+    // const handleCancelation = async () => {
+    //     try {
+    //         const requestBody = {
+    //             predictionContextData: prediction,
+    //         };
+
+    //         await axios.post('/api/cancel', requestBody);
+    //     } catch (error) {
+    //         console.error('Failed to cancel prediction:', error);
+    //     }
+    //     console.log('handler is called');
+    // };
+
 
     return (
         <div className={styles.container}>
@@ -87,6 +122,14 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
                     <Image className={styles.icon} src="/static/arrow-left-light.svg" alt="arrow" width={24} height={24} />
                     {translation && translation.data.attributes.previous}
                 </button>
+                {/* test button should be remove after */}
+                <button
+                    disabled={disabled}
+                    onClick={handleCancelation}
+                    className={styles.previousBtn}>
+                    Cancel Prediction
+                </button>
+                {/* test button end */}
             </div>
             <div className={styles.btnContainer}>
                 <div className={styles.btnWrapper}>

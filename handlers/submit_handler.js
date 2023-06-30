@@ -36,7 +36,6 @@ const handleSubmit = async (e, globalInput, setPrediction, setError, error, sele
             await sleep(1000);
             const response = await fetch("/api/predictions/" + prediction.id);
             prediction = await response.json();
-            console.log(prediction)
 
             if (response.status !== 200) {
                 setError(prediction.detail);

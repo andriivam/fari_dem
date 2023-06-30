@@ -21,7 +21,6 @@ function App({ Component, pageProps }) {
   const [languages, setLanguages] = useState('en');
 
   const handleSubmitForm = async (e) => {
-    //e.preventDefault();
     try {
       setSubmitForm(true);
     } catch (error) {
@@ -39,7 +38,6 @@ function App({ Component, pageProps }) {
 
   const isResultPage = router.pathname === `/result`;
 
-  console.log({ nextPageHref }, 'from app');
 
 
   useEffect(() => {

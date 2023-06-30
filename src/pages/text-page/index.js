@@ -28,6 +28,7 @@ const TextPage = ({ submitForm, languages, data }) => {
     const { selectedVersion } = useContext(VersionContext);
     const { linkSource, setLinkSource } = useContext(LinkContext);
 
+
     const router = useRouter();
 
     const handleTextInput = (e) => {

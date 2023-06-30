@@ -1,21 +1,26 @@
-const cancelPrediction = async () => {
+
+const cancelPrediction = async (cancelUrl) => {
 
     try {
-        console.log(process.env.REPLICATE_API_TOKEN, 'token from cancel handler');
+        console.log(process.env.REPLICATE_API_TOKEN, 'apiToken from cancel handler');
+        console.log(cancelUrl, 'cancelUrl from cancel handler');
 
-        const response = await fetch("https://api.replicate.com/v1/predictions/edvyuzzb4672irnlqnur72r4jy/cancel", {
+        const response = await fetch(cancelUrl, {
             method: 'POST',
             mode: 'no-cors',
             headers: {
-                Authorization: process.env.REPLICATE_API_TOKEN,
+                Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`,
                 "Content-Type": "application/json",
+                "Origin": "http://localhost:3002",
+                "Referer": "http://localhost:3002/",
             },
         });
         if (response.ok) {
             console.log("Prediction canceled successfully");
-            // Perform any additional actions after canceling the prediction
+            const data = await response.json();
+            console.log(data, 'response from cancel handler')
         } else {
-            console.error("Failed to cancel prediction");
+            throw new Error("Failed to cancel prediction")
         }
     } catch (error) {
         console.error("Error canceling prediction:", error);

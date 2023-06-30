@@ -7,7 +7,6 @@ let url3 = 'http://46.226.110.124:1337/api/interface-component';
 export const fetchData = async (locale) => {
 
     try {
-        console.log(locale, 'locale from fetchData')
         const response = await axios.get(`${url}?locale=${locale}`);
         return response.data;
     } catch (error) {
@@ -30,7 +29,6 @@ export const fetchOutputExamples = async () => {
 export const fetchGenerativeAi = async (locale) => {
 
     try {
-        console.log(locale, 'locale from fetchGenerativeAi')
         const response = await axios.get(`${url2}?locale=${locale}`);
         return response.data;
     } catch (error) {
@@ -41,7 +39,6 @@ export const fetchGenerativeAi = async (locale) => {
 export const fetchInterfaceComponent = async (locale) => {
 
     try {
-        console.log(locale, 'locale from fetchInterfaceComponent')
         const response = await axios.get(`${url3}?locale=${locale}`);
         return response.data;
     } catch (error) {

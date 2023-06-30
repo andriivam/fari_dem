@@ -10,27 +10,11 @@ import usePathValue from '../../handlers/path_handler';
 import { fetchGenerativeAi } from '../../api/axios';
 
 
-// export async function getServerSideProps({ locale }) {
-//   console.log(locale, 'locale from home page');
-
-//   const data = await fetchData(locale);
-
-//   return {
-//     props: {
-//       data: data.data,
-//       languages: [locale],
-//     },
-//   };
-// }
-
-
 export default function Home({ setNextPageHref, languages }) {
 
   const [translation, setTranslation] = useState(null);
   const { selectedInputType, setSelectedInputType } = useContext(InputTypeContext);
   const { handleGetPathValue } = usePathValue();
-
-  console.log(selectedInputType, 'selectedInputType');
 
   const handleSelectedInput = (inputType) => {
     setSelectedInputType((prevInputType) => (prevInputType === inputType ? null : inputType));
@@ -55,8 +39,6 @@ export default function Home({ setNextPageHref, languages }) {
 
     fetchDataAndUpdateState();
   }, [languages]);
-
-  console.log(translation, 'translation from home page');
 
   return (
     <>
