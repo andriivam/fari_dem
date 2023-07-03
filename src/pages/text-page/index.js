@@ -15,7 +15,7 @@ import Link from 'next/link';
 
 const TextPage = ({ submitForm, languages, data }) => {
 
-    console.log(data, 'data from text page');
+    //console.log(data, 'data from text page');
 
     const [textInput, setTextInput] = useState('');
     const [error, setError] = useState(null);

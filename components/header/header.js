@@ -52,7 +52,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
             (router.pathname === '/image-page' || router.pathname === '/text-page') {
             setSelectedOutputType(null);
             setGlobalInput({});
-            await cancelPrediction(cancelUrl);
+            //cancelPrediction(cancelUrl);
         } else if (router.pathname === '/result') {
             setPrediction(null);
             setGlobalInput({});
@@ -86,17 +86,30 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
 
 
 
+    const handleCancelation = async () => {
+        try {
+            await cancelPrediction(cancelUrl);
+        } catch (error) {
+            console.error('Failed to cancel prediction:', error);
+        }
+
+        console.log('handler is called');
+        console.log(cancelUrl, 'from header from handler');
+        console.log(typeof (cancelUrl))
+    }
+
     // const handleCancelation = async () => {
     //     try {
-    //         await cancelPrediction(cancelUrl);
+    //         const requestBody = {
+    //             predictionContextData: prediction,
+    //         };
+
+    //         await axios.post('/api/cancel', requestBody);
     //     } catch (error) {
     //         console.error('Failed to cancel prediction:', error);
     //     }
-
     //     console.log('handler is called');
-    //     console.log(cancelUrl, 'from header from handler');
-    //     console.log(typeof (cancelUrl))
-    // }
+    // };
 
 
     return (
@@ -109,6 +122,14 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
                     <Image className={styles.icon} src="/static/arrow-left-light.svg" alt="arrow" width={24} height={24} />
                     {translation && translation.data.attributes.previous}
                 </button>
+                {/* test button should be remove after */}
+                <button
+                    disabled={disabled}
+                    onClick={handleCancelation}
+                    className={styles.previousBtn}>
+                    Cancel Prediction
+                </button>
+                {/* test button end */}
             </div>
             <div className={styles.btnContainer}>
                 <div className={styles.btnWrapper}>

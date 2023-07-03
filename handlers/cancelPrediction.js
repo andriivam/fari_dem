@@ -1,15 +1,16 @@
 
 const cancelPrediction = async (cancelUrl) => {
 
+    console.log(process.env.REPLICATE_API_TOKEN, 'apiToken from cancel handler');
+    console.log(cancelUrl, 'cancelUrl from cancel handler');
+
     try {
-        console.log(process.env.REPLICATE_API_TOKEN, 'apiToken from cancel handler');
-        console.log(cancelUrl, 'cancelUrl from cancel handler');
 
         const response = await fetch(cancelUrl, {
             method: 'POST',
             mode: 'no-cors',
             headers: {
-                Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`,
+                Authorization: process.env.REPLICATE_API_TOKEN,
                 "Content-Type": "application/json",
                 "Origin": "http://localhost:3002",
                 "Referer": "http://localhost:3002/",

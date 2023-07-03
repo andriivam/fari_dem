@@ -4,10 +4,10 @@ let url = 'http://46.226.110.124:1337/api/generative-ai-models';
 let url2 = 'http://46.226.110.124:1337/api/demo-generative-ai';
 let url3 = 'http://46.226.110.124:1337/api/interface-component';
 
-export const fetchData = async (locale) => {
+export const fetchData = async (languages) => {
 
     try {
-        const response = await axios.get('/api/proxy');
+        const response = await axios.get(`/api/proxy?languages=${languages}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching data:', error);
