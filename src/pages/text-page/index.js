@@ -15,6 +15,7 @@ import Link from 'next/link';
 
 const TextPage = ({ submitForm, languages, data }) => {
 
+    console.log(data, 'data from text page');
 
     const [textInput, setTextInput] = useState('');
     const [error, setError] = useState(null);
@@ -28,7 +29,7 @@ const TextPage = ({ submitForm, languages, data }) => {
     const { selectedVersion } = useContext(VersionContext);
     const { linkSource, setLinkSource } = useContext(LinkContext);
 
-
+    console.log(prediction, 'prediction from text page')
     const router = useRouter();
 
     const handleTextInput = (e) => {
@@ -80,6 +81,8 @@ const TextPage = ({ submitForm, languages, data }) => {
 
 
     const selectedObject = data.find(item => item.attributes.version === selectedVersion);
+
+    console.log(selectedObject, 'selected object from text page');
 
     const handleExample = (caption, url) => {
         setGlobalInput(prevState => ({ ...prevState, "prompt": caption }));

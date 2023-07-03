@@ -69,7 +69,7 @@ function ImageText({ submitForm, languages }) {
 
 
     useEffect(() => {
-        console.log(prediction?.status, 'prediction status from image text page');
+        //console.log(prediction?.status, 'prediction status from image text page');
         if (prediction?.status === 'succeeded') {
             router.push('/result');
         }

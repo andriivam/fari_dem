@@ -3,6 +3,7 @@ export default async function handler(req, res) {
 
     const url = "https://api.replicate.com/v1/predictions/";
     const response = await fetch(url + req.query.id,
+        //console.log(process.env.REPLICATE_API_TOKEN, 'apiToken from backend handler'),
 
         {
             headers: {

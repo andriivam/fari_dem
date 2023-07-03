@@ -8,7 +8,7 @@ const GlobalInputProvider = ({ children }) => {
 
     const [globalInput, setGlobalInput] = useState({});
 
-    // console.log(globalInput, 'from global input context');
+    console.log(globalInput, 'from global input context');
 
     return (
         <GlobalInputContext.Provider value={{ globalInput, setGlobalInput }}>

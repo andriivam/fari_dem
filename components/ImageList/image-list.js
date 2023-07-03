@@ -31,7 +31,7 @@ const ImageList = ({ handleImageUrl, selectedImage }) => {
                         width={430}
                         height={375}
                         key={index}
-                        alt={`Image ${index}`}
+                        alt={`Image ${index}` || 'image'}
                         onClick={(e) => handleClick(imageUrl, e)}
                         className={cls(styles.img, { [styles.selected]: selectedImage === imageUrl })}
                     />
