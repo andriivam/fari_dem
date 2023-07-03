@@ -7,7 +7,7 @@ let url3 = 'http://46.226.110.124:1337/api/interface-component';
 export const fetchData = async (locale) => {
 
     try {
-        const response = await axios.get('api/proxy');
+        const response = await axios.get('/api/proxy');
         return response.data;
     } catch (error) {
         console.error('Error fetching data:', error);
