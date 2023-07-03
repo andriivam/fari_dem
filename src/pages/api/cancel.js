@@ -3,10 +3,8 @@ import cancelPrediction from '../../../handlers/cancelPrediction';
 
 export default async function handler(req, res) {
     const { predictionContextData } = req.body;
-    console.log(predictionContextData, 'from backend data');
     const cancelUrl = predictionContextData.urls.cancel;
     const apiToken = process.env.REPLICATE_API_TOKEN;
-    console.log(apiToken, 'from backend');
 
     try {
         await cancelPrediction(cancelUrl, apiToken);

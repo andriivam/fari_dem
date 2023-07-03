@@ -17,8 +17,8 @@ const cancelPrediction = async (cancelUrl) => {
         });
         if (response.ok) {
             console.log("Prediction canceled successfully");
-            const data = await response.json();
-            console.log(data, 'response from cancel handler')
+            // const data = await response.json();
+            // console.log(data, 'response from cancel handler')
         } else {
             throw new Error("Failed to cancel prediction")
         }

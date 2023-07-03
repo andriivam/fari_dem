@@ -24,8 +24,8 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
     const { setLinkSource } = useContext(LinkContext);
     const [translation, setTranslation] = useState(null);
 
-    const id = prediction?.urls.cancel
-    const cancelUrl = ` https://api.replicate.com/v1/predictions/${id}/cancel`
+    const id = prediction?.id;
+    const cancelUrl = `https://api.replicate.com/v1/predictions/${id}/cancel`
 
 
     const router = useRouter();
@@ -41,7 +41,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
         // setLinkSource(null);
     };
 
-    const handlePreviousStep = () => {
+    const handlePreviousStep = async () => {
         setSubmitForm(false);
         if (router.pathname === '/output') {
             setSelectedInputType(null);
@@ -52,7 +52,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
             (router.pathname === '/image-page' || router.pathname === '/text-page') {
             setSelectedOutputType(null);
             setGlobalInput({});
-            //cancelPrediction(cancelUrl);
+            await cancelPrediction(cancelUrl);
         } else if (router.pathname === '/result') {
             setPrediction(null);
             setGlobalInput({});
@@ -86,30 +86,17 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
 
 
 
-    const handleCancelation = async () => {
-        try {
-            await cancelPrediction(cancelUrl);
-        } catch (error) {
-            console.error('Failed to cancel prediction:', error);
-        }
-
-        console.log('handler is called');
-        console.log(cancelUrl, 'from header from handler');
-        console.log(typeof (cancelUrl))
-    }
-
     // const handleCancelation = async () => {
     //     try {
-    //         const requestBody = {
-    //             predictionContextData: prediction,
-    //         };
-
-    //         await axios.post('/api/cancel', requestBody);
+    //         await cancelPrediction(cancelUrl);
     //     } catch (error) {
     //         console.error('Failed to cancel prediction:', error);
     //     }
+
     //     console.log('handler is called');
-    // };
+    //     console.log(cancelUrl, 'from header from handler');
+    //     console.log(typeof (cancelUrl))
+    // }
 
 
     return (
@@ -122,14 +109,6 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
                     <Image className={styles.icon} src="/static/arrow-left-light.svg" alt="arrow" width={24} height={24} />
                     {translation && translation.data.attributes.previous}
                 </button>
-                {/* test button should be remove after */}
-                <button
-                    disabled={disabled}
-                    onClick={handleCancelation}
-                    className={styles.previousBtn}>
-                    Cancel Prediction
-                </button>
-                {/* test button end */}
             </div>
             <div className={styles.btnContainer}>
                 <div className={styles.btnWrapper}>

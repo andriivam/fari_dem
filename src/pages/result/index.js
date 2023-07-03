@@ -18,9 +18,6 @@ const Result = ({ languages }) => {
     const { linkSource } = useContext(LinkContext);
     const [predictionLink, setPredictionLink] = useState(null);
 
-    //console.log(selectedOutputType, 'from result page');
-    //console.log(prediction?.version, 'prediction from result page');
-    //console.log(globalInput, 'globalInput from result page');
 
     const { output } = prediction || {};
     let link = "";
@@ -46,7 +43,7 @@ const Result = ({ languages }) => {
     }, [languages, link]);
 
     const selectedObject = responseData?.data.find(item => item.attributes.version === prediction?.version);
-    console.log(linkSource, 'link from result')
+
 
     return (
         <div className={styles.container}>
@@ -114,15 +111,17 @@ const Result = ({ languages }) => {
                 {!selectedObject && (
                     <div className={styles.resultItem}>
                         <p className={styles.inputHeader}>This is the example of output  based on the parameters you have set.</p>
-                        < MediaComponent
-                            src={linkSource}
-                            className={styles.resultImage}
-                            width={400}
-                            height={400}
-                            alt="replicate video"
-                            autoPlay
-                            controls
-                            loop />
+                        {linkSource && (
+                            < MediaComponent
+                                src={linkSource}
+                                className={styles.resultImage}
+                                width={400}
+                                height={400}
+                                alt="replicate video"
+                                autoPlay
+                                controls
+                                loop />
+                        )}
                     </div>
                 )}
             </div>
@@ -130,16 +129,5 @@ const Result = ({ languages }) => {
     )
 }
 
-// export async function getStaticProps({ locale }) {
-
-//     const data = await fetchData(locale);
-
-//     return {
-//         props: {
-//             data: data.data,
-//             languages: locale,
-//         },
-//     };
-// }
 
 export default Result;

@@ -85,8 +85,6 @@ function ImageText({ submitForm, languages }) {
         fetchDataAndUpdateState();
     }, [languages]);
 
-    console.log(responseData, 'responseData from image text page');
-    console.log(translatedData, 'translatedData from image text page');
 
     return (
         <>

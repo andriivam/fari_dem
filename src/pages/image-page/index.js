@@ -72,7 +72,6 @@ const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, languages }) =>
     const handleSubmitForm = async (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log('handler was submitted')
         if (selectedInputType === 'image + text') {
             setLoading(false);
             return; // Return early if selectedInputType is "image + text"
@@ -103,7 +102,7 @@ const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, languages }) =>
 
 
     useEffect(() => {
-        console.log(prediction?.status, 'prediction status from image page');
+        //console.log(prediction?.status, 'prediction status from image page');
         if (prediction?.status === 'succeeded') {
             router.push('/result');
         }
@@ -163,18 +162,5 @@ const ImagePage = ({ setNextPageHref, submitForm, setSubmitForm, languages }) =>
 
     )
 }
-
-// export async function getStaticProps({ locale }) {
-
-//     const data = await fetchData(locale);
-
-//     return {
-//         props: {
-//             data: data.data,
-//             languages: locale,
-//         },
-//     };
-// }
-
 
 export default ImagePage;
