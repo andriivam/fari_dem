@@ -38,7 +38,7 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
         setPrediction(null);
         setSubmitForm(false);
         setSelectedVersion([]);
-        // setLinkSource(null);
+        setLinkSource('');
     };
 
     const handlePreviousStep = async () => {
@@ -86,17 +86,14 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
 
 
 
-    const handleCancelation = async () => {
-        try {
-            await cancelPrediction(cancelUrl);
-        } catch (error) {
-            console.error('Failed to cancel prediction:', error);
-        }
+    // const handleCancelation = async () => {
+    //     try {
+    //         await cancelPrediction(cancelUrl);
+    //     } catch (error) {
+    //         console.error('Failed to cancel prediction:', error);
+    //     }
 
-        console.log('handler is called');
-        console.log(cancelUrl, 'from header from handler');
-        console.log(typeof (cancelUrl))
-    }
+    // }
 
     // const handleCancelation = async () => {
     //     try {
@@ -123,12 +120,12 @@ const Header = ({ setNextPageHref, setSubmitForm, languages, setLanguages, disab
                     {translation && translation.data.attributes.previous}
                 </button>
                 {/* test button should be remove after */}
-                <button
+                {/* <button
                     disabled={disabled}
                     onClick={handleCancelation}
                     className={styles.previousBtn}>
                     Cancel Prediction
-                </button>
+                </button> */}
                 {/* test button end */}
             </div>
             <div className={styles.btnContainer}>
