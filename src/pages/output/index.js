@@ -19,9 +19,6 @@ const Output = ({ setNextPageHref, disabled, languages }) => {
     const { selectedVersion, setSelectedVersion } = useContext(VersionContext);
     const { handleGetPathValue } = usePathValue();
 
-    console.log(responseData, 'responseData from output');
-    console.log(translation, 'translation from output');
-
     let pathValue;
 
     if (selectedInputType === 'text') {
