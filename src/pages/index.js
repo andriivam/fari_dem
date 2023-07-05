@@ -34,11 +34,14 @@ export default function Home({ setNextPageHref, languages }) {
 
     const fetchDataAndUpdateState = async () => {
       const response = await fetchGenerativeAi(languages);
-      setTranslation(response.data);
+      setTranslation(response?.data);
     };
 
     fetchDataAndUpdateState();
   }, [languages]);
+
+
+  console.log(translation, 'translation');
 
   return (
     <>

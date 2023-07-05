@@ -26,16 +26,18 @@ export const fetchOutputExamples = async () => {
 }
 
 
-export const fetchGenerativeAi = async (locale) => {
+export const fetchGenerativeAi = async (languages) => {
 
     try {
-        const response = await axios.get(`${url2}?locale=${locale}`);
+        const response = await axios.get(`/api/proxy1?languages=${languages}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching data:', error);
         return null;
     }
 }
+
+
 export const fetchInterfaceComponent = async (locale) => {
 
     try {
