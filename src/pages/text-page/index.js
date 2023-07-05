@@ -15,8 +15,6 @@ import Link from 'next/link';
 
 const TextPage = ({ submitForm, languages, data }) => {
 
-    console.log(data, 'data from text page');
-
     const [textInput, setTextInput] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -29,7 +27,7 @@ const TextPage = ({ submitForm, languages, data }) => {
     const { selectedVersion } = useContext(VersionContext);
     const { linkSource, setLinkSource } = useContext(LinkContext);
 
-    console.log(prediction, 'prediction from text page')
+    //console.log(prediction, 'prediction from text page')
     const router = useRouter();
 
     const handleTextInput = (e) => {
@@ -65,7 +63,7 @@ const TextPage = ({ submitForm, languages, data }) => {
 
 
     useEffect(() => {
-        console.log(prediction?.status, 'prediction status from text page');
+        //console.log(prediction?.status, 'prediction status from text page');
         if (prediction?.status === 'succeeded') {
             router.push('/result');
         }
