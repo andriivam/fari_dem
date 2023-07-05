@@ -82,7 +82,6 @@ const TextPage = ({ submitForm, languages, data }) => {
 
     const selectedObject = data.find(item => item.attributes.version === selectedVersion);
 
-    console.log(selectedObject, 'selected object from text page');
 
     const handleExample = (caption, url) => {
         setGlobalInput(prevState => ({ ...prevState, "prompt": caption }));
@@ -142,6 +141,7 @@ export async function getStaticProps() {
 
 
     const data = await fetchOutputExamples();
+
 
     return {
         props: {

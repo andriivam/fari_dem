@@ -41,8 +41,6 @@ export default function Home({ setNextPageHref, languages }) {
   }, [languages]);
 
 
-  console.log(translation, 'translation');
-
   return (
     <>
       <Head>
