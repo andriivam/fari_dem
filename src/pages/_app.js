@@ -77,6 +77,7 @@ function App({ Component, pageProps }) {
                       handleNextStep={handleNextStep}
                       disabled={!nextPageHref}
                       onSubmit={handleSubmitForm}
+                      languages={languages}
                     />
                   )}
                 </div>

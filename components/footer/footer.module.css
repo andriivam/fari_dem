@@ -28,3 +28,10 @@
 .disabledBtn {
     background: rgba(47, 79, 187, 0.4);
 }
+
+@media (max-width: 2250px) {
+    .nextStepBtn {
+        width: 200px;
+    }
+
+}

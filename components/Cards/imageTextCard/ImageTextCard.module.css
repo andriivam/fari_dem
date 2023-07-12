@@ -19,6 +19,7 @@
 .secondColorDiv {
     display: flex;
     justify-content: center;
+    align-items: center;
     background: #D3D3D3;
     border-radius: 5px;
 
@@ -78,4 +79,19 @@
     font-size: 16px;
     line-height: 20px;
     color: #181715;
+}
+
+@media (max-width: 2250px) {
+    .iconContainer {
+        width: 410px;
+        max-width: 405px;
+    }
+
+    .secondColorDiv {
+        height: 200px;
+    }
+
+    .image {
+        width: 350px;
+    }
 }

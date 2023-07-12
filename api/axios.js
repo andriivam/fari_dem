@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-let url = 'http://46.226.110.124:1337/api/generative-ai-models';
-let url2 = 'http://46.226.110.124:1337/api/demo-generative-ai';
-let url3 = 'http://46.226.110.124:1337/api/interface-component';
-
 export const fetchData = async (languages) => {
 
     try {

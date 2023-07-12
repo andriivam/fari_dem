@@ -87,3 +87,13 @@
     border-radius: 5px;
     box-sizing: border-box;
 }
+
+@media (max-width: 2250px) {
+    .input {
+        height: 80px;
+    }
+
+    .suggestionBtn {
+        height: 50px;
+    }
+}
