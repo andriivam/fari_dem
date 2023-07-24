@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 const Footer = ({ handleNextStep, disabled, onSubmit, languages }) => {
 
     const [translation, setTranslation] = useState(null);
-    console.log(translation, 'from footer')
+
     const router = useRouter();
 
     const handleButtonClick = (e) => {

@@ -1,13 +1,17 @@
 .imgWrapper {
     display: flex;
-    gap: 40px;
-    margin-bottom: 20px;
-    width: 100%;
+    flex-direction: column;
+    gap: 2.5rem;
+    max-width: auto;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 4rem;
 }
 
 .imgContainer {
     display: flex;
     width: 100%;
+    /* flex-basis: 50%; */
 }
 
 .img {
@@ -22,15 +26,23 @@
     border-radius: 15px;
 }
 
-/* .selected::before {
-    content: '';
-    position: absolute;
-    top: 273px;
-    right: 984px;
-    width: 35px;
-    height: 40px;
-    background-color: #2F4FBB;
-    background-image: url('/static/check2.svg');
-    background-repeat: no-repeat;
-    border-radius: 0px 10px 0px 10px;
-} */
+@media (min-width: 640px) {
+    .imgWrapper {
+        display: flex;
+        flex-direction: column;
+        /* flex-wrap: wrap; */
+        max-width: 600px;
+    }
+
+
+}
+
+@media (min-width: 1250px) {
+    .imgWrapper {
+        display: flex;
+        flex-direction: row;
+        max-width: 100%;
+    }
+
+
+}

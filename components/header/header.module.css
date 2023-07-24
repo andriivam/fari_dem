@@ -1,5 +1,5 @@
 .container {
-    margin: 40px 40px 0px 40px;
+    margin: 2.5rem 2.5rem 0px 2.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -10,64 +10,39 @@
 }
 
 .btnWrapper {
-    margin-left: 40px;
+    margin-left: 1rem;
 }
 
 .link {
     text-decoration: none;
 }
 
-.previousBtn {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border: 1px solid #2F4FBB;
-    border-radius: 60px;
-    width: auto;
-    height: 50px;
-    color: #2F4FBB;
-    background-color: white;
-    padding: 10px 40px 10px 0px;
-}
-
 .disabledBtn {
     background: rgba(47, 79, 187, 0.4);
 }
 
-.homeBtn {
-    display: flex;
-    align-items: center;
-    font-family: 'Plain';
-    font-style: normal;
-    font-size: 16px;
+.headerBtn {
+    margin-left: 1rem;
+    font-family: "Plain";
+    font-size: 1rem;
     font-weight: 400;
-    line-height: 20px;
-    cursor: pointer;
-    border-radius: 50px;
-    width: auto;
-    height: 50px;
-    border: 1px solid #2F4FBB;
-    color: #2F4FBB;
-    background-color: white;
-    padding: 10px 40px 10px 0px;
-}
-
-
-.languageBtn {
+    line-height: 1.2rem;
     display: flex;
     align-items: center;
-    cursor: pointer;
-    border-radius: 50px;
+    border: 1px solid #2f4fbb;
+    border-radius: 4rem;
     width: auto;
-    height: 50px;
-    border: 1px solid #2F4FBB;
-
+    height: 3.2rem;
+    cursor: pointer;
+    color: #2f4fbb;
     background-color: white;
-    padding: 10px 40px 10px 0px;
+    padding: 0.7rem 1.2rem 0.7rem 1.2rem;
 }
+
+.hideOnSmall {
+    display: none;
+}
+
 
 .select {
     font-family: 'Plain';
@@ -80,24 +55,25 @@
     outline: none;
 }
 
-.helpBtn {
-    display: flex;
-    align-items: center;
-    font-family: 'Plain';
-    font-style: normal;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 20px;
-    cursor: help;
-    border-radius: 50px;
-    width: 150px;
-    height: 50px;
-    border: 1px solid #2F4FBB;
-    color: #2F4FBB;
-    background-color: white;
-    padding: 10px 40px 10px 0px;
-}
 
 .icon {
-    margin: 10px 20px 10px 40px;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
+@media screen and (min-width: 668px) {
+    .icon {
+        margin: 0.7rem 1.2rem 0.7rem 0;
+    }
+
+    .hideOnSmall {
+        display: initial;
+    }
+
+    .btnWrapper {
+        margin-left: 1rem;
+    }
+
+    .headerBtn {
+        padding: 0.7rem 2.5rem 0.7rem 2.5rem;
+    }
 }

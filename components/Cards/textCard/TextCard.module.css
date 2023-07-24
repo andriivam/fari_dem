@@ -28,6 +28,7 @@
     background: #fff;
     border-radius: 5px;
     height: 330px;
+    width: 420px;
 }
 
 .selected {
@@ -57,16 +58,4 @@
     font-size: 16px;
     line-height: 20px;
     color: #181715;
-}
-
-@media (max-width: 1800px) {
-    .iconContainer {
-        width: 410px;
-        max-width: 405px;
-    }
-
-    .secondColorDiv {
-        height: 300px;
-    }
-
 }

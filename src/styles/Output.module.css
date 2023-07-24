@@ -28,9 +28,17 @@
 }
 
 .cartsDiv {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     max-width: max-content;
     gap: 40px;
     margin: 0 auto;
+    margin-bottom: 8rem;
+}
+
+@media (min-width: 768px) {
+    .cartsDiv {
+        flex-direction: row;
+    }
 }

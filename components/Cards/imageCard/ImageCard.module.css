@@ -64,18 +64,3 @@
     line-height: 20px;
     color: #181715;
 }
-
-@media (max-width: 2250px) {
-    .iconContainer {
-        width: 410px;
-        max-width: 405px;
-    }
-
-    .secondColorDiv {
-        height: 320px;
-    }
-
-    .image {
-        width: 350px;
-    }
-}

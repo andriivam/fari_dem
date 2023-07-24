@@ -64,12 +64,13 @@
 .cameraDivWrapper {
     display: flex;
     justify-content: center;
+    padding-bottom: 5rem;
 }
 
 .cameraDiv {
 
-    width: 1380px;
-    height: 120px;
+    width: 600px;
+    height: auto;
     box-sizing: border-box;
     background: #EBEBEB;
     border: 1px dashed #677683;
@@ -92,4 +93,18 @@
     font-size: 16px;
     line-height: 20px;
     color: #677683;
+}
+
+@media (min-width: 640px) {
+    .cameraDiv {
+        width: 600px;
+        height: 100px;
+    }
+}
+
+@media (min-width: 1250px) {
+    .cameraDiv {
+        width: 1380px;
+        height: 100px;
+    }
 }
